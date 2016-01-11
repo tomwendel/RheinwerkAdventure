@@ -45,6 +45,18 @@
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\SimulationComponent.cs" />
     <Compile Include="Components\SceneComponent.cs" />
+    <Compile Include="Model\World.cs" />
+    <Compile Include="Model\Area.cs" />
+    <Compile Include="Model\Tile.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\Character.cs" />
+    <Compile Include="Model\IAttackable.cs" />
+    <Compile Include="Model\IInteractable.cs" />
+    <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Dealer.cs" />
+    <Compile Include="Model\Heidi.cs" />
+    <Compile Include="Model\Orc.cs" />
+    <Compile Include="Model\Decard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb" />
@@ -54,6 +66,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Components\" />
+    <Folder Include="Model\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
