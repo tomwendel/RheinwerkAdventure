@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RheinwerkAdventure.Model
 {
     /// <summary>
-    /// Repräsentiert einen Teilbereich der Welt
+    /// Repräsentiert eine Objekt-Schicht innerhalb eines Bereichs.
     /// </summary>
-    internal class Area
+    internal class Layer
     {
         /// <summary>
         /// Breite des Spielbereichs.
@@ -19,16 +18,11 @@ namespace RheinwerkAdventure.Model
         public int Height { get; private set; }
 
         /// <summary>
-        /// Auflistung der Objekt-Layer.
+        /// Auflistung aller enthaltener Zellen
         /// </summary>
-        public Layer[] Layers { get; private set; }
+        public Tile[,] Tiles { get; private set; }
 
-        /// <summary>
-        /// Auflistung aller enthaltener Items
-        /// </summary>
-        public List<Item> Items { get; private set; }
-
-        public Area(int layers, int width, int height)
+        public Layer(int width, int height)
         {
             // Sicherheitsprüfungen
             if (width < 5)
@@ -39,13 +33,8 @@ namespace RheinwerkAdventure.Model
             Width = width;
             Height = height;
 
-            // Erzeugung der unterschiedlichen Layer.
-            Layers = new Layer[layers];
-            for (int l = 0; l < layers; l++)
-                Layers[l] = new Layer(width, height);
-
-            // Leere Liste der Spielelemente.
-            Items = new List<Item>();
+            // Leeres Array der Tiles erzeugen.
+            Tiles = new Tile[width, height];
         }
     }
 }

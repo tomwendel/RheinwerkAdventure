@@ -36,13 +36,17 @@ namespace RheinwerkAdventure.Components
             World = new World();
 
             // Die erste Area mit leeren Tiles füllen.
-            Area area = new Area(30, 20);
+            Area area = new Area(2, 30, 20);
             World.Areas.Add(area);
             for (int x = 0; x < area.Width; x++)
             {
                 for (int y = 0; y < area.Height; y++)
                 {
-                    area.Tiles[x, y] = new Tile();
+                    area.Layers[0].Tiles[x, y] = new Tile();
+                    area.Layers[1].Tiles[x, y] = new Tile();
+
+                    if (x == 0 || y == 0 || x == area.Width - 1 || y == area.Height - 1)
+                        area.Layers[0].Tiles[x, y].Blocked = true;
                 }
             }
 

@@ -58,6 +58,7 @@
     <Compile Include="Model\Orc.cs" />
     <Compile Include="Model\Decard.cs" />
     <Compile Include="Model\Diamant.cs" />
+    <Compile Include="Model\Layer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb" />
