@@ -57,6 +57,7 @@
     <Compile Include="Model\Heidi.cs" />
     <Compile Include="Model\Orc.cs" />
     <Compile Include="Model\Decard.cs" />
+    <Compile Include="Model\Diamant.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb" />
