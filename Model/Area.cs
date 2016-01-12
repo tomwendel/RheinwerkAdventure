@@ -8,17 +8,15 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Area
     {
-        public int Width
-        {
-            get;
-            private set;
-        }
+        /// <summary>
+        /// Breite des Spielbereichs.
+        /// </summary>
+        public int Width { get; private set; }
 
-        public int Height
-        {
-            get;
-            private set;
-        }
+        /// <summary>
+        /// Höhe des Spielbereichs.
+        /// </summary>
+        public int Height { get; private set; }
 
         /// <summary>
         /// Auflistung aller enthaltener Zellen
@@ -32,6 +30,11 @@ namespace RheinwerkAdventure.Model
 
         public Area(int width, int height)
         {
+            if (width < 5)
+                throw new ArgumentException("Spielbereich muss mindestens 5 Zellen breit sein");
+            if (height < 5)
+                throw new ArgumentException("Spielfeld muss mindestens 5 Zellen hoch sein");
+
             Width = width;
             Height = height;
 

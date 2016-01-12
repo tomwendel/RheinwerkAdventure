@@ -5,7 +5,7 @@ namespace RheinwerkAdventure.Model
     /// <summary>
     /// Repräsentiert einen Orc.
     /// </summary>
-    internal class Orc : Character, IAttackable
+    internal class Orc : Character
     {
         public Orc()
         {
