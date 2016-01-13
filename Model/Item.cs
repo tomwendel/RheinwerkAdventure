@@ -6,8 +6,18 @@ namespace RheinwerkAdventure.Model
     /// <summary>
     /// Basisklasse für alle Spielitems auf dem Spielfeld.
     /// </summary>
-    internal class Item
+    internal class Item : ICollidable
     {
+        /// <summary>
+        /// Die Masse des Objektes.
+        /// </summary>
+        public float Mass { get; set; }
+
+        /// <summary>
+        /// Gibt an, ob dieses Element verschiebbar oder am Spielfeld fixiert ist.
+        /// </summary>
+        public bool Fixed { get; set; }
+
         /// <summary>
         /// Position des Spielelementes.
         /// </summary>
@@ -21,6 +31,9 @@ namespace RheinwerkAdventure.Model
 
         public Item()
         {
+            // Standard-Werte für Kollisionselemente
+            Fixed = false;
+            Mass = 1f;
         }
     }
 }

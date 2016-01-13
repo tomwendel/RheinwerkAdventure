@@ -73,7 +73,38 @@ namespace RheinwerkAdventure.Components
             {
                 foreach (var character in area.Items.OfType<Character>())
                 {
+                    // Neuberechnung der Character-Position.
                     character.Position += character.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    // Kollisionsprüfung mit allen restlichen Items.
+                    foreach (var item in area.Items) {
+
+                        if (item == character) continue;
+
+                        Vector2 distance = item.Position - character.Position;
+                        float overlap = item.Radius + character.Radius - distance.Length();
+                        if (overlap > 0f)
+                        {
+                            Vector2 resolution = distance * (overlap / distance.Length());
+                            if (item.Fixed && !character.Fixed)
+                            {
+                                // Item fixiert
+                                character.Position -= resolution;
+                            }
+                            else if (!item.Fixed && character.Fixed)
+                            {
+                                // Character fixiert
+                                item.Position += resolution;
+                            }
+                            else if (!item.Fixed && !character.Fixed)
+                            {
+                                // keiner fixiert
+                                float totalMass = item.Mass + character.Mass;
+                                character.Position -= resolution * (item.Mass / totalMass);
+                                item.Position += resolution * (character.Mass / totalMass);
+                            }
+                        }
+                    }
                 }
             }
 

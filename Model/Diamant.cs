@@ -6,6 +6,8 @@ namespace RheinwerkAdventure.Model
     {
         public Diamant()
         {
+            // Standard-Masse für Diamanten
+            Mass = 0.5f;
         }
     }
 }
