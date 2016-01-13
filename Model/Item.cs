@@ -8,6 +8,9 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Item : ICollidable
     {
+        // Internes Feld zur Haltung des temporären Move-Vektors.
+        internal Vector2 move = Vector2.Zero;
+
         /// <summary>
         /// Die Masse des Objektes.
         /// </summary>

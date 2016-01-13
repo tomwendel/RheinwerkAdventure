@@ -47,6 +47,31 @@ namespace RheinwerkAdventure.Model
             // Leere Liste der Spielelemente.
             Items = new List<Item>();
         }
+
+        /// <summary>
+        /// Ermittelt über alle vorhandenen Layer hinweg, ob diese Zelle durch einen entsprechendes Tile blockiert wird.
+        /// Ist der Index außerhalb des Spielfeldes gilt die Zelle grundsätzlich als blockierte Zelle.
+        /// </summary>
+        /// <returns>Gibt an ob die angefragte Zelle von Spielelementen betreten werden kann.</returns>
+        /// <param name="x">Spalte</param>
+        /// <param name="y">Zeile</param>
+        public bool IsCellBlocked(int x, int y)
+        {
+            // Sonderfall außerhalb des Spielfeldes
+            if (x < 0 || y < 0 || x > Width - 1 || y > Height - 1)
+                return true;
+
+            // Schleife über alle Layer um einen Blocker zu finden.
+            for (int l = 0; l < Layers.Length; l++)
+            {
+                // Blocker gefunden -> Zelle ist blockiert
+                if (Layers[l].Tiles[x, y].Blocked)
+                    return true;
+            }
+
+            // Keinen Blocker gefunden -> Zelle begehbar.
+            return false;
+        }
     }
 }
 
