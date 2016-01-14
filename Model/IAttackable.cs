@@ -8,6 +8,11 @@ namespace RheinwerkAdventure.Model
     internal interface IAttackable
     {
         /// <summary>
+        /// Maximale Anzahl Trefferpunkte im gesunden Zustand.
+        /// </summary>
+        int MaxHitpoints { get; }
+
+        /// <summary>
         /// Anzahl verfügbarer Trefferpunkte.
         /// </summary>
         int Hitpoints { get; }

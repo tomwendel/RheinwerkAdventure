@@ -80,6 +80,22 @@ namespace RheinwerkAdventure.Components
                     // Neuberechnung der Character-Position.
                     character.move += character.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+                    // Attacker identifizieren
+                    IAttacker attacker = null;
+                    if (character is IAttacker)
+                    {
+                        attacker = (IAttacker)character;
+                        attacker.AttackableItems.Clear();
+                    }
+
+                    // Interactor identifizieren
+                    IInteractor interactor = null;
+                    if (character is IInteractor)
+                    {
+                        interactor = (IInteractor)character;
+                        interactor.InteractableItems.Clear();
+                    }
+
                     // Kollisionsprüfung mit allen restlichen Items.
                     foreach (var item in area.Items)
                     {
@@ -87,11 +103,27 @@ namespace RheinwerkAdventure.Components
                         if (item == character)
                             continue;
 
-                        // Überschneidung berechnen
+                        // Distanz berechnen
                         Vector2 distance = (item.Position + item.move) - (character.Position + character.move);
-                        float overlap = item.Radius + character.Radius - distance.Length();
 
-                        // Bei Überschneidung reagieren
+                        // Ermittlung der angreifbaren Items.
+                        if (attacker != null &&
+                            item is IAttackable &&
+                            distance.Length() - attacker.AttackRange - item.Radius < 0f)
+                        {
+                            attacker.AttackableItems.Add(item);
+                        }
+
+                        // Ermittlung der interagierbaren Items.
+                        if (interactor != null &&
+                            item is IInteractable &&
+                            distance.Length() - interactor.InteractionRange - item.Radius < 0f)
+                        {
+                            interactor.InteractableItems.Add(item);
+                        }
+
+                        // Überschneidung berechnen & darauf reagieren
+                        float overlap = item.Radius + character.Radius - distance.Length();
                         if (overlap > 0f)
                         {
                             Vector2 resolution = distance * (overlap / distance.Length());

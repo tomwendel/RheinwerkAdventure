@@ -60,6 +60,8 @@
     <Compile Include="Model\Diamant.cs" />
     <Compile Include="Model\Layer.cs" />
     <Compile Include="Model\ICollidable.cs" />
+    <Compile Include="Model\IAttacker.cs" />
+    <Compile Include="Model\IInteractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb" />
