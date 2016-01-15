@@ -18,6 +18,8 @@ namespace RheinwerkAdventure
     {
         GraphicsDeviceManager graphics;
 
+        public HudComponent Hud { get; private set; }
+
         public InputComponent Input { get; private set; }
 
         public SimulationComponent Simulation { get; private set; }
@@ -42,6 +44,11 @@ namespace RheinwerkAdventure
             Scene.UpdateOrder = 2;
             Scene.DrawOrder = 0;
             Components.Add(Scene);
+
+            Hud = new HudComponent(this);
+            Hud.UpdateOrder = 3;
+            Hud.DrawOrder = 1;
+            Components.Add(Hud);
         }
     }
 }

@@ -62,11 +62,16 @@
     <Compile Include="Model\ICollidable.cs" />
     <Compile Include="Model\IAttacker.cs" />
     <Compile Include="Model\IInteractor.cs" />
+    <Compile Include="Components\HudComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb" />
     <None Include="packages.config" />
     <None Include="Icon.ico" />
+    <None Include="Content\HudFont.spritefont" />
+    <None Include="Content\HudFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
