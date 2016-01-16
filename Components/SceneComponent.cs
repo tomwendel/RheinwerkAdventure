@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RheinwerkAdventure.Model;
+using System.IO;
 
 namespace RheinwerkAdventure.Components
 {
@@ -16,6 +17,8 @@ namespace RheinwerkAdventure.Components
 
         private Texture2D pixel;
 
+        private Texture2D landscape;
+
         public SceneComponent (RheinwerkGame game) : base(game)
         {
             this.game = game;
@@ -28,6 +31,13 @@ namespace RheinwerkAdventure.Components
             // Hilfspixel erstellen
             pixel = new Texture2D(GraphicsDevice, 1, 1);
             pixel.SetData(new [] { Color.White });
+
+            // Landscape-Texture direkt aus dem Stream laden
+            string mapPath = Path.Combine(Environment.CurrentDirectory, "Maps");
+            using (Stream stream = File.OpenRead(mapPath + "\\landscape.png"))
+            {
+                landscape = Texture2D.FromStream(GraphicsDevice, stream);
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -57,15 +67,8 @@ namespace RheinwerkAdventure.Components
                     int offsetX = (int)(x * scaleX) + 10;
                     int offsetY = (int)(y * scaleY) + 10;
 
-                    // Ausgabefarbe aufgrund des Block-Status ermitteln
-                    Color color = Color.DarkGreen;
-                    if (blocked)
-                        color = Color.DarkRed;
-
-                    // Grafische Ausgabe der Zelle
-                    spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), color);
-                    spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, 1, (int)scaleY), Color.Black);
-                    spriteBatch.Draw(pixel, new Rectangle(offsetX, offsetY, (int)scaleX, 1), Color.Black);
+                    // Zelle mit der Standard-Textur (Gras) ausmalen
+                    spriteBatch.Draw(landscape, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), new Rectangle(448, 128, 32, 32), Color.White);
                 }
             }
 

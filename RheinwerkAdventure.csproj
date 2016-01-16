@@ -72,11 +72,15 @@
     <None Include="Content\HudFont.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Maps\landscape.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Components\" />
     <Folder Include="Model\" />
+    <Folder Include="Maps\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
