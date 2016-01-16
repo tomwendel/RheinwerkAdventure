@@ -9,19 +9,19 @@ namespace RheinwerkAdventure.Model
     internal class Tile
     {
         /// <summary>
+        /// Name der Textur
+        /// </summary>
+        public string Texture { get; set; }
+
+        /// <summary>
         /// Lage des Tiles innerhalb der Tiles-Textur.
         /// </summary>
-        /// <value>The source rectangle.</value>
         public Rectangle SourceRectangle { get; set; }
 
         /// <summary>
         /// Gibt an ob diese Tile den Spieler an der Bewegung hindert.
         /// </summary>
         public bool Blocked { get; set; }
-
-        public Tile()
-        {
-        }
     }
 }
 

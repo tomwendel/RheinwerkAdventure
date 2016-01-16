@@ -2,6 +2,9 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using RheinwerkAdventure.Model;
+using System.IO;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace RheinwerkAdventure.Components
 {
@@ -38,30 +41,16 @@ namespace RheinwerkAdventure.Components
         {
             World = new World();
 
-            // Die erste Area mit leeren Tiles füllen.
-            Area area = new Area(2, 30, 20);
-            World.Areas.Add(area);
-            for (int x = 0; x < area.Width; x++)
-            {
-                for (int y = 0; y < area.Height; y++)
-                {
-                    // Standard-Tiles festlegen (Layer 0 ist gras, Layer 1 ist leer)
-                    area.Layers[0].Tiles[x, y] = 1;
-                    area.Layers[1].Tiles[x, y] = 0;
-
-                    // Sonderfall für Layer 1: An den Rand-Zellen sollen überall Steine liegen
-                    if (x == 0 || y == 0 || x == area.Width - 1 || y == area.Height - 1)
-                        area.Layers[1].Tiles[x, y] = 2;
-                }
-            }
+            Area town = LoadFromJson("town");
+            World.Areas.Add(town);
 
             // Den Spieler einfügen.
             Player = new Player() { Position = new Vector2(15, 10), Radius = 0.25f };
-            area.Items.Add(Player);
+            town.Items.Add(Player);
 
             // Einen Diamanten einfügen.
             Diamant diamant = new Diamant() { Position = new Vector2(10, 10), Radius = 0.25f };
-            area.Items.Add(diamant);
+            town.Items.Add(diamant);
         }
 
         public override void Update(GameTime gameTime)
@@ -252,6 +241,177 @@ namespace RheinwerkAdventure.Components
             #endregion
 
             base.Update(gameTime);
+        }
+
+        private Area LoadFromJson(string name)
+        {
+            string rootPath = Path.Combine(Environment.CurrentDirectory, "Maps");
+            using (Stream stream = File.OpenRead(rootPath + "\\" + name + ".json"))
+            {
+                using (StreamReader sr = new StreamReader(stream))
+                {
+                    // json Datei auslesen
+                    string json = sr.ReadToEnd();
+
+                    // Deserialisieren
+                    FileArea result = JsonConvert.DeserializeObject<FileArea>(json);
+
+                    // Neue Area öffnen und mit den Root-Daten füllen
+                    Area area = new Area(result.layers.Length, result.width, result.height);
+                    area.Name = name;
+
+                    // Hintergrundfarbe interpretieren
+                    area.Background = new Color(128, 128, 128);
+                    if (!string.IsNullOrEmpty(result.backgroundcolor))
+                    {
+                        // Hexwerte als Farbwert parsen
+                        area.Background = new Color(
+                            Convert.ToInt32(result.backgroundcolor.Substring(1, 2), 16),
+                            Convert.ToInt32(result.backgroundcolor.Substring(3, 2), 16),
+                            Convert.ToInt32(result.backgroundcolor.Substring(5, 2), 16));
+                    }
+
+                    // Tiles zusammen suchen
+                    for (int i = 0; i < result.tilesets.Length; i++)
+                    {
+                        FileTileset tileset = result.tilesets[i];
+
+                        int start = tileset.firstgid;
+                        int perRow = tileset.imagewidth / tileset.tilewidth;
+                        int width = tileset.tilewidth;
+
+                        for (int j = 0; j < tileset.tilecount; j++)
+                        {
+                            int x = j % perRow;
+                            int y = j / perRow;
+
+                            // Block-Status ermitteln
+                            bool block = false;
+                            if (tileset.tileproperties != null)
+                            {
+                                FileTileProperty property;
+                                if (tileset.tileproperties.TryGetValue(j, out property))
+                                    block = property.Block;
+                            }
+
+                            // Tile erstellen
+                            Tile tile = new Tile()
+                            { 
+                                Texture = tileset.image,
+                                SourceRectangle = new Rectangle(x * width, y * width, width, width),
+                                Blocked = block
+                            };
+
+                            // In die Auflistung aufnehmen
+                            area.Tiles.Add(start + j, tile);
+                        }
+                    }
+
+                    // Layer erstellen
+                    for (int l = 0; l < result.layers.Length; l++)
+                    {
+                        FileLayer layer = result.layers[l];
+
+                        for (int i = 0; i < layer.data.Length; i++)
+                        {
+                            int x = i % area.Width;
+                            int y = i / area.Width;
+                            area.Layers[l].Tiles[x, y] = layer.data[i];
+                        }
+                    }
+
+                    return area;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Root Objekt der Area-Datei.
+        /// </summary>
+        private class FileArea
+        {
+            /// <summary>
+            /// Hintergrundfarbe der Karte als Hexcode
+            /// </summary>
+            public string backgroundcolor { get; set; }
+
+            /// <summary>
+            /// Abzahl Zellen in der Breite
+            /// </summary>
+            public int width { get; set; }
+
+            /// <summary>
+            /// Anzahl Zellen in der Höhe
+            /// </summary>
+            public int height { get; set; }
+
+            /// <summary>
+            /// Auflistung der Layer.
+            /// </summary>
+            public FileLayer[] layers { get; set; }
+
+            /// <summary>
+            /// Auflistung der Tilesets.
+            /// </summary>
+            public FileTileset[] tilesets { get; set; }
+        }
+
+        /// <summary>
+        /// Layerdaten
+        /// </summary>
+        private class FileLayer
+        {
+            /// <summary>
+            /// Fortlaufende Index-Liste der Tiles.
+            /// </summary>
+            public int[] data { get; set; }
+        }
+
+        /// <summary>
+        /// Tilesetdaten
+        /// </summary>
+        private class FileTileset
+        {
+            /// <summary>
+            /// Erste Id der enthaltenen Tiles.
+            /// </summary>
+            public int firstgid { get; set; }
+
+            /// <summary>
+            /// Name der Textur.
+            /// </summary>
+            public string image { get; set; }
+
+            /// <summary>
+            /// Breite eines einzelnen Tiles.
+            /// </summary>
+            public int tilewidth { get; set; }
+
+            /// <summary>
+            /// Breite des Bildes.
+            /// </summary>
+            public int imagewidth { get; set; }
+
+            /// <summary>
+            /// Anzahl enthaltener Tiles.
+            /// </summary>
+            public int tilecount { get; set; }
+
+            /// <summary>
+            /// Auflistung zusätzlicher Properties von Tiles.
+            /// </summary>
+            public Dictionary<int, FileTileProperty> tileproperties { get; set; }
+        }
+
+        /// <summary>
+        /// Zusätzliche "Custom Properties"
+        /// </summary>
+        public class FileTileProperty
+        {
+            /// <summary>
+            /// Gibt an ob das Tile den Spieler blockiert
+            /// </summary>
+            public bool Block { get; set; }
         }
     }
 }

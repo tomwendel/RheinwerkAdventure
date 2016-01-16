@@ -10,6 +10,16 @@ namespace RheinwerkAdventure.Model
     internal class Area
     {
         /// <summary>
+        /// Name des Bereichs.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Hintergrundfarbe des Bereiches.
+        /// </summary>
+        public Color Background { get; set; }
+
+        /// <summary>
         /// Breite des Spielbereichs.
         /// </summary>
         public int Width { get; private set; }
@@ -53,10 +63,8 @@ namespace RheinwerkAdventure.Model
             // Leere Liste der Spielelemente.
             Items = new List<Item>();
 
-            // Standard-Tiles (Gras und Stein) erzeugen
+            // Leere Liste von Tiles erstellen.
             Tiles = new Dictionary<int, Tile>();
-            Tiles.Add(1, new Tile() { Blocked = false, SourceRectangle = new Rectangle(448, 128, 32, 32) });
-            Tiles.Add(2, new Tile() { Blocked = true, SourceRectangle = new Rectangle(384, 384, 32, 32) });
         }
 
         /// <summary>
