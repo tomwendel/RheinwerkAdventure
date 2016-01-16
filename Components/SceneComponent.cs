@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RheinwerkAdventure.Model;
 using System.IO;
 using System.Collections.Generic;
+using RheinwerkAdventure.Rendering;
 
 namespace RheinwerkAdventure.Components
 {
@@ -20,7 +21,13 @@ namespace RheinwerkAdventure.Components
 
         private Dictionary<string, Texture2D> textures;
 
-        public SceneComponent (RheinwerkGame game) : base(game)
+        /// <summary>
+        /// Kamera-Einstellungen für diese Szene.
+        /// </summary>
+        public Camera Camera { get; private set; }
+
+        public SceneComponent(RheinwerkGame game)
+            : base(game)
         {
             this.game = game;
             textures = new Dictionary<string, Texture2D>();
@@ -29,6 +36,7 @@ namespace RheinwerkAdventure.Components
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Camera = new Camera(GraphicsDevice.Viewport.Bounds.Size);
 
             // Hilfspixel erstellen
             pixel = new Texture2D(GraphicsDevice, 1, 1);
@@ -53,6 +61,12 @@ namespace RheinwerkAdventure.Components
             }
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            // Platziert den Kamerafokus auf den Spieler.
+            Camera.SetFocus(game.Simulation.Player.Position);
+        }
+
         public override void Draw(GameTime gameTime)
         {
             // Erste Area referenzieren (versuchsweise)
@@ -61,17 +75,17 @@ namespace RheinwerkAdventure.Components
             // Bildschirm leeren
             GraphicsDevice.Clear(area.Background);
 
-            // Skalierungsfaktor für eine Vollbild-Darstellung der Area ausrechnen
-            float scaleX = (GraphicsDevice.Viewport.Width - 20) / area.Width;
-            float scaleY = (GraphicsDevice.Viewport.Height - 20) / area.Height;
-
             spriteBatch.Begin();
+
+            // Berechnet den Render-Offset mit Hilfe der Kamera-Einstellungen
+            Point offset = (Camera.Offset * Camera.Scale).ToPoint();
 
             // Alle Layer der Render-Reihenfolge nach durchlaufen
             for (int l = 0; l < area.Layers.Length; l++)
             {
-                RenderLayer(area, area.Layers[l], scaleX, scaleY);
-                if (l == 4) RenderItems(area, scaleX, scaleY);
+                RenderLayer(area, area.Layers[l], offset);
+                if (l == 4)
+                    RenderItems(area, offset);
             }
 
             spriteBatch.End();
@@ -80,7 +94,7 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Rendert einen Layer der aktuellen Szene
         /// </summary>
-        private void RenderLayer(Area area, Layer layer, float scaleX, float scaleY)
+        private void RenderLayer(Area area, Layer layer, Point offset)
         {
             for (int x = 0; x < area.Width; x++)
             {
@@ -96,11 +110,11 @@ namespace RheinwerkAdventure.Components
                     Texture2D texture = textures[tile.Texture];
 
                     // Position ermitteln
-                    int offsetX = (int)(x * scaleX) + 10;
-                    int offsetY = (int)(y * scaleY) + 10;
+                    int offsetX = (int)(x * Camera.Scale) - offset.X;
+                    int offsetY = (int)(y * Camera.Scale) - offset.Y;
 
                     // Zelle mit der Standard-Textur (Gras) ausmalen
-                    spriteBatch.Draw(texture, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), tile.SourceRectangle, Color.White);
+                    spriteBatch.Draw(texture, new Rectangle(offsetX, offsetY, (int)Camera.Scale, (int)Camera.Scale), tile.SourceRectangle, Color.White);
                 }
             }
         }
@@ -108,7 +122,7 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Rendert die Spielelemente der aktuellen Szene
         /// </summary>
-        private void RenderItems(Area area, float scaleX, float scaleY)
+        private void RenderItems(Area area, Point offset)
         {
             // Ausgabe der Spielfeld-Items
             foreach (var item in area.Items)
@@ -119,9 +133,9 @@ namespace RheinwerkAdventure.Components
                     color = Color.Red;
 
                 // Positionsermittlung und Ausgabe des Spielelements.
-                int posX = (int)((item.Position.X - item.Radius) * scaleX) + 10;
-                int posY = (int)((item.Position.Y - item.Radius) * scaleY) + 10;
-                int size = (int)((item.Radius * 2) * scaleX);
+                int posX = (int)((item.Position.X - item.Radius) * Camera.Scale) - offset.X;
+                int posY = (int)((item.Position.Y - item.Radius) * Camera.Scale) - offset.Y;
+                int size = (int)((item.Radius * 2) * Camera.Scale);
                 spriteBatch.Draw(pixel, new Rectangle(posX, posY, size, size), color);
             }
         }
