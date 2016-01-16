@@ -45,11 +45,13 @@ namespace RheinwerkAdventure.Components
             {
                 for (int y = 0; y < area.Height; y++)
                 {
-                    area.Layers[0].Tiles[x, y] = new Tile();
-                    area.Layers[1].Tiles[x, y] = new Tile();
+                    // Standard-Tiles festlegen (Layer 0 ist gras, Layer 1 ist leer)
+                    area.Layers[0].Tiles[x, y] = 1;
+                    area.Layers[1].Tiles[x, y] = 0;
 
+                    // Sonderfall für Layer 1: An den Rand-Zellen sollen überall Steine liegen
                     if (x == 0 || y == 0 || x == area.Width - 1 || y == area.Height - 1)
-                        area.Layers[0].Tiles[x, y].Blocked = true;
+                        area.Layers[1].Tiles[x, y] = 2;
                 }
             }
 

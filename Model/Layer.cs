@@ -18,9 +18,9 @@ namespace RheinwerkAdventure.Model
         public int Height { get; private set; }
 
         /// <summary>
-        /// Auflistung aller enthaltener Zellen
+        /// Auflistung aller enthaltener Zellen mit den IDs der Tiles.
         /// </summary>
-        public Tile[,] Tiles { get; private set; }
+        public int[,] Tiles { get; private set; }
 
         public Layer(int width, int height)
         {
@@ -34,7 +34,7 @@ namespace RheinwerkAdventure.Model
             Height = height;
 
             // Leeres Array der Tiles erzeugen.
-            Tiles = new Tile[width, height];
+            Tiles = new int[width, height];
         }
     }
 }

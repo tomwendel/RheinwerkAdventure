@@ -54,21 +54,28 @@ namespace RheinwerkAdventure.Components
 
             spriteBatch.Begin();
 
-            // Ausgabe der Spielfeld-Zellen
-            for (int x = 0; x < area.Width; x++)
+            // Alle Layer der Render-Reihenfolge nach durchlaufen
+            for (int l = 0; l < area.Layers.Length; l++)
             {
-                for (int y = 0; y < area.Height; y++)
+                for (int x = 0; x < area.Width; x++)
                 {
-                    // Ermitteln, ob diese Zelle blockiert
-                    bool blocked = false;
-                    for (int l = 0; l < area.Layers.Length; l++)
-                        blocked |= area.Layers[l].Tiles[x, y].Blocked;
+                    for (int y = 0; y < area.Height; y++)
+                    {
+                        // Prüfen, ob diese Zelle ein Tile enthält
+                        int tileId = area.Layers[l].Tiles[x, y];
+                        if (tileId == 0)
+                            continue;
 
-                    int offsetX = (int)(x * scaleX) + 10;
-                    int offsetY = (int)(y * scaleY) + 10;
+                        // Tile ermitteln
+                        Tile tile = area.Tiles[tileId];
 
-                    // Zelle mit der Standard-Textur (Gras) ausmalen
-                    spriteBatch.Draw(landscape, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), new Rectangle(448, 128, 32, 32), Color.White);
+                        // Position ermitteln
+                        int offsetX = (int)(x * scaleX) + 10;
+                        int offsetY = (int)(y * scaleY) + 10;
+
+                        // Zelle mit der Standard-Textur (Gras) ausmalen
+                        spriteBatch.Draw(landscape, new Rectangle(offsetX, offsetY, (int)scaleX, (int)scaleY), tile.SourceRectangle, Color.White);
+                    }
                 }
             }
 

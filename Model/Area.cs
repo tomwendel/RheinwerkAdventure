@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace RheinwerkAdventure.Model
 {
@@ -28,6 +29,11 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public List<Item> Items { get; private set; }
 
+        /// <summary>
+        /// Zentrales Repository für Zellentemplates (Tiles)
+        /// </summary>
+        public Dictionary<int,Tile> Tiles { get; private set; }
+
         public Area(int layers, int width, int height)
         {
             // Sicherheitsprüfungen
@@ -46,6 +52,11 @@ namespace RheinwerkAdventure.Model
 
             // Leere Liste der Spielelemente.
             Items = new List<Item>();
+
+            // Standard-Tiles (Gras und Stein) erzeugen
+            Tiles = new Dictionary<int, Tile>();
+            Tiles.Add(1, new Tile() { Blocked = false, SourceRectangle = new Rectangle(448, 128, 32, 32) });
+            Tiles.Add(2, new Tile() { Blocked = true, SourceRectangle = new Rectangle(384, 384, 32, 32) });
         }
 
         /// <summary>
@@ -64,8 +75,14 @@ namespace RheinwerkAdventure.Model
             // Schleife über alle Layer um einen Blocker zu finden.
             for (int l = 0; l < Layers.Length; l++)
             {
+                int tileId = Layers[l].Tiles[x, y];
+                if (tileId == 0)
+                    continue;
+
+                Tile tile = Tiles[tileId];
+
                 // Blocker gefunden -> Zelle ist blockiert
-                if (Layers[l].Tiles[x, y].Blocked)
+                if (tile.Blocked)
                     return true;
             }
 
