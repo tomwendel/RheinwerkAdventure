@@ -43,7 +43,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RheinwerkGame.cs" />
     <Compile Include="Components\InputComponent.cs" />
-    <Compile Include="Components\SimulationComponent.cs" />
+    <Compile Include="Components\SimulationComponent.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Components\SceneComponent.cs" />
     <Compile Include="Model\World.cs" />
     <Compile Include="Model\Area.cs" />
@@ -73,6 +75,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Maps\landscape.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\shop.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\town.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\town.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\trees_plants_rocks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\wood.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
