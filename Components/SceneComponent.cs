@@ -38,6 +38,12 @@ namespace RheinwerkAdventure.Components
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Camera = new Camera(GraphicsDevice.Viewport.Bounds.Size);
 
+            // Initiale Kameraposition (temporär)
+            Vector2 areaSize = new Vector2(
+                game.Simulation.World.Areas[0].Width,
+                game.Simulation.World.Areas[0].Height);
+            Camera.SetFocusExplizit(game.Simulation.Player.Position, areaSize);
+
             // Hilfspixel erstellen
             pixel = new Texture2D(GraphicsDevice, 1, 1);
             pixel.SetData(new [] { Color.White });
@@ -64,7 +70,10 @@ namespace RheinwerkAdventure.Components
         public override void Update(GameTime gameTime)
         {
             // Platziert den Kamerafokus auf den Spieler.
-            Camera.SetFocus(game.Simulation.Player.Position);
+            Vector2 areaSize = new Vector2(
+                game.Simulation.World.Areas[0].Width,
+                game.Simulation.World.Areas[0].Height);
+            Camera.SetFocus(game.Simulation.Player.Position, areaSize);
         }
 
         public override void Draw(GameTime gameTime)
