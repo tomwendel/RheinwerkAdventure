@@ -21,6 +21,10 @@ namespace RheinwerkAdventure.Components
 
         private Dictionary<string, Texture2D> textures;
 
+        private Dictionary<Item, ItemRenderer> itemRenderer;
+
+        private Texture2D coin;
+
         /// <summary>
         /// Kamera-Einstellungen für diese Szene.
         /// </summary>
@@ -31,6 +35,7 @@ namespace RheinwerkAdventure.Components
         {
             this.game = game;
             textures = new Dictionary<string, Texture2D>();
+            itemRenderer = new Dictionary<Item, ItemRenderer>();
         }
 
         protected override void LoadContent()
@@ -65,6 +70,11 @@ namespace RheinwerkAdventure.Components
                     textures.Add(textureName, texture);
                 }
             }
+
+            using (Stream stream = File.OpenRead(Path.Combine(Environment.CurrentDirectory, "Content") + "\\" + "coin_silver.png"))
+            {
+                coin = Texture2D.FromStream(GraphicsDevice, stream);
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -94,7 +104,7 @@ namespace RheinwerkAdventure.Components
             {
                 RenderLayer(area, area.Layers[l], offset);
                 if (l == 4)
-                    RenderItems(area, offset);
+                    RenderItems(area, offset, gameTime);
             }
 
             spriteBatch.End();
@@ -131,21 +141,16 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Rendert die Spielelemente der aktuellen Szene
         /// </summary>
-        private void RenderItems(Area area, Point offset)
+        private void RenderItems(Area area, Point offset, GameTime gameTime)
         {
-            // Ausgabe der Spielfeld-Items
+            // Item Renderer für alle Items erzeugen
             foreach (var item in area.Items)
-            {
-                // Ermittlung der Item-Farbe.
-                Color color = Color.Yellow;
-                if (item is Player)
-                    color = Color.Red;
+                if (!itemRenderer.ContainsKey(item))
+                    itemRenderer.Add(item, new ItemRenderer(item, Camera, coin, new Point(32, 32), 70, 8, new Point(16,26), 1f));
 
-                // Positionsermittlung und Ausgabe des Spielelements.
-                int posX = (int)((item.Position.X - item.Radius) * Camera.Scale) - offset.X;
-                int posY = (int)((item.Position.Y - item.Radius) * Camera.Scale) - offset.Y;
-                int size = (int)((item.Radius * 2) * Camera.Scale);
-                spriteBatch.Draw(pixel, new Rectangle(posX, posY, size, size), color);
+            foreach (var renderer in itemRenderer.Values)
+            {
+                renderer.Draw(spriteBatch, offset, gameTime);
             }
         }
     }

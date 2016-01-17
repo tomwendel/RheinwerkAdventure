@@ -10,11 +10,10 @@ namespace RheinwerkAdventure.Rendering
     {
         private Vector2 viewSizeHalf;
 
-        public int Border
-        {
-            get;
-            set;
-        }
+        /// <summary>
+        /// Anzahl Pixel zum Rand bevor die Kamera mit fährt.
+        /// </summary>
+        public int Border { get; private set; }
 
         /// <summary>
         /// Position des Zentrums in World-Koordinaten.
@@ -46,7 +45,7 @@ namespace RheinwerkAdventure.Rendering
             Scale = 64f;
             Border = 150;
         }
-            
+
         /// <summary>
         /// Setzt den Fokus auf den gegebenen Punkt in World-Koordinaten.
         /// </summary>
