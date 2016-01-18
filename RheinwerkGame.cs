@@ -26,6 +26,10 @@ namespace RheinwerkAdventure
 
         public SceneComponent Scene { get; private set; }
 
+        public MusicComponent Music { get; private set; }
+
+        public SoundComponent Sound { get; private set; }
+
         public RheinwerkGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -49,6 +53,14 @@ namespace RheinwerkAdventure
             Hud.UpdateOrder = 3;
             Hud.DrawOrder = 1;
             Components.Add(Hud);
+
+            Music = new MusicComponent(this);
+            Music.UpdateOrder = 4;
+            Components.Add(Music);
+
+            Sound = new SoundComponent(this);
+            Sound.UpdateOrder = 5;
+            Components.Add(Sound);
         }
     }
 }
