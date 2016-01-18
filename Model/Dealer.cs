@@ -9,6 +9,7 @@ namespace RheinwerkAdventure.Model
     {
         public Dealer()
         {
+            Texture = "trader.png";
         }
     }
 }

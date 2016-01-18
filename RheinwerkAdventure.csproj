@@ -68,8 +68,10 @@
     <Compile Include="Model\IAttacker.cs" />
     <Compile Include="Model\IInteractor.cs" />
     <Compile Include="Components\HudComponent.cs" />
-    <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\ItemRenderer.cs" />
+    <Compile Include="Rendering\SimpleItemRenderer.cs" />
+    <Compile Include="Rendering\CharacterRenderer.cs" />
+    <Compile Include="Rendering\Camera.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb" />

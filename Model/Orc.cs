@@ -40,6 +40,7 @@ namespace RheinwerkAdventure.Model
             Hitpoints = 2;
             AttackRange = 0.3f;
             AttackValue = 1;
+            Texture = "orc.png";
         }
     }
 }

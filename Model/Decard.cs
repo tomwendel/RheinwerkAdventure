@@ -9,6 +9,7 @@ namespace RheinwerkAdventure.Model
     {
         public Decard()
         {
+            Texture = "decard.png";
         }
     }
 }

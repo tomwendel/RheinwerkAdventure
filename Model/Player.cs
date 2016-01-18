@@ -52,6 +52,7 @@ namespace RheinwerkAdventure.Model
             AttackRange = 0.5f;
             AttackValue = 1;
             InteractionRange = 0.5f;
+            Texture = "char.png";
         }
     }
 }

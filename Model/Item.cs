@@ -29,14 +29,19 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Kollisionsradius des Spielelementes.
         /// </summary>
-        /// <value>The radius.</value>
         public float Radius { get; set; }
+
+        /// <summary>
+        /// Name der zu verwendenden Textur.
+        /// </summary>
+        public string Texture { get; set; }
 
         public Item()
         {
             // Standard-Werte für Kollisionselemente
             Fixed = false;
             Mass = 1f;
+            Radius = 0.25f;
         }
     }
 }

@@ -45,11 +45,11 @@ namespace RheinwerkAdventure.Components
             World.Areas.Add(town);
 
             // Den Spieler einfügen.
-            Player = new Player() { Position = new Vector2(15, 10), Radius = 0.25f };
+            Player = new Player() { Position = new Vector2(15, 10) };
             town.Items.Add(Player);
 
             // Einen Diamanten einfügen.
-            Diamant diamant = new Diamant() { Position = new Vector2(10, 10), Radius = 0.25f };
+            Diamant diamant = new Diamant() { Position = new Vector2(10, 10) };
             town.Items.Add(diamant);
         }
 
@@ -57,7 +57,7 @@ namespace RheinwerkAdventure.Components
         {
             #region Player Input
 
-            Player.Velocity = game.Input.Movement * 10f;
+            Player.Velocity = game.Input.Movement * Player.MaxSpeed;
 
             #endregion
 

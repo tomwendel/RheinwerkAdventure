@@ -9,6 +9,7 @@ namespace RheinwerkAdventure.Model
     {
         public Heidi()
         {
+            Texture = "heidi.png";
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RheinwerkAdventure.Model;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using RheinwerkAdventure.Rendering;
 
@@ -15,15 +16,13 @@ namespace RheinwerkAdventure.Components
     {
         private readonly RheinwerkGame game;
 
+        private readonly Dictionary<string, Texture2D> tilesetTextures;
+
+        private readonly Dictionary<string, Texture2D> itemTextures;
+
+        private readonly Dictionary<Item, ItemRenderer> itemRenderer;
+
         private SpriteBatch spriteBatch;
-
-        private Texture2D pixel;
-
-        private Dictionary<string, Texture2D> textures;
-
-        private Dictionary<Item, ItemRenderer> itemRenderer;
-
-        private Texture2D coin;
 
         /// <summary>
         /// Kamera-Einstellungen für diese Szene.
@@ -34,7 +33,8 @@ namespace RheinwerkAdventure.Components
             : base(game)
         {
             this.game = game;
-            textures = new Dictionary<string, Texture2D>();
+            tilesetTextures = new Dictionary<string, Texture2D>();
+            itemTextures = new Dictionary<string, Texture2D>();
             itemRenderer = new Dictionary<Item, ItemRenderer>();
         }
 
@@ -49,31 +49,42 @@ namespace RheinwerkAdventure.Components
                 game.Simulation.World.Areas[0].Height);
             Camera.SetFocusExplizit(game.Simulation.Player.Position, areaSize);
 
-            // Hilfspixel erstellen
-            pixel = new Texture2D(GraphicsDevice, 1, 1);
-            pixel.SetData(new [] { Color.White });
-
             // Erforderliche Texturen ermitteln
-            List<string> requiredTextures = new List<string>();
+            List<string> requiredTilesetTextures = new List<string>();
+            List<string> requiredItemTextures = new List<string>();
             foreach (var area in game.Simulation.World.Areas)
+            {
+                // Tile-Textures
                 foreach (var tile in area.Tiles.Values)
-                    if (!requiredTextures.Contains(tile.Texture))
-                        requiredTextures.Add(tile.Texture);
+                    if (!requiredTilesetTextures.Contains(tile.Texture))
+                        requiredTilesetTextures.Add(tile.Texture);
 
-            // Erforderlichen Texturen direkt aus dem Stream laden
+                // Item Textures
+                foreach (var item in area.Items)
+                    if (!string.IsNullOrEmpty(item.Texture) && !requiredItemTextures.Contains(item.Texture))
+                        requiredItemTextures.Add(item.Texture);
+            }
+
+            // Erforderlichen Tileset-Texturen direkt aus dem Stream laden
             string mapPath = Path.Combine(Environment.CurrentDirectory, "Maps");
-            foreach (var textureName in requiredTextures)
+            foreach (var textureName in requiredTilesetTextures)
             {
                 using (Stream stream = File.OpenRead(mapPath + "\\" + textureName))
                 {
                     Texture2D texture = Texture2D.FromStream(GraphicsDevice, stream);
-                    textures.Add(textureName, texture);
+                    tilesetTextures.Add(textureName, texture);
                 }
             }
 
-            using (Stream stream = File.OpenRead(Path.Combine(Environment.CurrentDirectory, "Content") + "\\" + "coin_silver.png"))
+            // Erforderliche Item-Texturen direkt aus dem Stream laden
+            mapPath = Path.Combine(Environment.CurrentDirectory, "Content");
+            foreach (var textureName in requiredItemTextures)
             {
-                coin = Texture2D.FromStream(GraphicsDevice, stream);
+                using (Stream stream = File.OpenRead(mapPath + "\\" + textureName))
+                {
+                    Texture2D texture = Texture2D.FromStream(GraphicsDevice, stream);
+                    itemTextures.Add(textureName, texture);
+                }
             }
         }
 
@@ -115,6 +126,7 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         private void RenderLayer(Area area, Layer layer, Point offset)
         {
+            // TODO: Nur den sichtbaren Bereich rendern
             for (int x = 0; x < area.Width; x++)
             {
                 for (int y = 0; y < area.Height; y++)
@@ -126,7 +138,7 @@ namespace RheinwerkAdventure.Components
 
                     // Tile ermitteln
                     Tile tile = area.Tiles[tileId];
-                    Texture2D texture = textures[tile.Texture];
+                    Texture2D texture = tilesetTextures[tile.Texture];
 
                     // Position ermitteln
                     int offsetX = (int)(x * Camera.Scale) - offset.X;
@@ -143,15 +155,30 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         private void RenderItems(Area area, Point offset, GameTime gameTime)
         {
-            // Item Renderer für alle Items erzeugen
-            foreach (var item in area.Items)
-                if (!itemRenderer.ContainsKey(item))
-                    itemRenderer.Add(item, new ItemRenderer(item, Camera, coin, new Point(32, 32), 70, 8, new Point(16,26), 1f));
-
-            foreach (var renderer in itemRenderer.Values)
+            // Items von hinten nach vorne rendern
+            foreach (var item in area.Items.OrderBy(i => i.Position.Y))
             {
+                // Renderer ermitteln und ggf. neu erzeugen
+                ItemRenderer renderer;
+                if (!itemRenderer.TryGetValue(item, out renderer))
+                {
+                    // ACHTUNG: Hier können potentiell neue Items nachträglich hinzu kommen zu denen die Textur noch fehlt
+                    // Das muss geprüft und ggf nachgeladen werden.
+                    Texture2D texture = itemTextures[item.Texture];
+                    
+                    if (item is Character)
+                        renderer = new CharacterRenderer(item as Character, Camera, texture);
+                    else
+                        renderer = new SimpleItemRenderer(item, Camera, texture);
+
+                    itemRenderer.Add(item, renderer);
+                }
+
+                // Item rendern
                 renderer.Draw(spriteBatch, offset, gameTime);
             }
+
+            // TODO: Nicht mehr verwendete Renderer entfernen
         }
     }
 }

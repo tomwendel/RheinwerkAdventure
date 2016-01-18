@@ -8,52 +8,47 @@ namespace RheinwerkAdventure.Rendering
     /// <summary>
     /// Render-Container für einzelne Spiele-Items.
     /// </summary>
-    internal class ItemRenderer
+    internal abstract class ItemRenderer
     {
         /// <summary>
         /// Referenz auf das Item
         /// </summary>
-        private Item item;
+        protected Item Item { get; private set; }
 
         /// <summary>
         /// Referenz auf die Kamera
         /// </summary>
-        private Camera camera;
+        protected Camera Camera { get; private set; }
 
         /// <summary>
         /// Referenz auf die zu verwendende Textur
         /// </summary>
-        private Texture2D texture;
+        protected Texture2D Texture { get; private set; }
 
         /// <summary>
         /// Größenangabe eines Frames in Pixel
         /// </summary>
-        private Point frameSize;
+        protected Point FrameSize {get;private set;}
 
         /// <summary>
         /// Anzahl Millisekunden pro Frame
         /// </summary>
-        private int frameTime;
+        protected int FrameTime {get;private set;}
 
         /// <summary>
         /// Item-Mittelpunkt in Pixel
         /// </summary>
-        private Point itemOffset;
+        protected Point ItemOffset {get; private set;}
 
         /// <summary>
         /// Skalierungsfaktor beim rendern
         /// </summary>
-        private float frameScale;
-
-        /// <summary>
-        /// Anzahl Frames in der Animation
-        /// </summary>
-        private int frameCount;
+        protected float FrameScale {get;private set;}
 
         /// <summary>
         /// Vergangene Animationszeit in Millisekunden
         /// </summary>
-        private int animationTime;
+        protected int AnimationTime {get;set;}
 
         /// <summary>
         /// Initialisierung des Item Renderers
@@ -63,47 +58,26 @@ namespace RheinwerkAdventure.Rendering
         /// <param name="texture">Textur Referenz</param>
         /// <param name="frameSize">Größe eines Frames in Pixel</param>
         /// <param name="frameTime">Anzahl Millisekunden pro Frame</param>
-        /// <param name="frameCount">Anzahl Frames</param>
         /// <param name="itemOffset">Mittelpunkt des Items innerhalb des Frames</param>
         /// <param name="frameScale">Skalierung</param>
-        public ItemRenderer(Item item, Camera camera, Texture2D texture, Point frameSize, int frameTime, int frameCount, Point itemOffset, float frameScale)
+        public ItemRenderer(Item item, Camera camera, Texture2D texture, Point frameSize, int frameTime, Point itemOffset, float frameScale)
         {
-            this.item = item;
-            this.camera = camera;
-            this.texture = texture;
-            this.frameSize = frameSize;
-            this.frameTime = frameTime;
-            this.frameCount = frameCount;
-            this.itemOffset = itemOffset;
-            this.frameScale = frameScale;
+            this.Item = item;
+            this.Camera = camera;
+            this.Texture = texture;
+            this.FrameSize = frameSize;
+            this.FrameTime = frameTime;
+            this.ItemOffset = itemOffset;
+            this.FrameScale = frameScale;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime)
-        {
-            // Animationszeit neu berechnen (vergangene Millisekunden zum letzten Frame addieren)
-            animationTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            // Ermittlung des aktuellen Frames
-            int frame = (animationTime / frameTime) % frameCount;
-
-            // Bestimmung der Position des Spieler-Mittelpunktes in View-Koordinaten
-            int posX = (int)((item.Position.X) * camera.Scale) - offset.X;
-            int posY = (int)((item.Position.Y) * camera.Scale) - offset.Y;
-
-            // Bestimmung des Skalierungsfaktors
-            Vector2 scale = new Vector2(
-                (camera.Scale / frameSize.X) * frameScale,
-                (camera.Scale / frameSize.Y) * frameScale);
-
-            Rectangle sourceRectangle = new Rectangle(frame * frameSize.X, 0, frameSize.X, frameSize.Y);
-            spriteBatch.Draw(texture, 
-                new Rectangle(
-                    (int)(posX - (itemOffset.X * frameScale)), 
-                    (int)(posY - (itemOffset.Y * frameScale)), 
-                    (int)(frameSize.X * scale.X), 
-                    (int)(frameSize.Y * scale.Y)), 
-                sourceRectangle, Color.White);
-        }
+        /// <summary>
+        /// Render-Methode für dieses Item.
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch Referenz</param>
+        /// <param name="offset">Der Offset der View</param>
+        /// <param name="gameTime">Aktuelle Game Time</param>
+        public abstract void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime);
     }
 }
 
