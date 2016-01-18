@@ -16,6 +16,6 @@
 #begin HudFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:HudFont.spritefont
 
