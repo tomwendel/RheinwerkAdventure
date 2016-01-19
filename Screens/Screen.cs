@@ -46,7 +46,7 @@ namespace RheinwerkAdventure.Screens
 
         public void Draw(GameTime gameTime, SpriteBatch batch)
         {
-            batch.Draw(Manager.Pixel, Position, Color.DarkBlue);
+            Manager.Panel.Draw(batch, Position);
             foreach (var control in Controls)
                 control.Draw(batch, Position.Location);
         }

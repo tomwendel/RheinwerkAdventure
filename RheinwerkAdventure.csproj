@@ -77,6 +77,7 @@
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
+    <Compile Include="Rendering\NineTileRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -149,6 +150,10 @@
     </None>
     <None Include="Content\click.wav" />
     <None Include="Content\clock.wav" />
+    <None Include="Content\ui.png" />
+    <None Include="Content\ui.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

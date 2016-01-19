@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using RheinwerkAdventure.Screens;
 using Microsoft.Xna.Framework.Graphics;
+using RheinwerkAdventure.Rendering;
 
 namespace RheinwerkAdventure.Components
 {
@@ -26,6 +27,26 @@ namespace RheinwerkAdventure.Components
         /// Standard-Schriftart für Dialoge
         /// </summary>
         public SpriteFont Font { get; private set; }
+
+        /// <summary>
+        /// Standard Hintergrund für Panels
+        /// </summary>
+        public NineTileRenderer Panel { get; private set; }
+
+        /// <summary>
+        /// Standard Hintergrund für Buttons
+        /// </summary>
+        public NineTileRenderer Button { get; private set; }
+
+        /// <summary>
+        /// Standard Hintergrund für selektierte Buttons.
+        /// </summary>
+        public NineTileRenderer ButtonHovered { get; private set; }
+
+        /// <summary>
+        /// Standard Hintergrund für einen Rahmen.
+        /// </summary>
+        public NineTileRenderer Border { get; private set; }
 
         #endregion
 
@@ -77,6 +98,13 @@ namespace RheinwerkAdventure.Components
 
             // Schriftart laden
             Font = Game.Content.Load<SpriteFont>("HudFont");
+
+            // Hintergründe laden
+            Texture2D texture = Game.Content.Load<Texture2D>("ui");
+            Panel = new NineTileRenderer(texture, new Rectangle(190, 100, 100, 100), new Point(30, 30));
+            Border = new NineTileRenderer(texture, new Rectangle(283, 200, 93, 94), new Point(30, 30));
+            Button = new NineTileRenderer(texture, new Rectangle(0, 282, 190, 49), new Point(10, 10));
+            ButtonHovered = new NineTileRenderer(texture, new Rectangle(0, 143, 190, 45), new Point(10, 10));
         }
 
         public override void Update(GameTime gameTime)
@@ -103,7 +131,7 @@ namespace RheinwerkAdventure.Components
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin( samplerState: SamplerState.LinearWrap);
             foreach (var screen in screens)
                 screen.Draw(gameTime, spriteBatch);
             spriteBatch.End();
