@@ -72,6 +72,11 @@
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Components\MusicComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
+    <Compile Include="Components\ScreenComponent.cs" />
+    <Compile Include="Screens\Screen.cs" />
+    <Compile Include="Controls\Control.cs" />
+    <Compile Include="Controls\Label.cs" />
+    <Compile Include="Screens\MainMenuScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -151,6 +156,8 @@
     <Folder Include="Model\" />
     <Folder Include="Maps\" />
     <Folder Include="Rendering\" />
+    <Folder Include="Screens\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
