@@ -14,6 +14,14 @@ namespace RheinwerkAdventure.Screens
 
         public override void Update(GameTime gameTime)
         {
+            if (!Manager.Game.Input.Handled)
+            {
+                if (Manager.Game.Input.Close)
+                {
+                    Manager.CloseScreen();
+                    Manager.Game.Input.Handled = true;
+                }
+            }
         }
     }
 }

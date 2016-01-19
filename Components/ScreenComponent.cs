@@ -13,8 +13,6 @@ namespace RheinwerkAdventure.Components
     {
         private readonly Stack<Screen> screens;
 
-        private readonly RheinwerkGame game;
-
         private SpriteBatch spriteBatch;
 
         #region Shared Resources
@@ -39,10 +37,15 @@ namespace RheinwerkAdventure.Components
             get { return screens.Count > 0 ? screens.Peek() : null; }
         }
 
+        /// <summary>
+        /// Referenz auf das Game (Überschrieben mit spezialisiertem Type)
+        /// </summary>
+        public new RheinwerkGame Game { get; private set; }
+
         public ScreenComponent(RheinwerkGame game)
             : base(game)
         {
-            this.game = game;
+            Game = game;
             screens = new Stack<Screen>();
         }
 
@@ -73,9 +76,7 @@ namespace RheinwerkAdventure.Components
             Pixel.SetData(new [] { Color.White });
 
             // Schriftart laden
-            Font = game.Content.Load<SpriteFont>("HudFont");
-
-            ShowScreen(new MainMenuScreen(this));
+            Font = Game.Content.Load<SpriteFont>("HudFont");
         }
 
         public override void Update(GameTime gameTime)
@@ -86,6 +87,16 @@ namespace RheinwerkAdventure.Components
                 foreach (var control in activeScreen.Controls)
                     control.Update(gameTime);
                 activeScreen.Update(gameTime);
+            }
+
+            // Spezialtasten prüfen
+            if (!Game.Input.Handled)
+            {
+                if (Game.Input.Close)
+                {
+                    ShowScreen(new MainMenuScreen(this));
+                    Game.Input.Handled = true;
+                }
             }
         }
 
