@@ -28,6 +28,7 @@ namespace RheinwerkAdventure.Controls
                 if (selectedItem != value)
                 {
                     selectedItem = value;
+                    Manager.Game.Sound.PlayClock();
                     if (OnSelectionChanged != null)
                         OnSelectionChanged(selectedItem);
                 }
@@ -47,8 +48,12 @@ namespace RheinwerkAdventure.Controls
             if (Manager.Game.Input.Interact)
             {
                 // Interact, falls ein Item selektiert ist.
-                if (SelectedItem != null && OnInteract != null)
-                    OnInteract(SelectedItem);
+                if (SelectedItem != null)
+                {
+                    Manager.Game.Sound.PlayClick();
+                    if (OnInteract != null)
+                        OnInteract(SelectedItem);
+                }
 
                 Manager.Game.Input.Handled = true;
             }

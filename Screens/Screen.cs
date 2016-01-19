@@ -42,6 +42,16 @@ namespace RheinwerkAdventure.Screens
             Position = new Rectangle(pos, size);
         }
 
+        /// <summary>
+        /// Wird aufgerufen sobald der Screen in die Render-Auflistung kommt.
+        /// </summary>
+        public virtual void OnShow() {}
+
+        /// <summary>
+        /// Wird aufgerufen sobald der Screen aus der Render-Auflistung entfernt wird.
+        /// </summary>
+        public virtual void OnHide() {}
+
         public abstract void Update(GameTime gameTime);
 
         public void Draw(GameTime gameTime, SpriteBatch batch)

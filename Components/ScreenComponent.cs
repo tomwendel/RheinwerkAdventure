@@ -76,6 +76,7 @@ namespace RheinwerkAdventure.Components
         public void ShowScreen(Screen screen)
         {
             screens.Push(screen);
+            screen.OnShow();
         }
 
         /// <summary>
@@ -84,7 +85,10 @@ namespace RheinwerkAdventure.Components
         public void CloseScreen()
         {
             if (screens.Count > 0)
-                screens.Pop();
+            {
+                var screen = screens.Pop();
+                screen.OnHide();
+            }
         }
 
         protected override void LoadContent()

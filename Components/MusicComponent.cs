@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using System.Collections.Generic;
 
 namespace RheinwerkAdventure.Components
 {
@@ -13,7 +14,7 @@ namespace RheinwerkAdventure.Components
 
         private float volume;
 
-        private SoundEffect town;
+        private Dictionary<string, SoundEffect> songs;
 
         private SoundEffectInstance currentSong;
 
@@ -22,12 +23,33 @@ namespace RheinwerkAdventure.Components
             this.game = game;
             volume = 0.3f;
 
-            town = game.Content.Load<SoundEffect>("townloop");
+            songs = new Dictionary<string, SoundEffect>();
+            songs.Add("town", game.Content.Load<SoundEffect>("townloop"));
+            songs.Add("menu", game.Content.Load<SoundEffect>("menuloop"));
 
-            currentSong = town.CreateInstance();
-            currentSong.IsLooped = true;
-            currentSong.Volume = volume;
-            currentSong.Play();
+            Play("town");
+        }
+
+        /// <summary>
+        /// Spielt den angegebenen Song ab.
+        /// </summary>
+        public void Play(string song)
+        {
+            // Den laufenden Song stoppen
+            if (currentSong != null)
+            {
+                currentSong.Stop();
+                currentSong.Dispose();
+            }
+
+            SoundEffect soundEffect;
+            if (songs.TryGetValue(song, out soundEffect))
+            {
+                currentSong = soundEffect.CreateInstance();
+                currentSong.IsLooped = true;
+                currentSong.Volume = volume;
+                currentSong.Play();
+            }
         }
     }
 }

@@ -56,6 +56,16 @@ namespace RheinwerkAdventure.Screens
                 }
             }
         }
+
+        public override void OnShow()
+        {
+            Manager.Game.Music.Play("menu");
+        }
+
+        public override void OnHide()
+        {
+            Manager.Game.Music.Play("town");
+        }
     }
 }
 
