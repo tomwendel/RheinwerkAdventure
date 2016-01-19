@@ -57,7 +57,14 @@ namespace RheinwerkAdventure.Components
         {
             #region Player Input
 
-            Player.Velocity = game.Input.Movement * Player.MaxSpeed;
+            if (!game.Input.Handled) 
+            {
+                Player.Velocity = game.Input.Movement * Player.MaxSpeed;
+            }
+            else 
+            {
+                Player.Velocity = Vector2.Zero;
+            }
 
             #endregion
 

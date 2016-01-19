@@ -87,6 +87,7 @@ namespace RheinwerkAdventure.Components
                 foreach (var control in activeScreen.Controls)
                     control.Update(gameTime);
                 activeScreen.Update(gameTime);
+                Game.Input.Handled = true;
             }
 
             // Spezialtasten prüfen
