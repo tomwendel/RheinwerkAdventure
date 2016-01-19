@@ -131,7 +131,7 @@ namespace RheinwerkAdventure.Components
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin( samplerState: SamplerState.LinearWrap);
+            spriteBatch.Begin(samplerState: SamplerState.LinearWrap);
             foreach (var screen in screens)
                 screen.Draw(gameTime, spriteBatch);
             spriteBatch.End();

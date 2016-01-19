@@ -54,7 +54,23 @@ namespace RheinwerkAdventure.Rendering
             }
         }
 
+        /// <summary>
+        /// Zeichnet die Textur an die angegebene Stelle.
+        /// </summary>
+        /// <param name="batch">zu nutzender SpriteBatch</param>
+        /// <param name="target">Zielrechteck</param>
         public void Draw(SpriteBatch batch, Rectangle target)
+        {
+            Draw(batch, target, 1f);
+        }
+
+        /// <summary>
+        /// Zeichnet die Textur an die angegebene Stelle.
+        /// </summary>
+        /// <param name="batch">zu nutzender SpriteBatch</param>
+        /// <param name="target">Zielrechteck</param>
+        /// <param name="alpha"></param>
+        public void Draw(SpriteBatch batch, Rectangle target, float alpha)
         {
             int cutY = textures[0].Height;
             int cutX = textures[0].Width;
@@ -94,7 +110,7 @@ namespace RheinwerkAdventure.Rendering
                     // Zeichnen
                     batch.Draw(textures[(y * 3) + x],
                         new Rectangle(offsetX, offsetY, width, height),
-                        new Rectangle(0, 0, width, height), Color.White);
+                        new Rectangle(0, 0, width, height), Color.White * alpha);
                 }
             }
         }

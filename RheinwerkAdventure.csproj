@@ -78,6 +78,11 @@
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
     <Compile Include="Rendering\NineTileRenderer.cs" />
+    <Compile Include="Controls\Panel.cs" />
+    <Compile Include="Controls\ListControl.cs" />
+    <Compile Include="Controls\VerticalListControl.cs" />
+    <Compile Include="Controls\HorizontalListControl.cs" />
+    <Compile Include="Controls\MenuList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">

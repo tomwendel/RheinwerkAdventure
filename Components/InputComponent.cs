@@ -125,7 +125,7 @@ namespace RheinwerkAdventure.Components
             close |= keyboard.IsKeyDown(Keys.Escape);
             inventory |= keyboard.IsKeyDown(Keys.I);
             attack |= keyboard.IsKeyDown(Keys.LeftControl);
-            interact |= keyboard.IsKeyDown(Keys.Space);
+            interact |= keyboard.IsKeyDown(Keys.Space) | keyboard.IsKeyDown(Keys.Enter);
 
             // Normalisierung der Bewegungsrichtung
             if (movement.Length() > 1f)
