@@ -19,6 +19,11 @@ namespace RheinwerkAdventure.Model
         public int Hitpoints { get; set; }
 
         /// <summary>
+        /// Zeigt an, ob der Spieler noch in einem Portal steht.
+        /// </summary>
+        public bool InPortal { get; set; }
+
+        /// <summary>
         /// Intern geführte Liste aller angreifbaren Elemente in der Nähe.
         /// </summary>
         public ICollection<Item> AttackableItems { get; private set; }

@@ -83,6 +83,7 @@
     <Compile Include="Controls\VerticalListControl.cs" />
     <Compile Include="Controls\HorizontalListControl.cs" />
     <Compile Include="Controls\MenuList.cs" />
+    <Compile Include="Model\Portal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">

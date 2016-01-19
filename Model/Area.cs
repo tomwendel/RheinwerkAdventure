@@ -35,6 +35,11 @@ namespace RheinwerkAdventure.Model
         public Layer[] Layers { get; private set; }
 
         /// <summary>
+        /// Auflistung der Portale zu anderen Areas.
+        /// </summary>
+        public List<Portal> Portals { get; private set; }
+
+        /// <summary>
         /// Auflistung aller enthaltener Items
         /// </summary>
         public List<Item> Items { get; private set; }
@@ -62,6 +67,9 @@ namespace RheinwerkAdventure.Model
 
             // Leere Liste der Spielelemente.
             Items = new List<Item>();
+
+            // Leere Liste der Portale erstellen
+            Portals = new List<Portal>();
 
             // Leere Liste von Tiles erstellen.
             Tiles = new Dictionary<int, Tile>();

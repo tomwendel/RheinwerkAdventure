@@ -24,6 +24,8 @@ namespace RheinwerkAdventure.Components
 
         private SpriteBatch spriteBatch;
 
+        private Area currentArea = null;
+
         /// <summary>
         /// Kamera-Einstellungen für diese Szene.
         /// </summary>
@@ -42,12 +44,6 @@ namespace RheinwerkAdventure.Components
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Camera = new Camera(GraphicsDevice.Viewport.Bounds.Size);
-
-            // Initiale Kameraposition (temporär)
-            Vector2 areaSize = new Vector2(
-                game.Simulation.World.Areas[0].Width,
-                game.Simulation.World.Areas[0].Height);
-            Camera.SetFocusExplizit(game.Simulation.Player.Position, areaSize);
 
             // Erforderliche Texturen ermitteln
             List<string> requiredTilesetTextures = new List<string>();
@@ -90,20 +86,24 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
+            if (currentArea != game.Simulation.Area)
+            {
+                // Aktuelle Area wechseln
+                currentArea = game.Simulation.Area;
+
+                // Initiale Kameraposition (temporär)
+                Vector2 areaSize = new Vector2(currentArea.Width, currentArea.Height);
+                Camera.SetFocusExplizit(game.Simulation.Player.Position, areaSize);
+            }
+
             // Platziert den Kamerafokus auf den Spieler.
-            Vector2 areaSize = new Vector2(
-                game.Simulation.World.Areas[0].Width,
-                game.Simulation.World.Areas[0].Height);
-            Camera.SetFocus(game.Simulation.Player.Position, areaSize);
+            Camera.SetFocus(game.Simulation.Player.Position);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            // Erste Area referenzieren (versuchsweise)
-            Area area = game.Simulation.World.Areas[0];
-
             // Bildschirm leeren
-            GraphicsDevice.Clear(area.Background);
+            GraphicsDevice.Clear(currentArea.Background);
 
             spriteBatch.Begin();
 
@@ -111,11 +111,11 @@ namespace RheinwerkAdventure.Components
             Point offset = (Camera.Offset * Camera.Scale).ToPoint();
 
             // Alle Layer der Render-Reihenfolge nach durchlaufen
-            for (int l = 0; l < area.Layers.Length; l++)
+            for (int l = 0; l < currentArea.Layers.Length; l++)
             {
-                RenderLayer(area, area.Layers[l], offset);
+                RenderLayer(currentArea, currentArea.Layers[l], offset);
                 if (l == 4)
-                    RenderItems(area, offset, gameTime);
+                    RenderItems(currentArea, offset, gameTime);
             }
 
             spriteBatch.End();

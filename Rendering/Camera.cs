@@ -10,6 +10,8 @@ namespace RheinwerkAdventure.Rendering
     {
         private Vector2 viewSizeHalf;
 
+        private Vector2 areaSize;
+
         /// <summary>
         /// Anzahl Pixel zum Rand bevor die Kamera mit fährt.
         /// </summary>
@@ -52,15 +54,16 @@ namespace RheinwerkAdventure.Rendering
         /// <param name="position">Fokuspunkt</param>
         public void SetFocusExplizit(Vector2 position, Vector2 areaSize)
         {
+            this.areaSize = areaSize;
             Position = position;
-            SetFocus(position, areaSize);
+            SetFocus(position);
         }
 
         /// <summary>
         /// Stellt sicher, dass der angegebene Punkt in World-Koordinaten sichtbar ist.
         /// </summary>
         /// <param name="position">Fokuspunkt</param>
-        public void SetFocus(Vector2 position, Vector2 areaSize)
+        public void SetFocus(Vector2 position)
         {
             Vector2 viewSize = ViewSizeHalf * 2f;
             float worldBorder = Border / Scale;

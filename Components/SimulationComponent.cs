@@ -28,6 +28,11 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public Player Player { get; private set; }
 
+        /// <summary>
+        /// Referenz auf die aktuelle Area in der sich der Spieler gerade befindet.
+        /// </summary>
+        public Area Area { get; private set; }
+
         public SimulationComponent(RheinwerkGame game)
             : base(game)
         {
@@ -41,27 +46,44 @@ namespace RheinwerkAdventure.Components
         {
             World = new World();
 
+            // Town Area
             Area town = LoadFromJson("town");
+            town.Portals.Add(new Portal() { DestinationArea = "wood", Box = new Rectangle(0, 15, 1, 5) });
+            town.Portals.Add(new Portal() { DestinationArea = "shop", Box = new Rectangle(24, 14, 1, 1) });
             World.Areas.Add(town);
+
+            // Shop Area
+            Area shop = LoadFromJson("shop");
+            shop.Portals.Add(new Portal() { DestinationArea = "town", Box = new Rectangle(0, 9, 9, 1) });
+            World.Areas.Add(shop);
+
+            // Wood Area
+            Area wood = LoadFromJson("wood");
+            wood.Portals.Add(new Portal() { DestinationArea = "town", Box = new Rectangle(29, 16, 1, 4) });
+            World.Areas.Add(wood);
 
             // Den Spieler einfügen.
             Player = new Player() { Position = new Vector2(15, 10) };
-            town.Items.Add(Player);
+            Area = town;
+            Area.Items.Add(Player);
 
             // Einen Diamanten einfügen.
             Diamant diamant = new Diamant() { Position = new Vector2(10, 10) };
-            town.Items.Add(diamant);
+            Area.Items.Add(diamant);
+
+            // Portale einfügen
+
         }
 
         public override void Update(GameTime gameTime)
         {
             #region Player Input
 
-            if (!game.Input.Handled) 
+            if (!game.Input.Handled)
             {
                 Player.Velocity = game.Input.Movement * Player.MaxSpeed;
             }
-            else 
+            else
             {
                 Player.Velocity = Vector2.Zero;
             }
@@ -70,6 +92,7 @@ namespace RheinwerkAdventure.Components
 
             #region Character Movement
 
+            List<Action> transfers = new List<Action>();
             foreach (var area in World.Areas)
             {
                 // Schleife über alle sich aktiv bewegenden Spiel-Elemente
@@ -242,7 +265,51 @@ namespace RheinwerkAdventure.Components
                     item.Position += item.move;
                     item.move = Vector2.Zero;
 
+                    // Portal anwenden (nur Player)
+                    if (area.Portals != null && item is Player)
+                    {
+                        Player player = item as Player;
+                        bool inPortal = false;
+
+                        foreach (var portal in area.Portals) 
+                        {
+                            if (item.Position.X > portal.Box.Left &&
+                                item.Position.X <= portal.Box.Right &&
+                                item.Position.Y > portal.Box.Top &&
+                                item.Position.Y <= portal.Box.Bottom)
+                            {
+                                inPortal = true;
+                                if (player.InPortal) continue;
+
+                                // Ziel-Area und Portal finden
+                                Area destinationArea = World.Areas.First(a => a.Name.Equals(portal.DestinationArea));
+                                Portal destinationPortal = destinationArea.Portals.First(p => p.DestinationArea.Equals(area.Name));
+
+                                // Neue Position des Spielers finden
+                                Vector2 position = new Vector2(
+                                    destinationPortal.Box.X + (destinationPortal.Box.Width / 2f), 
+                                    destinationPortal.Box.Y + (destinationPortal.Box.Height / 2f));
+
+                                // Transfer in andere Area vorbereiten
+                                transfers.Add(() => {
+                                    area.Items.Remove(item);
+                                    destinationArea.Items.Add(item);
+                                    item.Position = position;
+
+                                    if (item == Player)
+                                        Area = destinationArea;
+                                });
+                            }
+                        }
+
+                        player.InPortal = inPortal;
+                    }
                 }
+            }
+
+            // Transfers durchführen
+            foreach (var transfer in transfers) {
+                transfer();
             }
 
             #endregion

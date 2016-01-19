@@ -40,10 +40,9 @@ namespace RheinwerkAdventure.Components
         {
             spriteBatch.Begin();
 
-            Area area = game.Simulation.World.Areas[0];
             Vector2 position = game.Simulation.Player.Position;
 
-            string debugText = string.Format("{0} ({1:0}/{2:0})", area.Name, position.X, position.Y);
+            string debugText = string.Format("{0} ({1:0}/{2:0})", game.Simulation.Area.Name, position.X, position.Y);
 
             // Ausgabe der ersten Debug-Info
             spriteBatch.DrawString(hudFont, debugText, new Vector2(10, 10), Color.White);
