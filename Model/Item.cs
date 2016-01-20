@@ -12,6 +12,16 @@ namespace RheinwerkAdventure.Model
         internal Vector2 move = Vector2.Zero;
 
         /// <summary>
+        /// Anzeigename dieses Items.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Iconname dieses Items.
+        /// </summary>
+        public string Icon { get; set; }
+
+        /// <summary>
         /// Die Masse des Objektes.
         /// </summary>
         public float Mass { get; set; }
@@ -42,6 +52,7 @@ namespace RheinwerkAdventure.Model
             Fixed = false;
             Mass = 1f;
             Radius = 0.25f;
+            Name = "Item";
         }
     }
 }

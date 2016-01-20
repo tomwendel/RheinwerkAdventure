@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RheinwerkAdventure.Model;
@@ -19,6 +20,8 @@ namespace RheinwerkAdventure.Components
 
         private Texture2D hearts;
 
+        private Texture2D coin;
+
         public HudComponent(RheinwerkGame game) : base(game)
         {
             this.game = game;
@@ -30,9 +33,17 @@ namespace RheinwerkAdventure.Components
             hudFont = Game.Content.Load<SpriteFont>("HudFont");
 
             string mapPath = Path.Combine(Environment.CurrentDirectory, "Content");
+
+            // Herzchen laden
             using (Stream stream = File.OpenRead(mapPath + "\\hearts.png"))
             {
                 hearts = Texture2D.FromStream(GraphicsDevice, stream);
+            }
+
+            // Münz-Icon laden
+            using (Stream stream = File.OpenRead(mapPath + "\\coinicon.png"))
+            {
+                coin = Texture2D.FromStream(GraphicsDevice, stream);
             }
         }
 
@@ -47,11 +58,10 @@ namespace RheinwerkAdventure.Components
             // Ausgabe der ersten Debug-Info
             spriteBatch.DrawString(hudFont, debugText, new Vector2(10, 10), Color.White);
 
+            // Herzen ausgeben
             int totalHearts = game.Simulation.Player.MaxHitpoints;
             int filledHearts = game.Simulation.Player.Hitpoints;
-
             int offset = GraphicsDevice.Viewport.Width - (totalHearts * 34) - 10;
-
             for (int i = 0; i < totalHearts; i++)
             {
                 Rectangle source = new Rectangle(0, (filledHearts > i ? 0 : 67), 32, 32);
@@ -60,6 +70,11 @@ namespace RheinwerkAdventure.Components
                 spriteBatch.Draw(hearts, destination, source, Color.White);
             }
 
+            // Coins ausgeben
+            string coins = game.Simulation.Player.Inventory.Count((i) => i is Coin).ToString();
+            spriteBatch.Draw(coin, new Rectangle(GraphicsDevice.Viewport.Width - 34, 49, 24, 24), Color.White);
+            int coinSize = (int)hudFont.MeasureString(coins).X;
+            spriteBatch.DrawString(hudFont, coins, new Vector2(GraphicsDevice.Viewport.Width - coinSize - 35, 50), Color.White);
             spriteBatch.End();
         }
     }

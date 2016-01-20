@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using RheinwerkAdventure.Screens;
 using Microsoft.Xna.Framework.Graphics;
 using RheinwerkAdventure.Rendering;
+using System.IO;
 
 namespace RheinwerkAdventure.Components
 {
@@ -48,6 +49,11 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public NineTileRenderer Border { get; private set; }
 
+        /// <summary>
+        /// Dictionary von Item Icons.
+        /// </summary>
+        public Dictionary<string, Texture2D> Icons { get; private set; }
+
         #endregion
 
         /// <summary>
@@ -68,6 +74,7 @@ namespace RheinwerkAdventure.Components
         {
             Game = game;
             screens = new Stack<Screen>();
+            Icons = new Dictionary<string, Texture2D>();
         }
 
         /// <summary>
@@ -109,6 +116,23 @@ namespace RheinwerkAdventure.Components
             Border = new NineTileRenderer(texture, new Rectangle(283, 200, 93, 94), new Point(30, 30));
             Button = new NineTileRenderer(texture, new Rectangle(0, 282, 190, 49), new Point(10, 10));
             ButtonHovered = new NineTileRenderer(texture, new Rectangle(0, 143, 190, 45), new Point(10, 10));
+
+            // Icon-Texturen sammeln
+            List<string> requiredIconTextures = new List<string>();
+            foreach (var area in Game.Simulation.World.Areas)
+                foreach (var item in area.Items)
+                    if (!string.IsNullOrEmpty(item.Icon) && !requiredIconTextures.Contains(item.Icon))
+                        requiredIconTextures.Add(item.Icon);
+
+            // Erforderliche Icon-Texturen direkt aus dem Stream laden
+            string path = Path.Combine(Environment.CurrentDirectory, "Content");
+            foreach (var textureName in requiredIconTextures)
+            {
+                using (Stream stream = File.OpenRead(path + "\\" + textureName))
+                {
+                    Icons.Add(textureName, Texture2D.FromStream(GraphicsDevice, stream));
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -122,12 +146,22 @@ namespace RheinwerkAdventure.Components
                 Game.Input.Handled = true;
             }
 
-            // Spezialtasten prüfen
+            // Hauptmenü öffnen
             if (!Game.Input.Handled)
             {
                 if (Game.Input.Close)
                 {
                     ShowScreen(new MainMenuScreen(this));
+                    Game.Input.Handled = true;
+                }
+            }
+
+            // Inventar öffnen
+            if (!Game.Input.Handled)
+            {
+                if (Game.Input.Inventory)
+                {
+                    ShowScreen(new InventoryScreen(this));
                     Game.Input.Handled = true;
                 }
             }

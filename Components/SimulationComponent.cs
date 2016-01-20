@@ -70,12 +70,10 @@ namespace RheinwerkAdventure.Components
             Area = town;
             Area.Items.Add(Player);
 
-            // Einen Diamanten einfügen.
-            Diamant diamant = new Diamant() { Position = new Vector2(10, 10) };
-            Area.Items.Add(diamant);
-
-            // Portale einfügen
-
+            // Ein paar Münzen einfügen.
+            Area.Items.Add(new Coin() { Position = new Vector2(10, 10) });
+            Area.Items.Add(new Coin() { Position = new Vector2(10, 6) });
+            Area.Items.Add(new Coin() { Position = new Vector2(20, 6) });
         }
 
         public override void Update(GameTime gameTime)
