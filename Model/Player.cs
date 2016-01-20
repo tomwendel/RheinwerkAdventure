@@ -6,8 +6,10 @@ namespace RheinwerkAdventure.Model
     /// <summary>
     /// Repräsentiert einen Spieler-Charakter.
     /// </summary>
-    internal class Player : Character, IAttackable, IAttacker, IInteractor
+    internal class Player : Character, IAttackable, IAttacker, IInteractor, IInventory
     {
+        private List<Item> inventory;
+
         /// <summary>
         /// Maximale Anzahl Trefferpunkte im gesunden Zustand.
         /// </summary>
@@ -48,8 +50,14 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public float InteractionRange { get; set; }
 
+        /// <summary>
+        /// Listet die Items im Inventar auf.
+        /// </summary>
+        public ICollection<Item> Inventory { get { return inventory; } }
+
         public Player()
         {
+            inventory = new List<Item>();
             AttackableItems = new List<Item>();
             InteractableItems = new List<Item>();
             MaxHitpoints = 4;

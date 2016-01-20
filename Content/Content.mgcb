@@ -66,3 +66,9 @@
 /processorParam:TextureFormat=Color
 /build:ui.png
 
+#begin coin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:coin.wav
+

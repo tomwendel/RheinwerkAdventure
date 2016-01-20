@@ -84,6 +84,8 @@
     <Compile Include="Controls\HorizontalListControl.cs" />
     <Compile Include="Controls\MenuList.cs" />
     <Compile Include="Model\Portal.cs" />
+    <Compile Include="Model\IInventory.cs" />
+    <Compile Include="Model\ICollectable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -160,6 +162,10 @@
     <None Include="Content\clock.wav" />
     <None Include="Content\ui.png" />
     <None Include="Content\ui.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\coin.wav" />
+    <None Include="Content\coin.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

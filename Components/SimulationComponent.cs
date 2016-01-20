@@ -168,6 +168,20 @@ namespace RheinwerkAdventure.Components
                                 character.move -= resolution * (item.Mass / totalMass);
                                 item.move += resolution * (character.Mass / totalMass);
                             }
+
+                            // Kombination aus Collectable und Iventory
+                            if (item is ICollectable && character is IInventory)
+                            {
+                                //  -> Character sammelt Item ein
+                                transfers.Add(() => {
+                                    area.Items.Remove(item);
+                                    (character as IInventory).Inventory.Add(item);
+                                    item.Position = Vector2.Zero;
+
+                                    if (character == Player)
+                                        game.Sound.PlayCoin();
+                                });
+                            }
                         }
                     }
                 }

@@ -5,7 +5,7 @@ namespace RheinwerkAdventure.Model
     /// <summary>
     /// Repräsentiert die Münzen im Spiel.
     /// </summary>
-    internal class Diamant : Item
+    internal class Diamant : Item, ICollectable
     {
         public Diamant()
         {
