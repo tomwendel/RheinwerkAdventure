@@ -48,17 +48,20 @@ namespace RheinwerkAdventure.Components
 
             // Town Area
             Area town = LoadFromJson("town");
+            town.Song = "town";
             town.Portals.Add(new Portal() { DestinationArea = "wood", Box = new Rectangle(0, 15, 1, 5) });
             town.Portals.Add(new Portal() { DestinationArea = "shop", Box = new Rectangle(24, 14, 1, 1) });
             World.Areas.Add(town);
 
             // Shop Area
             Area shop = LoadFromJson("shop");
+            shop.Song = "house";
             shop.Portals.Add(new Portal() { DestinationArea = "town", Box = new Rectangle(0, 9, 9, 1) });
             World.Areas.Add(shop);
 
             // Wood Area
             Area wood = LoadFromJson("wood");
+            wood.Song = "town";
             wood.Portals.Add(new Portal() { DestinationArea = "town", Box = new Rectangle(29, 16, 1, 4) });
             World.Areas.Add(wood);
 

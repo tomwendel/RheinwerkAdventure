@@ -91,6 +91,9 @@ namespace RheinwerkAdventure.Components
                 // Aktuelle Area wechseln
                 currentArea = game.Simulation.Area;
 
+                // Hintergrund-Song auch wechseln
+                game.Music.Play(currentArea.Song);
+
                 // Initiale Kameraposition (temporär)
                 Vector2 areaSize = new Vector2(currentArea.Width, currentArea.Height);
                 Camera.SetFocusExplizit(game.Simulation.Player.Position, areaSize);

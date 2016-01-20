@@ -15,6 +15,11 @@ namespace RheinwerkAdventure.Model
         public string Name { get; set; }
 
         /// <summary>
+        /// Gibt den Song für diese Area an.
+        /// </summary>
+        public string Song { get; set; }
+
+        /// <summary>
         /// Hintergrundfarbe des Bereiches.
         /// </summary>
         public Color Background { get; set; }

@@ -59,12 +59,12 @@ namespace RheinwerkAdventure.Screens
 
         public override void OnShow()
         {
-            Manager.Game.Music.Play("menu");
+            Manager.Game.Music.OpenMenu();
         }
 
         public override void OnHide()
         {
-            Manager.Game.Music.Play("town");
+            Manager.Game.Music.CloseMenu();
         }
     }
 }
