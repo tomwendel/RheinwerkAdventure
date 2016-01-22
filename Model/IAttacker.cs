@@ -22,6 +22,16 @@ namespace RheinwerkAdventure.Model
         /// Schaden der pro Angriff verursacht wird.
         /// </summary>
         int AttackValue { get; }
+
+        /// <summary>
+        /// Gibt die Zeitspanne an, die der Character zur Erholung von einem Schlag benötigt.
+        /// </summary>
+        TimeSpan TotalRecovery { get; }
+
+        /// <summary>
+        /// Gibt die noch verbleibende Erholungszeit an, bevor erneut geschlagen werden kann.
+        /// </summary>
+        TimeSpan Recovery { get; set; }
     }
 }
 

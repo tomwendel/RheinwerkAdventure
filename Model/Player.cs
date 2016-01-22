@@ -41,6 +41,16 @@ namespace RheinwerkAdventure.Model
         public int AttackValue { get; set; }
 
         /// <summary>
+        /// Gibt die Zeitspanne an, die der Character zur Erholung von einem Schlag benötigt.
+        /// </summary>
+        public TimeSpan TotalRecovery { get; set; }
+
+        /// <summary>
+        /// Gibt die noch verbleibende Erholungszeit an, bevor erneut geschlagen werden kann.
+        /// </summary>
+        public TimeSpan Recovery { get; set; }
+
+        /// <summary>
         /// Interne auflistung aller Items im Interaktionsradius.
         /// </summary>
         public ICollection<Item> InteractableItems { get; private set; }
@@ -63,8 +73,9 @@ namespace RheinwerkAdventure.Model
             Fixed = false;
             MaxHitpoints = 4;
             Hitpoints = 4;
-            AttackRange = 0.5f;
+            AttackRange = 1f;
             AttackValue = 1;
+            TotalRecovery = TimeSpan.FromSeconds(0.3);
             InteractionRange = 0.8f;
             Texture = "char.png";
             Name = "Player";

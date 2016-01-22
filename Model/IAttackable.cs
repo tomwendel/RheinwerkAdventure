@@ -15,7 +15,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Anzahl verfügbarer Trefferpunkte.
         /// </summary>
-        int Hitpoints { get; }
+        int Hitpoints { get; set; }
     }
 }
 

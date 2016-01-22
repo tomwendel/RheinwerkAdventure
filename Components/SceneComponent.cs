@@ -182,7 +182,8 @@ namespace RheinwerkAdventure.Components
 
                 // Ermitteln, ob Item im Interaktionsbereich ist
                 bool highlight = false;
-                if (item is IInteractable && game.Simulation.Player.InteractableItems.Contains(item))
+                if (item is IInteractable && game.Simulation.Player.InteractableItems.Contains(item) ||
+                    item is IAttackable && game.Simulation.Player.AttackableItems.Contains(item))
                     highlight = true;
 
                 // Item rendern

@@ -79,6 +79,9 @@ namespace RheinwerkAdventure.Components
             };
             Area.Items.Add(decard);
 
+            Orc orc = new Orc() { Position = new Vector2(15, 3) };
+            Area.Items.Add(orc);
+
             // Ein paar Münzen einfügen.
             Area.Items.Add(new Coin() { Position = new Vector2(10, 10) });
             Area.Items.Add(new Coin() { Position = new Vector2(10, 6) });
@@ -117,6 +120,11 @@ namespace RheinwerkAdventure.Components
                     {
                         attacker = (IAttacker)character;
                         attacker.AttackableItems.Clear();
+
+                        // Recovery-Time aktualisieren
+                        attacker.Recovery -= gameTime.ElapsedGameTime;
+                        if (attacker.Recovery < TimeSpan.Zero)
+                            attacker.Recovery = TimeSpan.Zero;
                     }
 
                     // Interactor identifizieren
@@ -340,6 +348,10 @@ namespace RheinwerkAdventure.Components
                 transfer();
             }
 
+            #endregion
+
+            #region Playerspezifische Interaktion
+
             // Interaktionen durchführen
             if (game.Input.Interact)
             {
@@ -350,6 +362,22 @@ namespace RheinwerkAdventure.Components
                     interactable.OnInteract(Player);
                 }
                 game.Input.Handled = true;
+            }
+
+            // Angriff durchführen
+            if (game.Input.Attack && Player.Recovery <= TimeSpan.Zero)
+            {
+                // Alle Items in der Nähe schlagen
+                foreach (var item in Player.AttackableItems)
+                {
+                    var attackable = item as IAttackable;
+                    attackable.Hitpoints -= Player.AttackValue;
+                    game.Sound.PlayHit();
+                }
+
+                // Schlagerholung anstoßen
+                Player.Recovery = Player.TotalRecovery;
+                game.Sound.PlaySword();
             }
 
             #endregion

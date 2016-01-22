@@ -73,7 +73,11 @@ namespace RheinwerkAdventure.Rendering
                 }
             }
 
-            // TODO: Schlag-Animation
+            // Schlag-Animation
+            if (character is IAttacker && (character as IAttacker).Recovery > TimeSpan.Zero)
+            {
+                nextAnimation = Animation.Hit;
+            }
 
             // Für den Fall, dass dieser Character Tod ist
             if (character is IAttackable && (character as IAttackable).Hitpoints <= 0)
@@ -95,7 +99,7 @@ namespace RheinwerkAdventure.Rendering
                         break;
                     case Animation.Die:
                         frameCount = 6;
-                        animationRow = 0;
+                        animationRow = 20;
                         break;
                     case Animation.Idle:
                         frameCount = 1;
@@ -125,10 +129,13 @@ namespace RheinwerkAdventure.Rendering
                     break;
                 case Animation.Hit:
                     // TODO: Animationsverlauf definieren
+                    IAttacker attacker = Item as IAttacker;
+                    double animationPosition = 1d - (attacker.Recovery.TotalMilliseconds / attacker.TotalRecovery.TotalMilliseconds);
+                    frame = (int)(frameCount * animationPosition);
                     break;
                 case Animation.Die:
                     // Animation stoppt mit dem letzten Frame
-                    AnimationTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    AnimationTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds / 2;
                     frame = Math.Min((AnimationTime / FrameTime), frameCount - 1);
                     break;
             }

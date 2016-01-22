@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using System.Collections.Generic;
 
 namespace RheinwerkAdventure.Components
 {
@@ -8,11 +9,7 @@ namespace RheinwerkAdventure.Components
     {
         private RheinwerkGame game;
 
-        private SoundEffect click;
-
-        private SoundEffect clock;
-
-        private SoundEffect coin;
+        private Dictionary<string, SoundEffect> sounds;
 
         private float volume;
 
@@ -21,9 +18,19 @@ namespace RheinwerkAdventure.Components
             this.game = game;
             volume = 0.5f;
 
-            click = game.Content.Load<SoundEffect>("click");
-            clock = game.Content.Load<SoundEffect>("clock");
-            coin = game.Content.Load<SoundEffect>("coin");
+            sounds = new Dictionary<string, SoundEffect>();
+            sounds.Add("click", game.Content.Load<SoundEffect>("click"));
+            sounds.Add("clock", game.Content.Load<SoundEffect>("clock"));
+            sounds.Add("coin", game.Content.Load<SoundEffect>("coin"));
+            sounds.Add("hit", game.Content.Load<SoundEffect>("hit"));
+            sounds.Add("sword", game.Content.Load<SoundEffect>("sword"));
+        }
+
+        private void Play(string sound)
+        {
+            SoundEffect soundEffect;
+            if (sounds.TryGetValue(sound, out soundEffect))
+                soundEffect.Play(volume, 0f, 0f);
         }
 
         /// <summary>
@@ -31,7 +38,7 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public void PlayClick()
         {
-            click.Play(volume, 0f, 0f);
+            Play("click");
         }
 
         /// <summary>
@@ -39,7 +46,7 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public void PlayClock()
         {
-            clock.Play(volume, 0f, 0f);
+            Play("clock");
         }
 
         /// <summary>
@@ -47,7 +54,23 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public void PlayCoin()
         {
-            coin.Play(volume, 0f, 0f);
+            Play("coin");
+        }
+
+        /// <summary>
+        /// Spielt den Sound eines schwingenden Schwertes ab.
+        /// </summary>
+        public void PlaySword()
+        {
+            Play("sword");
+        }
+
+        /// <summary>
+        /// Einschlag-Geräusch.
+        /// </summary>
+        public void PlayHit()
+        {
+            Play("hit");
         }
     }
 }

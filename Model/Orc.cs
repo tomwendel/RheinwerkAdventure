@@ -33,6 +33,16 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public int AttackValue { get; set; }
 
+        /// <summary>
+        /// Gibt die Zeitspanne an, die der Character zur Erholung von einem Schlag benötigt.
+        /// </summary>
+        public TimeSpan TotalRecovery { get; set; }
+
+        /// <summary>
+        /// Gibt die noch verbleibende Erholungszeit an, bevor erneut geschlagen werden kann.
+        /// </summary>
+        public TimeSpan Recovery { get; set; }
+
         public Orc()
         {
             AttackableItems = new List<Item>();
@@ -40,6 +50,7 @@ namespace RheinwerkAdventure.Model
             Hitpoints = 2;
             AttackRange = 0.3f;
             AttackValue = 1;
+            TotalRecovery = TimeSpan.FromSeconds(1.5);
             Texture = "orc.png";
             Name = "Orc";
             Icon = "orcicon.png";
