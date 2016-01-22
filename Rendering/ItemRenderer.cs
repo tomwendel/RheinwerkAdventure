@@ -26,6 +26,12 @@ namespace RheinwerkAdventure.Rendering
         protected Texture2D Texture { get; private set; }
 
         /// <summary>
+        /// Referenz auf eine Sprite Font.
+        /// </summary>
+        /// <value>The font.</value>
+        protected SpriteFont Font { get; private set; }
+
+        /// <summary>
         /// Größenangabe eines Frames in Pixel
         /// </summary>
         protected Point FrameSize {get;private set;}
@@ -56,15 +62,17 @@ namespace RheinwerkAdventure.Rendering
         /// <param name="item">Item Referenz</param>
         /// <param name="camera">Kamera Referenz</param>
         /// <param name="texture">Textur Referenz</param>
+        /// <param name="font">Font</param>
         /// <param name="frameSize">Größe eines Frames in Pixel</param>
         /// <param name="frameTime">Anzahl Millisekunden pro Frame</param>
         /// <param name="itemOffset">Mittelpunkt des Items innerhalb des Frames</param>
         /// <param name="frameScale">Skalierung</param>
-        public ItemRenderer(Item item, Camera camera, Texture2D texture, Point frameSize, int frameTime, Point itemOffset, float frameScale)
+        public ItemRenderer(Item item, Camera camera, Texture2D texture, SpriteFont font, Point frameSize, int frameTime, Point itemOffset, float frameScale)
         {
             this.Item = item;
             this.Camera = camera;
             this.Texture = texture;
+            this.Font = font;
             this.FrameSize = frameSize;
             this.FrameTime = frameTime;
             this.ItemOffset = itemOffset;
@@ -77,7 +85,8 @@ namespace RheinwerkAdventure.Rendering
         /// <param name="spriteBatch">SpriteBatch Referenz</param>
         /// <param name="offset">Der Offset der View</param>
         /// <param name="gameTime">Aktuelle Game Time</param>
-        public abstract void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime);
+        /// <param name="highlight">Soll das Item hervorgehoben werden?</param> 
+        public abstract void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime, bool highlight);
     }
 }
 

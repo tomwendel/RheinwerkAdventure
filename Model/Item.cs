@@ -49,7 +49,7 @@ namespace RheinwerkAdventure.Model
         public Item()
         {
             // Standard-Werte für Kollisionselemente
-            Fixed = false;
+            Fixed = true;
             Mass = 1f;
             Radius = 0.25f;
             Name = "Item";

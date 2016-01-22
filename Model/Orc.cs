@@ -41,6 +41,8 @@ namespace RheinwerkAdventure.Model
             AttackRange = 0.3f;
             AttackValue = 1;
             Texture = "orc.png";
+            Name = "Orc";
+            Icon = "orcicon.png";
         }
     }
 }

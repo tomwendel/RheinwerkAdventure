@@ -7,6 +7,10 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal interface IInteractable
     {
+        /// <summary>
+        /// Delegat für aktiven Interaktionsversuch des Spielers.
+        /// </summary>
+        Action<Player> OnInteract { get; }
     }
 }
 

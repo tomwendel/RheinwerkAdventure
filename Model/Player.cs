@@ -60,12 +60,15 @@ namespace RheinwerkAdventure.Model
             inventory = new List<Item>();
             AttackableItems = new List<Item>();
             InteractableItems = new List<Item>();
+            Fixed = false;
             MaxHitpoints = 4;
             Hitpoints = 4;
             AttackRange = 0.5f;
             AttackValue = 1;
-            InteractionRange = 0.5f;
+            InteractionRange = 0.8f;
             Texture = "char.png";
+            Name = "Player";
+            Icon = "charicon.png";
         }
     }
 }

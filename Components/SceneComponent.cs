@@ -24,6 +24,8 @@ namespace RheinwerkAdventure.Components
 
         private SpriteBatch spriteBatch;
 
+        private SpriteFont font;
+
         private Area currentArea = null;
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace RheinwerkAdventure.Components
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Camera = new Camera(GraphicsDevice.Viewport.Bounds.Size);
+            font = Game.Content.Load<SpriteFont>("HudFont");
 
             // Erforderliche Texturen ermitteln
             List<string> requiredTilesetTextures = new List<string>();
@@ -170,15 +173,20 @@ namespace RheinwerkAdventure.Components
                     Texture2D texture = itemTextures[item.Texture];
                     
                     if (item is Character)
-                        renderer = new CharacterRenderer(item as Character, Camera, texture);
+                        renderer = new CharacterRenderer(item as Character, Camera, texture, font);
                     else
-                        renderer = new SimpleItemRenderer(item, Camera, texture);
+                        renderer = new SimpleItemRenderer(item, Camera, texture, font);
 
                     itemRenderer.Add(item, renderer);
                 }
 
+                // Ermitteln, ob Item im Interaktionsbereich ist
+                bool highlight = false;
+                if (item is IInteractable && game.Simulation.Player.InteractableItems.Contains(item))
+                    highlight = true;
+
                 // Item rendern
-                renderer.Draw(spriteBatch, offset, gameTime);
+                renderer.Draw(spriteBatch, offset, gameTime, highlight);
             }
 
             // TODO: Nicht mehr verwendete Renderer entfernen

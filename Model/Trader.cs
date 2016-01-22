@@ -5,11 +5,15 @@ namespace RheinwerkAdventure.Model
     /// <summary>
     /// Repräsentiert den Händler im Spiel.
     /// </summary>
-    internal class Dealer : Character, IInteractable
+    internal class Trader : Character, IInteractable
     {
-        public Dealer()
+        public Action<Player> OnInteract { get; set; }
+
+        public Trader()
         {
             Texture = "trader.png";
+            Name = "Trader";
+            Icon = "tradericon.png";
         }
     }
 }

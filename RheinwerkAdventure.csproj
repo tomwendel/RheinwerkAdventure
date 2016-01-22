@@ -56,7 +56,6 @@
     <Compile Include="Model\IAttackable.cs" />
     <Compile Include="Model\IInteractable.cs" />
     <Compile Include="Model\Player.cs" />
-    <Compile Include="Model\Dealer.cs" />
     <Compile Include="Model\Heidi.cs" />
     <Compile Include="Model\Orc.cs" />
     <Compile Include="Model\Decard.cs" />
@@ -88,6 +87,9 @@
     <Compile Include="Screens\InventoryScreen.cs" />
     <Compile Include="Controls\InventoryList.cs" />
     <Compile Include="Model\Coin.cs" />
+    <Compile Include="Model\Trader.cs" />
+    <Compile Include="Screens\ShoutScreen.cs" />
+    <Compile Include="Controls\Icon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -171,6 +173,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\coinicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\charicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\decardicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\heidiicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\orcicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\tradericon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -15,8 +15,8 @@ namespace RheinwerkAdventure.Rendering
         /// </summary>
         private int frameCount;
 
-        public SimpleItemRenderer(Item item, Camera camera, Texture2D texture) 
-            : base(item, camera, texture, new Point(32, 32), 70, new Point(16,26), 1f)
+        public SimpleItemRenderer(Item item, Camera camera, Texture2D texture, SpriteFont font) 
+            : base(item, camera, texture, font, new Point(32, 32), 70, new Point(16,26), 1f)
         {
             frameCount = 8;
         }
@@ -27,7 +27,8 @@ namespace RheinwerkAdventure.Rendering
         /// <param name="spriteBatch">SpriteBatch Referenz</param>
         /// <param name="offset">Der Offset der View</param>
         /// <param name="gameTime">Aktuelle Game Time</param>
-        public override void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime)
+        /// <param name="highlight">Soll das Item hervorgehoben werden?</param> 
+        public override void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime, bool highlight)
         {
             // Animationszeit neu berechnen (vergangene Millisekunden zum letzten Frame addieren)
             AnimationTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;

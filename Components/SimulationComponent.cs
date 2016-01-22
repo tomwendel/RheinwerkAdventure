@@ -5,6 +5,7 @@ using RheinwerkAdventure.Model;
 using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using RheinwerkAdventure.Screens;
 
 namespace RheinwerkAdventure.Components
 {
@@ -66,9 +67,17 @@ namespace RheinwerkAdventure.Components
             World.Areas.Add(wood);
 
             // Den Spieler einfügen.
-            Player = new Player() { Position = new Vector2(15, 10) };
+            Player = new Player() { Position = new Vector2(16f, 10f) };
             Area = town;
             Area.Items.Add(Player);
+
+            // Decard einfügen
+            Decard decard = new Decard() { Position = new Vector2(18f, 16) };
+            decard.OnInteract = (p) =>
+            {
+                game.Screen.ShowScreen(new ShoutScreen(game.Screen, decard, "Bleib ein Weilchen und hoer zu!"));
+            };
+            Area.Items.Add(decard);
 
             // Ein paar Münzen einfügen.
             Area.Items.Add(new Coin() { Position = new Vector2(10, 10) });
@@ -171,14 +180,15 @@ namespace RheinwerkAdventure.Components
                             if (item is ICollectable && character is IInventory)
                             {
                                 //  -> Character sammelt Item ein
-                                transfers.Add(() => {
-                                    area.Items.Remove(item);
-                                    (character as IInventory).Inventory.Add(item);
-                                    item.Position = Vector2.Zero;
+                                transfers.Add(() =>
+                                    {
+                                        area.Items.Remove(item);
+                                        (character as IInventory).Inventory.Add(item);
+                                        item.Position = Vector2.Zero;
 
-                                    if (character == Player)
-                                        game.Sound.PlayCoin();
-                                });
+                                        if (character == Player)
+                                            game.Sound.PlayCoin();
+                                    });
                             }
                         }
                     }
@@ -286,7 +296,7 @@ namespace RheinwerkAdventure.Components
                         Player player = item as Player;
                         bool inPortal = false;
 
-                        foreach (var portal in area.Portals) 
+                        foreach (var portal in area.Portals)
                         {
                             if (item.Position.X > portal.Box.Left &&
                                 item.Position.X <= portal.Box.Right &&
@@ -294,7 +304,8 @@ namespace RheinwerkAdventure.Components
                                 item.Position.Y <= portal.Box.Bottom)
                             {
                                 inPortal = true;
-                                if (player.InPortal) continue;
+                                if (player.InPortal)
+                                    continue;
 
                                 // Ziel-Area und Portal finden
                                 Area destinationArea = World.Areas.First(a => a.Name.Equals(portal.DestinationArea));
@@ -302,18 +313,19 @@ namespace RheinwerkAdventure.Components
 
                                 // Neue Position des Spielers finden
                                 Vector2 position = new Vector2(
-                                    destinationPortal.Box.X + (destinationPortal.Box.Width / 2f), 
-                                    destinationPortal.Box.Y + (destinationPortal.Box.Height / 2f));
+                                                       destinationPortal.Box.X + (destinationPortal.Box.Width / 2f), 
+                                                       destinationPortal.Box.Y + (destinationPortal.Box.Height / 2f));
 
                                 // Transfer in andere Area vorbereiten
-                                transfers.Add(() => {
-                                    area.Items.Remove(item);
-                                    destinationArea.Items.Add(item);
-                                    item.Position = position;
+                                transfers.Add(() =>
+                                    {
+                                        area.Items.Remove(item);
+                                        destinationArea.Items.Add(item);
+                                        item.Position = position;
 
-                                    if (item == Player)
-                                        Area = destinationArea;
-                                });
+                                        if (item == Player)
+                                            Area = destinationArea;
+                                    });
                             }
                         }
 
@@ -323,8 +335,21 @@ namespace RheinwerkAdventure.Components
             }
 
             // Transfers durchführen
-            foreach (var transfer in transfers) {
+            foreach (var transfer in transfers)
+            {
                 transfer();
+            }
+
+            // Interaktionen durchführen
+            if (game.Input.Interact)
+            {
+                // Alle Items in der Nähe aufrufen
+                foreach (var item in Player.InteractableItems)
+                {
+                    var interactable = item as IInteractable;
+                    interactable.OnInteract(Player);
+                }
+                game.Input.Handled = true;
             }
 
             #endregion

@@ -7,9 +7,13 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Decard : Character, IInteractable
     {
+        public Action<Player> OnInteract { get; set; }
+
         public Decard()
         {
             Texture = "decard.png";
+            Name = "Decard";
+            Icon = "decardicon.png";
         }
     }
 }

@@ -21,8 +21,8 @@ namespace RheinwerkAdventure.Rendering
 
         private int animationRow;
 
-        public CharacterRenderer(Character character, Camera camera, Texture2D texture)
-            : base(character, camera, texture, new Point(64, 64), 50, new Point(32, 55), 2f)
+        public CharacterRenderer(Character character, Camera camera, Texture2D texture, SpriteFont font)
+            : base(character, camera, texture, font, new Point(64, 64), 50, new Point(32, 55), 2f)
         {
             this.character = character;
             animation = Animation.Idle;
@@ -37,7 +37,8 @@ namespace RheinwerkAdventure.Rendering
         /// <param name="spriteBatch">SpriteBatch Referenz</param>
         /// <param name="offset">Der Offset der View</param>
         /// <param name="gameTime">Aktuelle Game Time</param>
-        public override void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime)
+        /// <param name="highlight">Soll das Item hervorgehoben werden?</param> 
+        public override void Draw(SpriteBatch spriteBatch, Point offset, GameTime gameTime, bool highlight)
         {
             // kommende Animation ermitteln
             Animation nextAnimation = Animation.Idle;
@@ -152,6 +153,16 @@ namespace RheinwerkAdventure.Rendering
                 (int)(FrameSize.Y * scale.Y));
 
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+
+            // Highlight
+            if (highlight && !string.IsNullOrEmpty(Item.Name))
+            {
+                Vector2 textSize = Font.MeasureString(Item.Name);
+                Vector2 location = new Vector2(
+                    posX - (int)(textSize.X / 2), 
+                    posY - (int)(ItemOffset.Y * scale.Y));
+                spriteBatch.DrawString(Font, Item.Name, location, Color.White);
+            }
         }
     }
 
