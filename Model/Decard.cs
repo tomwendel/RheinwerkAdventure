@@ -1,4 +1,5 @@
 ﻿using System;
+using RheinwerkAdventure.Screens;
 
 namespace RheinwerkAdventure.Model
 {
@@ -7,13 +8,23 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Decard : Character, IInteractable
     {
-        public Action<Player> OnInteract { get; set; }
+        /// <summary>
+        /// Delegat für aktiven Interaktionsversuch des Spielers.
+        /// </summary>
+        public Action<RheinwerkGame, IInteractor, IInteractable> OnInteract { get; set; }
 
         public Decard()
         {
             Texture = "decard.png";
             Name = "Decard";
             Icon = "decardicon.png";
+
+            OnInteract = DoInteract;
+        }
+
+        private void DoInteract(RheinwerkGame game, IInteractor interactor, IInteractable interactable)
+        {
+            game.Screen.ShowScreen(new ShoutScreen(game.Screen, this, "Bleib ein Weilchen und hoer zu!"));
         }
     }
 }

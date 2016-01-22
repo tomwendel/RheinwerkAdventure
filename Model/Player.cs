@@ -65,6 +65,11 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public ICollection<Item> Inventory { get { return inventory; } }
 
+        /// <summary>
+        /// Aufruf bei ankommenden Treffern.
+        /// </summary>
+        public Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; set; }
+
         public Player()
         {
             inventory = new List<Item>();

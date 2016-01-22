@@ -16,6 +16,11 @@ namespace RheinwerkAdventure.Model
         /// Anzahl verfügbarer Trefferpunkte.
         /// </summary>
         int Hitpoints { get; set; }
+
+        /// <summary>
+        /// Aufruf bei ankommenden Treffern.
+        /// </summary>
+        Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; }
     }
 }
 

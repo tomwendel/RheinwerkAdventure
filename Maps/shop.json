@@ -77,12 +77,54 @@
          "width":10,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":10,
+         "name":"Objects",
+         "objects":[
+                {
+                 "height":32,
+                 "id":10,
+                 "name":"town",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":288,
+                 "x":0,
+                 "y":288
+                }, 
+                {
+                 "height":0,
+                 "id":11,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":0,
+                 "x":32,
+                 "y":192
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":10,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "properties":
     {
-
+     "Song":"house"
     },
  "renderorder":"left-down",
  "tileheight":32,

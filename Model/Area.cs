@@ -50,6 +50,11 @@ namespace RheinwerkAdventure.Model
         public List<Item> Items { get; private set; }
 
         /// <summary>
+        /// Auflistung potentieller Startpunkte für den Spieler
+        /// </summary>
+        public List<Vector2> Startpoints { get; private set; }
+
+        /// <summary>
         /// Zentrales Repository für Zellentemplates (Tiles)
         /// </summary>
         public Dictionary<int,Tile> Tiles { get; private set; }
@@ -78,6 +83,9 @@ namespace RheinwerkAdventure.Model
 
             // Leere Liste von Tiles erstellen.
             Tiles = new Dictionary<int, Tile>();
+
+            // Leere Liste von Startpunkten.
+            Startpoints = new List<Vector2>();
         }
 
         /// <summary>

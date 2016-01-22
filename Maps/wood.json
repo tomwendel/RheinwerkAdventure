@@ -77,12 +77,39 @@
          "width":30,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":30,
+         "name":"Object",
+         "objects":[
+                {
+                 "height":128,
+                 "id":8,
+                 "name":"town",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":32,
+                 "x":928,
+                 "y":512
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":30,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":8,
+ "nextobjectid":9,
  "orientation":"orthogonal",
  "properties":
     {
-
+     "Song":"wood"
     },
  "renderorder":"left-down",
  "tileheight":32,

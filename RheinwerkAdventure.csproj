@@ -90,6 +90,7 @@
     <Compile Include="Model\Trader.cs" />
     <Compile Include="Screens\ShoutScreen.cs" />
     <Compile Include="Controls\Icon.cs" />
+    <Compile Include="Components\MapLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">

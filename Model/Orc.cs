@@ -43,6 +43,11 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public TimeSpan Recovery { get; set; }
 
+        /// <summary>
+        /// Aufruf bei ankommenden Treffern.
+        /// </summary>
+        public Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; set; }
+
         public Orc()
         {
             AttackableItems = new List<Item>();

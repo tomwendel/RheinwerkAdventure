@@ -7,7 +7,7 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Trader : Character, IInteractable
     {
-        public Action<Player> OnInteract { get; set; }
+        public Action<RheinwerkGame, IInteractor, IInteractable> OnInteract { get; set; }
 
         public Trader()
         {

@@ -77,12 +77,204 @@
          "width":30,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":30,
+         "name":"Objects",
+         "objects":[
+                {
+                 "height":32,
+                 "id":8,
+                 "name":"shop",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":32,
+                 "x":768,
+                 "y":448
+                }, 
+                {
+                 "height":160,
+                 "id":9,
+                 "name":"wood",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":32,
+                 "x":0,
+                 "y":480
+                }, 
+                {
+                 "height":32,
+                 "id":14,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":800,
+                 "y":160
+                }, 
+                {
+                 "height":32,
+                 "id":21,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":192,
+                 "y":736
+                }, 
+                {
+                 "height":32,
+                 "id":22,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":256,
+                 "y":832
+                }, 
+                {
+                 "height":32,
+                 "id":23,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":736,
+                 "y":736
+                }, 
+                {
+                 "height":32,
+                 "id":24,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":832,
+                 "y":544
+                }, 
+                {
+                 "height":32,
+                 "id":25,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":64,
+                 "y":128
+                }, 
+                {
+                 "height":32,
+                 "id":26,
+                 "name":"coin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":544,
+                 "y":640
+                }, 
+                {
+                 "height":32,
+                 "id":28,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Player",
+                 "visible":true,
+                 "width":32,
+                 "x":480,
+                 "y":128
+                }, 
+                {
+                 "height":32,
+                 "id":32,
+                 "name":"decard",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":544,
+                 "y":480
+                }, 
+                {
+                 "height":32,
+                 "id":35,
+                 "name":"heidi",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":160,
+                 "y":448
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":30,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":8,
+ "nextobjectid":36,
  "orientation":"orthogonal",
  "properties":
     {
-
+     "Song":"town"
     },
  "renderorder":"left-down",
  "tileheight":32,
