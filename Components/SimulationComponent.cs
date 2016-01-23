@@ -55,11 +55,6 @@ namespace RheinwerkAdventure.Components
         public override void Update(GameTime gameTime)
         {
             List<Action> transfers = new List<Action>();
-
-            // Sichtbaren Bereich ermitteln
-            // TODO: Das wird nur noch für die Sounds benötigt und sollte in SoundComponent ausgelagert werden.
-            Area visibleArea = game.Local.GetCurrentArea();
-
             foreach (var area in World.Areas)
             {
                 // Schleife über alle sich aktiv bewegenden Spiel-Elemente
@@ -320,18 +315,10 @@ namespace RheinwerkAdventure.Components
                                 attackable.Hitpoints -= attacker.AttackValue;
                                 if (attackable.OnHit != null)
                                     attackable.OnHit(game, attacker, attackable);
-
-                                // Nur Treffersound spielen, wenn sichtbar
-                                if (area == visibleArea)
-                                    game.Sound.PlayHit();
                             }
 
                             // Schlagerholung anstoßen
                             attacker.Recovery = attacker.TotalRecovery;
-
-                            // Nur abspielen, wenn sichtbar
-                            if (area == visibleArea)
-                                game.Sound.PlaySword();
                         }
                         attacker.AttackSignal = false;
                     }

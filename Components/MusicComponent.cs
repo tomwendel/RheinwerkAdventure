@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
+using RheinwerkAdventure.Model;
 
 namespace RheinwerkAdventure.Components
 {
@@ -17,6 +18,9 @@ namespace RheinwerkAdventure.Components
 
         // Gibt die maximal-Lautstärke für die Hintergrund-Songs an.
         private float maxVolume;
+
+        // Referenz auf die aktuelle Area
+        private Area currentArea;
 
         // Hält die Liste verfügbarer Songs
         private Dictionary<string, SoundEffect> songs;
@@ -51,6 +55,14 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
+            // Aktuelle Area ermitteln
+            Area area = game.Local.GetCurrentArea();
+            if (currentArea != area)
+            {
+                currentArea = area;
+                Play(currentArea.Song);
+            }
+
             // Override verhindern
             if (currentEffect == nextEffect)
                 nextEffect = null;
@@ -102,7 +114,7 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Spielt den angegebenen Song ab.
         /// </summary>
-        public void Play(string song)
+        private void Play(string song)
         {
             SoundEffect soundEffect;
             if (songs.TryGetValue(song, out soundEffect))

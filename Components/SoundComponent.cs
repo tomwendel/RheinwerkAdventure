@@ -18,8 +18,17 @@ namespace RheinwerkAdventure.Components
         // Player Referenz
         private Player player;
 
+        // Referenz auf die sichtbare Area.
+        private Area area;
+
         // Anzahl Münzen
         private int coins;
+
+        // Mapping von Angreifern zu deren Recovery Times.
+        private Dictionary<IAttacker, TimeSpan> recoveryTimes;
+
+        // Mapping von Angreifbaren Items zu Hitpoints.
+        private Dictionary<IAttackable, int> hitpoints;
 
         public SoundComponent(RheinwerkGame game) : base(game)
         {
@@ -32,6 +41,9 @@ namespace RheinwerkAdventure.Components
             sounds.Add("coin", game.Content.Load<SoundEffect>("coin"));
             sounds.Add("hit", game.Content.Load<SoundEffect>("hit"));
             sounds.Add("sword", game.Content.Load<SoundEffect>("sword"));
+
+            recoveryTimes = new Dictionary<IAttacker, TimeSpan>();
+            hitpoints = new Dictionary<IAttackable, int>();
         }
 
         public override void Update(GameTime gameTime)
@@ -41,6 +53,24 @@ namespace RheinwerkAdventure.Components
             {
                 player = game.Local.Player;
                 coins = player.Inventory.Count(i => i is Coin);
+                recoveryTimes.Clear();
+            }
+
+            // Reset der Item variablen falls sich die Area ändert
+            Area nextArea = game.Local.GetCurrentArea();
+            if (area != nextArea)
+            {
+                area = nextArea;
+
+                // Recovery Times
+                recoveryTimes.Clear();
+                foreach (var item in area.Items.OfType<IAttacker>())
+                    recoveryTimes.Add(item, item.Recovery);
+
+                // Hitpoints
+                hitpoints.Clear();
+                foreach (var item in area.Items.OfType<IAttackable>())
+                    hitpoints.Add(item, item.Hitpoints);
             }
 
             // Coins
@@ -48,6 +78,36 @@ namespace RheinwerkAdventure.Components
             if (coins < c)
                 Play("coin");
             coins = c;
+
+            // Sword
+            foreach (var item in area.Items.OfType<IAttacker>())
+            {
+                TimeSpan recovery;
+                if (!recoveryTimes.TryGetValue(item, out recovery))
+                {
+                    recovery = item.Recovery;
+                    recoveryTimes.Add(item, item.Recovery);
+                }
+
+                if (recovery < item.Recovery)
+                    Play("sword");
+                recoveryTimes[item] = item.Recovery;
+            }
+
+            // Hit
+            foreach (var item in area.Items.OfType<IAttackable>())
+            {
+                int points;
+                if (!hitpoints.TryGetValue(item, out points))
+                {
+                    points = item.Hitpoints;
+                    hitpoints.Add(item, item.Hitpoints);
+                }
+
+                if (points > item.Hitpoints)
+                    Play("hit");
+                hitpoints[item] = item.Hitpoints;
+            }
         }
 
         private void Play(string sound)
@@ -71,22 +131,6 @@ namespace RheinwerkAdventure.Components
         public void PlayClock()
         {
             Play("clock");
-        }
-
-        /// <summary>
-        /// Spielt den Sound eines schwingenden Schwertes ab.
-        /// </summary>
-        public void PlaySword()
-        {
-            Play("sword");
-        }
-
-        /// <summary>
-        /// Einschlag-Geräusch.
-        /// </summary>
-        public void PlayHit()
-        {
-            Play("hit");
         }
     }
 }
