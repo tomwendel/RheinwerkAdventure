@@ -19,6 +19,11 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public Vector2 Velocity { get; set; }
 
+        /// <summary>
+        /// KI Basis
+        /// </summary>
+        public Ai Ai { get; set; }
+
         public Character()
         {
             MaxSpeed = 3f;

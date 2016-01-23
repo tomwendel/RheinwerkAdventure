@@ -92,6 +92,9 @@
     <Compile Include="Controls\Icon.cs" />
     <Compile Include="Components\MapLoader.cs" />
     <Compile Include="Components\LocalComponent.cs" />
+    <Compile Include="Model\AggressiveAi.cs" />
+    <Compile Include="Model\Ai.cs" />
+    <Compile Include="Model\WalkingAi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">

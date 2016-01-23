@@ -20,6 +20,8 @@ namespace RheinwerkAdventure.Model
             Icon = "decardicon.png";
 
             OnInteract = DoInteract;
+
+            Ai = new WalkingAi(this, 0.4f);
         }
 
         private void DoInteract(RheinwerkGame game, IInteractor interactor, IInteractable interactable)

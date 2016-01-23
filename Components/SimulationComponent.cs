@@ -60,6 +60,10 @@ namespace RheinwerkAdventure.Components
                 // Schleife über alle sich aktiv bewegenden Spiel-Elemente
                 foreach (var character in area.Items.OfType<Character>())
                 {
+                    // KI Update
+                    if (character.Ai != null)
+                        character.Ai.Update(area, gameTime);
+                    
                     // Neuberechnung der Character-Position.
                     character.move += character.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 

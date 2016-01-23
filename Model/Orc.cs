@@ -58,12 +58,13 @@ namespace RheinwerkAdventure.Model
             AttackableItems = new List<IAttackable>();
             MaxHitpoints = 2;
             Hitpoints = 2;
-            AttackRange = 0.3f;
+            AttackRange = 0.8f;
             AttackValue = 1;
-            TotalRecovery = TimeSpan.FromSeconds(1.5);
+            TotalRecovery = TimeSpan.FromSeconds(0.6);
             Texture = "orc.png";
             Name = "Orc";
             Icon = "orcicon.png";
+            Ai = new AggressiveAi(this, 4f);
         }
     }
 }
