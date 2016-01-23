@@ -91,6 +91,7 @@
     <Compile Include="Screens\ShoutScreen.cs" />
     <Compile Include="Controls\Icon.cs" />
     <Compile Include="Components\MapLoader.cs" />
+    <Compile Include="Components\LocalComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">

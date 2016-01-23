@@ -15,7 +15,7 @@ namespace RheinwerkAdventure.Screens
             Controls.Add(new Label(manager) { Text = "Rucksack", Position = new Rectangle(40, 30, 0, 0) });
 
             InventoryList list = new InventoryList(manager) { Position = new Rectangle(20, 70, 360, 200) };
-            foreach (var itemGroup in manager.Game.Simulation.Player.Inventory.GroupBy(i => i.GetType()))
+            foreach (var itemGroup in manager.Game.Local.Player.Inventory.GroupBy(i => i.GetType()))
             {
                 list.Items.Add(new InventoryItem() { 
                     Text = itemGroup.First().Name, 

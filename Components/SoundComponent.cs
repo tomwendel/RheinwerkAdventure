@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
+using RheinwerkAdventure.Model;
 
 namespace RheinwerkAdventure.Components
 {
@@ -12,6 +14,12 @@ namespace RheinwerkAdventure.Components
         private Dictionary<string, SoundEffect> sounds;
 
         private float volume;
+
+        // Player Referenz
+        private Player player;
+
+        // Anzahl Münzen
+        private int coins;
 
         public SoundComponent(RheinwerkGame game) : base(game)
         {
@@ -24,6 +32,22 @@ namespace RheinwerkAdventure.Components
             sounds.Add("coin", game.Content.Load<SoundEffect>("coin"));
             sounds.Add("hit", game.Content.Load<SoundEffect>("hit"));
             sounds.Add("sword", game.Content.Load<SoundEffect>("sword"));
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            // Reset aller Variablen falls sich der Player ändert
+            if (player != game.Local.Player)
+            {
+                player = game.Local.Player;
+                coins = player.Inventory.Count(i => i is Coin);
+            }
+
+            // Coins
+            int c = player.Inventory.Count(i => i is Coin);
+            if (coins < c)
+                Play("coin");
+            coins = c;
         }
 
         private void Play(string sound)
@@ -47,14 +71,6 @@ namespace RheinwerkAdventure.Components
         public void PlayClock()
         {
             Play("clock");
-        }
-
-        /// <summary>
-        /// Ding-Geräusch beim Einsammeln von Münzen.
-        /// </summary>
-        public void PlayCoin()
-        {
-            Play("coin");
         }
 
         /// <summary>

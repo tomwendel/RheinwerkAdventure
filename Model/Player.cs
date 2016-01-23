@@ -28,7 +28,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Intern geführte Liste aller angreifbaren Elemente in der Nähe.
         /// </summary>
-        public ICollection<Item> AttackableItems { get; private set; }
+        public ICollection<IAttackable> AttackableItems { get; private set; }
 
         /// <summary>
         /// Angriffsradius in dem Schaden ausgeteilt wird.
@@ -53,7 +53,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Interne auflistung aller Items im Interaktionsradius.
         /// </summary>
-        public ICollection<Item> InteractableItems { get; private set; }
+        public ICollection<IInteractable> InteractableItems { get; private set; }
 
         /// <summary>
         /// Interaktionsradius in dem interagiert werden kann.
@@ -66,6 +66,16 @@ namespace RheinwerkAdventure.Model
         public ICollection<Item> Inventory { get { return inventory; } }
 
         /// <summary>
+        /// Interaktionsradius in dem interagiert werden kann.
+        /// </summary>
+        public bool InteractSignal { get; set; }
+
+        /// <summary>
+        /// Interner Flag um bevorstehenden Angriff zu signalisieren.
+        /// </summary>
+        public bool AttackSignal { get; set; }
+
+        /// <summary>
         /// Aufruf bei ankommenden Treffern.
         /// </summary>
         public Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; set; }
@@ -73,8 +83,8 @@ namespace RheinwerkAdventure.Model
         public Player()
         {
             inventory = new List<Item>();
-            AttackableItems = new List<Item>();
-            InteractableItems = new List<Item>();
+            AttackableItems = new List<IAttackable>();
+            InteractableItems = new List<IInteractable>();
             Fixed = false;
             MaxHitpoints = 4;
             Hitpoints = 4;

@@ -46,6 +46,11 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public string Texture { get; set; }
 
+        /// <summary>
+        /// Action die bei jedem Schleifendurchlauf aufgerufen wird.
+        /// </summary>
+        public Action<RheinwerkGame, Area, Item, GameTime> Update { get; set; }
+
         public Item()
         {
             // Standard-Werte für Kollisionselemente

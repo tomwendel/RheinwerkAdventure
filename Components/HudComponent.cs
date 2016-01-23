@@ -51,16 +51,18 @@ namespace RheinwerkAdventure.Components
         {
             spriteBatch.Begin();
 
-            Vector2 position = game.Simulation.Player.Position;
+            // Infos zum Player ermitteln
+            Area area = game.Local.GetCurrentArea();
+            Vector2 position = game.Local.Player.Position;
 
-            string debugText = string.Format("{0} ({1:0}/{2:0})", game.Simulation.Area.Name, position.X, position.Y);
+            string debugText = string.Format("{0} ({1:0}/{2:0})", area.Name, position.X, position.Y);
 
             // Ausgabe der ersten Debug-Info
             spriteBatch.DrawString(hudFont, debugText, new Vector2(10, 10), Color.White);
 
             // Herzen ausgeben
-            int totalHearts = game.Simulation.Player.MaxHitpoints;
-            int filledHearts = game.Simulation.Player.Hitpoints;
+            int totalHearts = game.Local.Player.MaxHitpoints;
+            int filledHearts = game.Local.Player.Hitpoints;
             int offset = GraphicsDevice.Viewport.Width - (totalHearts * 34) - 10;
             for (int i = 0; i < totalHearts; i++)
             {
@@ -71,7 +73,7 @@ namespace RheinwerkAdventure.Components
             }
 
             // Coins ausgeben
-            string coins = game.Simulation.Player.Inventory.Count((i) => i is Coin).ToString();
+            string coins = game.Local.Player.Inventory.Count((i) => i is Coin).ToString();
             spriteBatch.Draw(coin, new Rectangle(GraphicsDevice.Viewport.Width - 34, 49, 24, 24), Color.White);
             int coinSize = (int)hudFont.MeasureString(coins).X;
             spriteBatch.DrawString(hudFont, coins, new Vector2(GraphicsDevice.Viewport.Width - coinSize - 35, 50), Color.White);

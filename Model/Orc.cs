@@ -21,7 +21,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Intern geführte Liste aller angreifbaren Elemente in der Nähe.
         /// </summary>
-        public ICollection<Item> AttackableItems { get; private set; }
+        public ICollection<IAttackable> AttackableItems { get; private set; }
 
         /// <summary>
         /// Angriffsradius in dem Schaden ausgeteilt wird.
@@ -44,13 +44,18 @@ namespace RheinwerkAdventure.Model
         public TimeSpan Recovery { get; set; }
 
         /// <summary>
+        /// Interner Flag um bevorstehenden Angriff zu signalisieren.
+        /// </summary>
+        public bool AttackSignal { get; set; }
+
+        /// <summary>
         /// Aufruf bei ankommenden Treffern.
         /// </summary>
         public Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; set; }
 
         public Orc()
         {
-            AttackableItems = new List<Item>();
+            AttackableItems = new List<IAttackable>();
             MaxHitpoints = 2;
             Hitpoints = 2;
             AttackRange = 0.3f;

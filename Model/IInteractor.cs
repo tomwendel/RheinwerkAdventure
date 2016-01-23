@@ -11,12 +11,17 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Interne auflistung aller Items im Interaktionsradius.
         /// </summary>
-        ICollection<Item> InteractableItems { get; }
+        ICollection<IInteractable> InteractableItems { get; }
 
         /// <summary>
         /// Interaktionsradius in dem interagiert werden kann.
         /// </summary>
         float InteractionRange { get; }
+
+        /// <summary>
+        /// Interner Flag um bevorstehenden Interact zu signalisieren.
+        /// </summary>
+        bool InteractSignal { get; set; }
     }
 }
 

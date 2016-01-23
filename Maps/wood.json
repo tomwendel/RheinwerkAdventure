@@ -97,6 +97,36 @@
                  "width":32,
                  "x":928,
                  "y":512
+                }, 
+                {
+                 "height":32,
+                 "id":9,
+                 "name":"orc",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":608,
+                 "y":544
+                }, 
+                {
+                 "height":32,
+                 "id":10,
+                 "name":"orc",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":672,
+                 "y":416
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -105,7 +135,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":9,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "properties":
     {

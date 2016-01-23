@@ -11,7 +11,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Intern geführte Liste aller angreifbaren Elemente in der Nähe.
         /// </summary>
-        ICollection<Item> AttackableItems { get; }
+        ICollection<IAttackable> AttackableItems { get; }
 
         /// <summary>
         /// Angriffsradius in dem Schaden ausgeteilt wird.
@@ -32,6 +32,11 @@ namespace RheinwerkAdventure.Model
         /// Gibt die noch verbleibende Erholungszeit an, bevor erneut geschlagen werden kann.
         /// </summary>
         TimeSpan Recovery { get; set; }
+
+        /// <summary>
+        /// Interner Flag um bevorstehenden Angriff zu signalisieren.
+        /// </summary>
+        bool AttackSignal { get; set; }
     }
 }
 

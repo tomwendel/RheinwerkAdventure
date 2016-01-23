@@ -89,21 +89,24 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
-            if (currentArea != game.Simulation.Area)
+            // Aktuelle Area ermitteln
+            Area area = game.Local.GetCurrentArea();
+
+            if (currentArea != area)
             {
                 // Aktuelle Area wechseln
-                currentArea = game.Simulation.Area;
+                currentArea = area;
 
                 // Hintergrund-Song auch wechseln
                 game.Music.Play(currentArea.Song);
 
                 // Initiale Kameraposition (temporär)
                 Vector2 areaSize = new Vector2(currentArea.Width, currentArea.Height);
-                Camera.SetFocusExplizit(game.Simulation.Player.Position, areaSize);
+                Camera.SetFocusExplizit(game.Local.Player.Position, areaSize);
             }
 
             // Platziert den Kamerafokus auf den Spieler.
-            Camera.SetFocus(game.Simulation.Player.Position);
+            Camera.SetFocus(game.Local.Player.Position);
         }
 
         public override void Draw(GameTime gameTime)
@@ -182,8 +185,8 @@ namespace RheinwerkAdventure.Components
 
                 // Ermitteln, ob Item im Interaktionsbereich ist
                 bool highlight = false;
-                if (item is IInteractable && game.Simulation.Player.InteractableItems.Contains(item) ||
-                    item is IAttackable && game.Simulation.Player.AttackableItems.Contains(item))
+                if (item is IInteractable && game.Local.Player.InteractableItems.Contains(item as IInteractable) ||
+                    item is IAttackable && game.Local.Player.AttackableItems.Contains(item as IAttackable))
                     highlight = true;
 
                 // Item rendern

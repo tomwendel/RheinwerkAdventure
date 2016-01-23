@@ -24,16 +24,6 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public World World { get; private set; }
 
-        /// <summary>
-        /// Referenz auf den aktuellen Spieler.
-        /// </summary>
-        public Player Player { get; private set; }
-
-        /// <summary>
-        /// Referenz auf die aktuelle Area in der sich der Spieler gerade befindet.
-        /// </summary>
-        public Area Area { get; private set; }
-
         public SimulationComponent(RheinwerkGame game)
             : base(game)
         {
@@ -47,9 +37,6 @@ namespace RheinwerkAdventure.Components
         {
             World = new World();
             World.Areas.AddRange(MapLoader.LoadAll());
-
-            // Den Spieler einfügen.
-            Area = InsertPlayer(Player = new Player());
         }
 
         /// <summary>
@@ -57,36 +44,22 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         /// <returns>Area in die der Spieler eingefügt wurde</returns>
         /// <param name="player">Player-Instanz</param>
-        private Area InsertPlayer(Player player)
+        public void InsertPlayer(Player player)
         {
-            // TODO: Einen zufälligen Startplatz aus den Verfügbaren auswählen.
-            Area target = World.Areas.Where(a => a.Startpoints.Count > 0).FirstOrDefault();
-            if (target != null)
-            {
-                player.Position = target.Startpoints[0];
-                target.Items.Add(player);
-            }
-            return target;
+            // Den ersten verfügbaren Startplatz finden und nutzen
+            Area target = World.Areas.Where(a => a.Startpoints.Count > 0).First();
+            player.Position = target.Startpoints[0];
+            target.Items.Add(player);
         }
 
         public override void Update(GameTime gameTime)
         {
-            #region Player Input
-
-            if (!game.Input.Handled)
-            {
-                Player.Velocity = game.Input.Movement * Player.MaxSpeed;
-            }
-            else
-            {
-                Player.Velocity = Vector2.Zero;
-            }
-
-            #endregion
-
-            #region Character Movement
-
             List<Action> transfers = new List<Action>();
+
+            // Sichtbaren Bereich ermitteln
+            // TODO: Das wird nur noch für die Sounds benötigt und sollte in SoundComponent ausgelagert werden.
+            Area visibleArea = game.Local.GetCurrentArea();
+
             foreach (var area in World.Areas)
             {
                 // Schleife über alle sich aktiv bewegenden Spiel-Elemente
@@ -131,7 +104,7 @@ namespace RheinwerkAdventure.Components
                             item is IAttackable &&
                             distance.Length() - attacker.AttackRange - item.Radius < 0f)
                         {
-                            attacker.AttackableItems.Add(item);
+                            attacker.AttackableItems.Add(item as IAttackable);
                         }
 
                         // Ermittlung der interagierbaren Items.
@@ -139,7 +112,7 @@ namespace RheinwerkAdventure.Components
                             item is IInteractable &&
                             distance.Length() - interactor.InteractionRange - item.Radius < 0f)
                         {
-                            interactor.InteractableItems.Add(item);
+                            interactor.InteractableItems.Add(item as IInteractable);
                         }
 
                         // Überschneidung berechnen & darauf reagieren
@@ -174,9 +147,6 @@ namespace RheinwerkAdventure.Components
                                         area.Items.Remove(item);
                                         (character as IInventory).Inventory.Add(item);
                                         item.Position = Vector2.Zero;
-
-                                        if (character == Player)
-                                            game.Sound.PlayCoin();
                                     });
                             }
                         }
@@ -188,6 +158,10 @@ namespace RheinwerkAdventure.Components
                 {
                     bool collision = false;
                     int loops = 0;
+
+                    // Standard-Update für das Item
+                    if (item.Update != null)
+                        item.Update(game, area, item, gameTime);
 
                     do
                     {
@@ -311,62 +285,62 @@ namespace RheinwerkAdventure.Components
                                         area.Items.Remove(item);
                                         destinationArea.Items.Add(item);
                                         item.Position = position;
-
-                                        if (item == Player)
-                                            Area = destinationArea;
                                     });
                             }
                         }
 
                         player.InPortal = inPortal;
                     }
+
+                    // Interaktionen durchführen
+                    if (item is IInteractor)
+                    {
+                        IInteractor interactor = item as IInteractor;
+                        if (interactor.InteractSignal)
+                        {
+                            // Alle Items in der Nähe aufrufen
+                            foreach (var interactable in interactor.InteractableItems)
+                            {
+                                if (interactable.OnInteract != null)
+                                    interactable.OnInteract(game, interactor, interactable);
+                            }
+                        }
+                        interactor.InteractSignal = false;
+                    }
+
+                    // Angriff durchführen
+                    if (item is IAttacker)
+                    {
+                        IAttacker attacker = item as IAttacker;
+                        if (attacker.AttackSignal && attacker.Recovery <= TimeSpan.Zero)
+                        {
+                            // Alle Items in der Nähe schlagen
+                            foreach (var attackable in attacker.AttackableItems)
+                            {
+                                attackable.Hitpoints -= attacker.AttackValue;
+                                if (attackable.OnHit != null)
+                                    attackable.OnHit(game, attacker, attackable);
+
+                                // Nur Treffersound spielen, wenn sichtbar
+                                if (area == visibleArea)
+                                    game.Sound.PlayHit();
+                            }
+
+                            // Schlagerholung anstoßen
+                            attacker.Recovery = attacker.TotalRecovery;
+
+                            // Nur abspielen, wenn sichtbar
+                            if (area == visibleArea)
+                                game.Sound.PlaySword();
+                        }
+                        attacker.AttackSignal = false;
+                    }
                 }
             }
 
             // Transfers durchführen
             foreach (var transfer in transfers)
-            {
                 transfer();
-            }
-
-            #endregion
-
-            #region Playerspezifische Interaktion
-
-            // Interaktionen durchführen
-            if (game.Input.Interact)
-            {
-                // Alle Items in der Nähe aufrufen
-                foreach (var item in Player.InteractableItems)
-                {
-                    var interactable = item as IInteractable;
-                    if (interactable.OnInteract != null)
-                        interactable.OnInteract(game, Player, interactable);
-                }
-                game.Input.Handled = true;
-            }
-
-            // Angriff durchführen
-            if (game.Input.Attack && Player.Recovery <= TimeSpan.Zero)
-            {
-                // Alle Items in der Nähe schlagen
-                foreach (var item in Player.AttackableItems)
-                {
-                    var attackable = item as IAttackable;
-                    attackable.Hitpoints -= Player.AttackValue;
-                    if (attackable.OnHit != null)
-                        attackable.OnHit(game, Player, attackable);
-                    game.Sound.PlayHit();
-                }
-
-                // Schlagerholung anstoßen
-                Player.Recovery = Player.TotalRecovery;
-                game.Sound.PlaySword();
-            }
-
-            #endregion
-
-            base.Update(gameTime);
         }
     }
 }
