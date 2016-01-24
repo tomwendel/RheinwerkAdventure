@@ -36,7 +36,8 @@ namespace RheinwerkAdventure.Model
                     Where(i => (i.Position - Host.Position).LengthSquared() < range * range). // Filter nach Angriffsreichweite
                     Where(i => i.GetType() != Host.GetType()).                                // Items vom selben Typ verschonen
                     OrderBy(i => (i.Position - Host.Position).LengthSquared()).               // Sortiert nach Entfernung
-                    OfType<IAttackable>();      // Gefiltert nach Angreifbarkeit
+                    OfType<IAttackable>().                                                    // Gefiltert nach Angreifbarkeit
+                    Where(a => a.Hitpoints > 0);                                              // Gefiltert nach Lebendigkeit
 
                 target = potentialTargets.FirstOrDefault() as Item;
             }
@@ -47,7 +48,8 @@ namespace RheinwerkAdventure.Model
                 attacker.AttackSignal = true;
 
                 // Bei zu großem Abstand vom Ziel ablassen
-                if ((target.Position - Host.Position).LengthSquared() > range * range)
+                if ((target.Position - Host.Position).LengthSquared() > range * range ||
+                    (target as IAttackable).Hitpoints <= 0)
                 {
                     target = null;
                     WalkTo(startPoint.Value, 0.4f);

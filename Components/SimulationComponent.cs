@@ -60,6 +60,10 @@ namespace RheinwerkAdventure.Components
                 // Schleife über alle sich aktiv bewegenden Spiel-Elemente
                 foreach (var character in area.Items.OfType<Character>())
                 {
+                    // Tote Charactere ignorieren
+                    if (character is IAttackable && (character as IAttackable).Hitpoints <= 0)
+                        continue;
+
                     // KI Update
                     if (character.Ai != null)
                         character.Ai.Update(area, gameTime);

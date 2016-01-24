@@ -25,6 +25,12 @@ namespace RheinwerkAdventure.Components
         public Texture2D Pixel { get; private set; }
 
         /// <summary>
+        /// Standard Auswahlpfeil
+        /// </summary>
+        /// <value>The arrow.</value>
+        public Texture2D Arrow { get; private set; }
+
+        /// <summary>
         /// Standard-Schriftart für Dialoge
         /// </summary>
         public SpriteFont Font { get; private set; }
@@ -116,6 +122,13 @@ namespace RheinwerkAdventure.Components
             Border = new NineTileRenderer(texture, new Rectangle(283, 200, 93, 94), new Point(30, 30));
             Button = new NineTileRenderer(texture, new Rectangle(0, 282, 190, 49), new Point(10, 10));
             ButtonHovered = new NineTileRenderer(texture, new Rectangle(0, 143, 190, 45), new Point(10, 10));
+
+            // Arrow
+            Rectangle source = new Rectangle(325, 486, 22, 21);
+            Color[] buffer = new Color[source.Width * source.Height];
+            texture.GetData(0, source, buffer, 0, buffer.Length);
+            Arrow = new Texture2D(GraphicsDevice, source.Width, source.Height);
+            Arrow.SetData(buffer);
 
             // Icon-Texturen sammeln
             List<string> requiredIconTextures = new List<string>();

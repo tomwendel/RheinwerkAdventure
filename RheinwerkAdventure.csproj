@@ -70,7 +70,9 @@
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Components\MusicComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
-    <Compile Include="Components\ScreenComponent.cs" />
+    <Compile Include="Components\ScreenComponent.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\Label.cs" />
@@ -95,6 +97,9 @@
     <Compile Include="Model\AggressiveAi.cs" />
     <Compile Include="Model\Ai.cs" />
     <Compile Include="Model\WalkingAi.cs" />
+    <Compile Include="Model\Dialog.cs" />
+    <Compile Include="Screens\DialogScreen.cs" />
+    <Compile Include="Controls\DialogList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
