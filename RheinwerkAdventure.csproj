@@ -103,6 +103,11 @@
     <Compile Include="Model\Quest.cs" />
     <Compile Include="Model\QuestProgress.cs" />
     <Compile Include="Model\GoldenCoin.cs" />
+    <Compile Include="Screens\TradeScreen.cs" />
+    <Compile Include="Controls\TraderList.cs" />
+    <Compile Include="Model\Gloves.cs" />
+    <Compile Include="Model\WoodSword.cs" />
+    <Compile Include="Model\IronSword.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -212,6 +217,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\coin_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\woodswordicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\glovesicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\ironswordicon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

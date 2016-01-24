@@ -5,6 +5,7 @@ using RheinwerkAdventure.Screens;
 using Microsoft.Xna.Framework.Graphics;
 using RheinwerkAdventure.Rendering;
 using System.IO;
+using RheinwerkAdventure.Model;
 
 namespace RheinwerkAdventure.Components
 {
@@ -133,9 +134,25 @@ namespace RheinwerkAdventure.Components
             // Icon-Texturen sammeln
             List<string> requiredIconTextures = new List<string>();
             foreach (var area in Game.Simulation.World.Areas)
+            {
                 foreach (var item in area.Items)
+                {
+                    // Item Icons
                     if (!string.IsNullOrEmpty(item.Icon) && !requiredIconTextures.Contains(item.Icon))
                         requiredIconTextures.Add(item.Icon);
+
+                    // Inventory Icons
+                    if (item is IInventory)
+                    {
+                        IInventory inventory = item as IInventory;
+                        foreach (var inventoryItem in inventory.Inventory)
+                        {
+                            if (!string.IsNullOrEmpty(inventoryItem.Icon) && !requiredIconTextures.Contains(inventoryItem.Icon))
+                                requiredIconTextures.Add(inventoryItem.Icon);
+                        }
+                    }
+                }
+            }
 
             // Erforderliche Icon-Texturen direkt aus dem Stream laden
             string path = Path.Combine(Environment.CurrentDirectory, "Content");

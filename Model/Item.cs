@@ -22,6 +22,11 @@ namespace RheinwerkAdventure.Model
         public string Icon { get; set; }
 
         /// <summary>
+        /// Kosten im Handel oder null, falls unverkäuflich
+        /// </summary>
+        public int? Value { get; set; }
+
+        /// <summary>
         /// Die Masse des Objektes.
         /// </summary>
         public float Mass { get; set; }
