@@ -77,6 +77,15 @@ namespace RheinwerkAdventure.Components
             spriteBatch.Draw(coin, new Rectangle(GraphicsDevice.Viewport.Width - 34, 49, 24, 24), Color.White);
             int coinSize = (int)hudFont.MeasureString(coins).X;
             spriteBatch.DrawString(hudFont, coins, new Vector2(GraphicsDevice.Viewport.Width - coinSize - 35, 50), Color.White);
+
+            // Quest anzeigen
+            Quest quest = game.Simulation.World.Quests.FirstOrDefault(q => q.State != QuestState.Inactive);
+            if (quest != null)
+            {
+                spriteBatch.DrawString(hudFont, quest.Name, new Vector2(10, 40), Color.White);
+                spriteBatch.DrawString(hudFont, quest.CurrentProgress.Description, new Vector2(10, 60), Color.White);
+            }
+
             spriteBatch.End();
         }
     }

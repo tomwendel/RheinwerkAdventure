@@ -7,6 +7,10 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal interface ICollectable
     {
+        /// <summary>
+        /// Action die aufgerufen wird, wenn das Item eingesammelt wird.
+        /// </summary>
+        Action<RheinwerkGame, Item> OnCollect { get; }
     }
 }
 

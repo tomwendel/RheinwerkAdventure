@@ -100,6 +100,9 @@
     <Compile Include="Model\Dialog.cs" />
     <Compile Include="Screens\DialogScreen.cs" />
     <Compile Include="Controls\DialogList.cs" />
+    <Compile Include="Model\Quest.cs" />
+    <Compile Include="Model\QuestProgress.cs" />
+    <Compile Include="Model\GoldenCoin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -206,6 +209,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\sword.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\coin_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

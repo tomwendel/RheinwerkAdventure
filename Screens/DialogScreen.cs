@@ -14,16 +14,19 @@ namespace RheinwerkAdventure.Screens
     {
         private Item speaker;
 
+        private Player player;
+
         private Dialog current;
 
         private Label message;
 
         private DialogList list;
 
-        public DialogScreen(ScreenComponent manager, Item speaker, Dialog entry) 
+        public DialogScreen(ScreenComponent manager, Item speaker, Player player, Dialog entry) 
             : base(manager)
         {
             this.speaker = speaker;
+            this.player = player;
             current = entry;
 
             Controls.Add(new Icon(manager) { Position = new Rectangle(10, 10, 24, 24), Texture = speaker.Icon });
@@ -40,6 +43,10 @@ namespace RheinwerkAdventure.Screens
         /// </summary>
         private void Refill()
         {
+            // OnShow-Action ausführen
+            if (current.OnShow != null)
+                current.OnShow(Manager.Game, player);
+
             message.Text = current.Message;
 
             list.SelectedItem = null;

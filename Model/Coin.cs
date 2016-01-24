@@ -7,6 +7,8 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Coin : Item, ICollectable
     {
+        public Action<RheinwerkGame, Item> OnCollect { get; set; }
+
         public Coin()
         {
             // Standard-Masse für Diamanten

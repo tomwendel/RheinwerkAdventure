@@ -37,6 +37,18 @@ namespace RheinwerkAdventure.Components
         {
             World = new World();
             World.Areas.AddRange(MapLoader.LoadAll());
+
+            // Quests erstellen
+            Quest quest = new Quest()
+            {
+                    Name = "Heidis Quest",
+            };
+            World.Quests.Add(quest);
+
+            quest.QuestProgresses.Add(new QuestProgress() { Id = "search", Description = "Gehe auf die Suche nach der goldenen Muenze" });
+            quest.QuestProgresses.Add(new QuestProgress() { Id = "return", Description = "Bring die Muenze zurueck" });
+            quest.QuestProgresses.Add(new QuestProgress() { Id = "success", Description = "Das Dorf wird dir ewig dankbar sein" });
+            quest.QuestProgresses.Add(new QuestProgress() { Id = "fail", Description = "Die Muenze ist fuer immer verloren" });
         }
 
         /// <summary>
@@ -144,6 +156,8 @@ namespace RheinwerkAdventure.Components
                             // Kombination aus Collectable und Iventory
                             if (item is ICollectable && character is IInventory)
                             {
+                                ICollectable collectable = item as ICollectable;
+
                                 //  -> Character sammelt Item ein
                                 transfers.Add(() =>
                                     {
@@ -151,6 +165,10 @@ namespace RheinwerkAdventure.Components
                                         (character as IInventory).Inventory.Add(item);
                                         item.Position = Vector2.Zero;
                                     });
+
+                                // Event aufrufen
+                                if (collectable.OnCollect != null)
+                                    collectable.OnCollect(game, item);
                             }
                         }
                     }

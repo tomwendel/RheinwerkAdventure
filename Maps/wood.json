@@ -127,6 +127,21 @@
                  "width":32,
                  "x":672,
                  "y":416
+                }, 
+                {
+                 "height":32,
+                 "id":12,
+                 "name":"goldencoin",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"Item",
+                 "visible":true,
+                 "width":32,
+                 "x":352,
+                 "y":544
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -135,7 +150,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":12,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "properties":
     {

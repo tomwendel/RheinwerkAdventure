@@ -133,6 +133,7 @@ namespace RheinwerkAdventure.Components
                             switch (item.name)
                             {
                                 case "coin": area.Items.Add(new Coin() { Position = pos }); break;
+                                case "goldencoin": area.Items.Add(new GoldenCoin() { Position = pos }); break;
                                 case "decard": area.Items.Add(new Decard() { Position = pos }); break;
                                 case "heidi": area.Items.Add(new Heidi() { Position = pos }); break;
                                 case "orc": area.Items.Add(new Orc() { Position = pos }); break;

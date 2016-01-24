@@ -38,6 +38,11 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public List<Dialog> Options { get; set; }
 
+        /// <summary>
+        /// Delegat für den Aufruf dieser Option.
+        /// </summary>
+        public Action<RheinwerkGame, Item> OnShow { get; set; }
+
         public Dialog()
         {
             Options = new List<Dialog>();
