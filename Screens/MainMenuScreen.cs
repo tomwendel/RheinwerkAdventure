@@ -2,15 +2,19 @@
 using RheinwerkAdventure.Components;
 using Microsoft.Xna.Framework;
 using RheinwerkAdventure.Controls;
+using RheinwerkAdventure.Model;
 
 namespace RheinwerkAdventure.Screens
 {
+    /// <summary>
+    /// Das Hauptmenü
+    /// </summary>
     internal class MainMenuScreen : Screen
     {
         private MenuList menu;
 
         private ListItem newGameItem = new ListItem() { Text = "Neues Spiel" };
-        private ListItem networkItem = new ListItem() { Text = "Mehrspieler", Enabled = false };
+        private ListItem networkItem = new ListItem() { Text = "Mehrspieler"};
         private ListItem optionsItem = new ListItem() { Text = "Optionen", Enabled = false };
         private ListItem exitItem = new ListItem() { Text = "Beenden" };
 
@@ -34,12 +38,22 @@ namespace RheinwerkAdventure.Screens
         {
             if (item == newGameItem)
             {
+                // Neues Spiel erstellen
                 Manager.Game.Simulation.NewGame();
+                Manager.Game.Local.Player = new Player();
+                Manager.Game.Simulation.InsertPlayer(Manager.Game.Local.Player);
                 Manager.CloseScreen();
+            }
+
+            if (item == networkItem)
+            {
+                // Netzwerk-Spiel
+                Manager.ShowScreen(new NetworkScreen(Manager));
             }
 
             if (item == exitItem)
             {
+                // Anwendung beenden
                 Manager.Game.Exit();
                 Manager.CloseScreen();
             }
@@ -49,7 +63,7 @@ namespace RheinwerkAdventure.Screens
         {
             if (!Manager.Game.Input.Handled)
             {
-                if (Manager.Game.Input.Close)
+                if (Manager.Game.Input.Close && Manager.Game.Simulation.World != null)
                 {
                     Manager.CloseScreen();
                     Manager.Game.Input.Handled = true;

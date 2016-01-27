@@ -8,8 +8,14 @@ using Microsoft.Xna.Framework;
 
 namespace RheinwerkAdventure.Components
 {
+    /// <summary>
+    /// Hilfsklasse zum dynamischen Laden von Areas
+    /// </summary>
     internal static class MapLoader
     {
+        /// <summary>
+        /// Lädt alle Areas die sich aktuell im Maps-Verzeichnis befinden.
+        /// </summary>
         public static Area[] LoadAll()
         {
             // Alle json-Files im Map-Folder suchen
@@ -24,6 +30,9 @@ namespace RheinwerkAdventure.Components
             return result;
         }
 
+        /// <summary>
+        /// Lädt die angegebene Datei in der Hoffnung um eine Area.
+        /// </summary>
         public static Area LoadFromJson(string file)
         {
             FileInfo info = new FileInfo(file);

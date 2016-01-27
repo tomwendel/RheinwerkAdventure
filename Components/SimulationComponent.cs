@@ -28,9 +28,6 @@ namespace RheinwerkAdventure.Components
             : base(game)
         {
             this.game = game;
-
-            // Zu Beginn eine neue Spielwelt erzeugen.
-            NewGame();
         }
 
         public void NewGame()
@@ -66,6 +63,14 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
+
+            // Nur berechnen, falls eine Welt aktiv ist.
+            if (World == null)
+                return;
+
             List<Action> transfers = new List<Action>();
             foreach (var area in World.Areas)
             {

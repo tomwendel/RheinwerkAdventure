@@ -31,30 +31,36 @@ namespace RheinwerkAdventure.Components
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             hudFont = Game.Content.Load<SpriteFont>("HudFont");
+            hearts = Game.Content.Load<Texture2D>("hearts");
+            coin = Game.Content.Load<Texture2D>("coinicon");
+        }
 
-            string mapPath = Path.Combine(Environment.CurrentDirectory, "Content");
+        public override void Update(GameTime gameTime)
+        {
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
 
-            // Herzchen laden
-            using (Stream stream = File.OpenRead(mapPath + "\\hearts.png"))
-            {
-                hearts = Texture2D.FromStream(GraphicsDevice, stream);
-            }
-
-            // Münz-Icon laden
-            using (Stream stream = File.OpenRead(mapPath + "\\coinicon.png"))
-            {
-                coin = Texture2D.FromStream(GraphicsDevice, stream);
-            }
+            // Nur arbeiten, wenn es eine Welt, einen Player und eine aktive Area gibt.
+            Area area = game.Local.GetCurrentArea();
+            if (game.Simulation.World == null || game.Local.Player == null || area == null)
+                return;
         }
 
         public override void Draw(GameTime gameTime)
         {
+            // Nur wenn Komponente sichtbar ist.
+            if (!Visible)
+                return;
+
+            // Nur arbeiten, wenn es eine Welt, einen Player und eine aktive Area gibt.
+            Area area = game.Local.GetCurrentArea();
+            if (game.Simulation.World == null || game.Local.Player == null || area == null)
+                return;
+
             spriteBatch.Begin();
 
-            // Infos zum Player ermitteln
-            Area area = game.Local.GetCurrentArea();
             Vector2 position = game.Local.Player.Position;
-
             string debugText = string.Format("{0} ({1:0}/{2:0})", area.Name, position.X, position.Y);
 
             // Ausgabe der ersten Debug-Info

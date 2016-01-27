@@ -14,9 +14,13 @@ namespace RheinwerkAdventure.Components
     /// </summary>
     internal class ScreenComponent : DrawableGameComponent
     {
+        private readonly string contentPath = Path.Combine(Environment.CurrentDirectory, "Content");
+
         private readonly Stack<Screen> screens;
 
         private SpriteBatch spriteBatch;
+
+        private Dictionary<string, Texture2D> icons;
 
         #region Shared Resources
 
@@ -57,9 +61,9 @@ namespace RheinwerkAdventure.Components
         public NineTileRenderer Border { get; private set; }
 
         /// <summary>
-        /// Dictionary von Item Icons.
+        /// Textur für die Wartemünze
         /// </summary>
-        public Dictionary<string, Texture2D> Icons { get; private set; }
+        public Texture2D WaitingCoin { get; private set; }
 
         #endregion
 
@@ -81,7 +85,7 @@ namespace RheinwerkAdventure.Components
         {
             Game = game;
             screens = new Stack<Screen>();
-            Icons = new Dictionary<string, Texture2D>();
+            icons = new Dictionary<string, Texture2D>();
         }
 
         /// <summary>
@@ -131,42 +135,39 @@ namespace RheinwerkAdventure.Components
             Arrow = new Texture2D(GraphicsDevice, source.Width, source.Height);
             Arrow.SetData(buffer);
 
-            // Icon-Texturen sammeln
-            List<string> requiredIconTextures = new List<string>();
-            foreach (var area in Game.Simulation.World.Areas)
-            {
-                foreach (var item in area.Items)
-                {
-                    // Item Icons
-                    if (!string.IsNullOrEmpty(item.Icon) && !requiredIconTextures.Contains(item.Icon))
-                        requiredIconTextures.Add(item.Icon);
+            // Waiting Coin
+            WaitingCoin = Game.Content.Load<Texture2D>("coin_gold");
 
-                    // Inventory Icons
-                    if (item is IInventory)
-                    {
-                        IInventory inventory = item as IInventory;
-                        foreach (var inventoryItem in inventory.Inventory)
-                        {
-                            if (!string.IsNullOrEmpty(inventoryItem.Icon) && !requiredIconTextures.Contains(inventoryItem.Icon))
-                                requiredIconTextures.Add(inventoryItem.Icon);
-                        }
-                    }
+            ShowScreen(new MainMenuScreen(this));
+        }
+
+        public Texture2D GetIcon(string name)
+        {
+            // Leere Strings ignorieren
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            // Bereits geladene Texturen ignorieren
+            Texture2D result;
+            if (!icons.TryGetValue(name, out result))
+            {
+                // Textur nachladen
+                using (Stream stream = File.OpenRead(contentPath + "\\" + name))
+                {
+                    result = Texture2D.FromStream(GraphicsDevice, stream);
+                    icons.Add(name, result);
                 }
             }
 
-            // Erforderliche Icon-Texturen direkt aus dem Stream laden
-            string path = Path.Combine(Environment.CurrentDirectory, "Content");
-            foreach (var textureName in requiredIconTextures)
-            {
-                using (Stream stream = File.OpenRead(path + "\\" + textureName))
-                {
-                    Icons.Add(textureName, Texture2D.FromStream(GraphicsDevice, stream));
-                }
-            }
+            return result;
         }
 
         public override void Update(GameTime gameTime)
         {
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
+            
             Screen activeScreen = ActiveScreen;
             if (activeScreen != null)
             {
@@ -199,8 +200,14 @@ namespace RheinwerkAdventure.Components
 
         public override void Draw(GameTime gameTime)
         {
+            // Nur wenn Komponente sichtbar ist.
+            if (!Visible)
+                return;
+            
             spriteBatch.Begin(samplerState: SamplerState.LinearWrap);
-            foreach (var screen in screens)
+            var list = screens.ToArray();
+            Array.Reverse(list);
+            foreach (var screen in list)
                 screen.Draw(gameTime, spriteBatch);
             spriteBatch.End();
         }

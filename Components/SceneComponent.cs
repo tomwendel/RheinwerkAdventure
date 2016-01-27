@@ -14,6 +14,10 @@ namespace RheinwerkAdventure.Components
     /// </summary>
     internal class SceneComponent : DrawableGameComponent
     {
+        private readonly string mapPath = Path.Combine(Environment.CurrentDirectory, "Maps");
+
+        private readonly string contentPath = Path.Combine(Environment.CurrentDirectory, "Content");
+
         private readonly RheinwerkGame game;
 
         private readonly Dictionary<string, Texture2D> tilesetTextures;
@@ -25,6 +29,8 @@ namespace RheinwerkAdventure.Components
         private SpriteBatch spriteBatch;
 
         private SpriteFont font;
+
+        private Texture2D background;
 
         private Area currentArea = null;
 
@@ -47,50 +53,61 @@ namespace RheinwerkAdventure.Components
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Camera = new Camera(GraphicsDevice.Viewport.Bounds.Size);
             font = Game.Content.Load<SpriteFont>("HudFont");
+            background = Game.Content.Load<Texture2D>("background");
+        }
 
-            // Erforderliche Texturen ermitteln
-            List<string> requiredTilesetTextures = new List<string>();
-            List<string> requiredItemTextures = new List<string>();
-            foreach (var area in game.Simulation.World.Areas)
+        public Texture2D GetTileset(string name)
+        {
+            // Leere Strings ignorieren
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            // Bereits geladene Texturen ignorieren
+            Texture2D result;
+            if (!tilesetTextures.TryGetValue(name, out result))
             {
-                // Tile-Textures
-                foreach (var tile in area.Tiles.Values)
-                    if (!requiredTilesetTextures.Contains(tile.Texture))
-                        requiredTilesetTextures.Add(tile.Texture);
-
-                // Item Textures
-                foreach (var item in area.Items)
-                    if (!string.IsNullOrEmpty(item.Texture) && !requiredItemTextures.Contains(item.Texture))
-                        requiredItemTextures.Add(item.Texture);
-            }
-
-            // Erforderlichen Tileset-Texturen direkt aus dem Stream laden
-            string mapPath = Path.Combine(Environment.CurrentDirectory, "Maps");
-            foreach (var textureName in requiredTilesetTextures)
-            {
-                using (Stream stream = File.OpenRead(mapPath + "\\" + textureName))
+                // Textur nachladen
+                using (Stream stream = File.OpenRead(mapPath + "\\" + name))
                 {
-                    Texture2D texture = Texture2D.FromStream(GraphicsDevice, stream);
-                    tilesetTextures.Add(textureName, texture);
+                    result = Texture2D.FromStream(GraphicsDevice, stream);
+                    tilesetTextures.Add(name, result);
                 }
             }
 
-            // Erforderliche Item-Texturen direkt aus dem Stream laden
-            mapPath = Path.Combine(Environment.CurrentDirectory, "Content");
-            foreach (var textureName in requiredItemTextures)
+            return result;
+        }
+
+        public Texture2D GetItemTexture(string name)
+        {
+            // Leere Strings ignorieren
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            // Bereits geladene Texturen ignorieren
+            Texture2D result;
+            if (!itemTextures.TryGetValue(name, out result))
             {
-                using (Stream stream = File.OpenRead(mapPath + "\\" + textureName))
+                // Textur nachladen
+                using (Stream stream = File.OpenRead(contentPath + "\\" + name))
                 {
-                    Texture2D texture = Texture2D.FromStream(GraphicsDevice, stream);
-                    itemTextures.Add(textureName, texture);
+                    result = Texture2D.FromStream(GraphicsDevice, stream);
+                    itemTextures.Add(name, result);
                 }
             }
+
+            return result;
         }
 
         public override void Update(GameTime gameTime)
         {
-            // Aktuelle Area ermitteln
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
+
+            // Nur arbeiten, wenn es eine Welt, einen Player und eine aktive Area gibt.
             Area area = game.Local.GetCurrentArea();
+            if (game.Simulation.World == null || game.Local.Player == null || area == null)
+                return;
 
             if (currentArea != area)
             {
@@ -108,6 +125,21 @@ namespace RheinwerkAdventure.Components
 
         public override void Draw(GameTime gameTime)
         {
+            // Nur wenn Komponente sichtbar ist.
+            if (!Visible)
+                return;
+
+            // Nur arbeiten, wenn es eine Welt, einen Player und eine aktive Area gibt.
+            Area area = game.Local.GetCurrentArea();
+            if (game.Simulation.World == null || game.Local.Player == null || area == null)
+            {
+                // Standard-Hintergrund
+                spriteBatch.Begin(samplerState: SamplerState.LinearWrap);
+                spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, GraphicsDevice.Viewport.Bounds, Color.White);
+                spriteBatch.End();
+                return;
+            }
+            
             // Bildschirm leeren
             GraphicsDevice.Clear(currentArea.Background);
 
@@ -144,7 +176,7 @@ namespace RheinwerkAdventure.Components
 
                     // Tile ermitteln
                     Tile tile = area.Tiles[tileId];
-                    Texture2D texture = tilesetTextures[tile.Texture];
+                    Texture2D texture = GetTileset(tile.Texture);
 
                     // Position ermitteln
                     int offsetX = (int)(x * Camera.Scale) - offset.X;
@@ -170,7 +202,7 @@ namespace RheinwerkAdventure.Components
                 {
                     // ACHTUNG: Hier können potentiell neue Items nachträglich hinzu kommen zu denen die Textur noch fehlt
                     // Das muss geprüft und ggf nachgeladen werden.
-                    Texture2D texture = itemTextures[item.Texture];
+                    Texture2D texture = GetItemTexture(item.Texture);
                     
                     if (item is Character)
                         renderer = new CharacterRenderer(item as Character, Camera, texture, font);

@@ -15,15 +15,12 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Referenz auf den aktuellen Spieler.
         /// </summary>
-        public Player Player { get; private set; }
+        public Player Player { get; set; }
 
         public LocalComponent(RheinwerkGame game)
             : base(game)
         {
             this.game = game;
-
-            // Den Spieler einfügen.
-            game.Simulation.InsertPlayer(Player = new Player());
         }
 
         /// <summary>
@@ -32,11 +29,22 @@ namespace RheinwerkAdventure.Components
         /// <returns>The current area.</returns>
         public Area GetCurrentArea()
         {
+            if (Player == null || game.Simulation.World == null)
+                return null;
+
             return game.Simulation.World.Areas.FirstOrDefault(a => a.Items.Contains(game.Local.Player));
         }
 
         public override void Update(GameTime gameTime)
         {
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
+
+            // Nur arbeiten, wenn Player gesetzt wurde.
+            if (Player == null)
+                return;
+
             if (!game.Input.Handled)
             {
                 Player.Velocity = game.Input.Movement * Player.MaxSpeed;

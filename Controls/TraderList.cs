@@ -38,7 +38,7 @@ namespace RheinwerkAdventure.Controls
                 // Icon rendern
                 if (!string.IsNullOrEmpty(item.Icon))
                 {
-                    Texture2D icon = Manager.Icons[item.Icon];
+                    Texture2D icon = Manager.GetIcon(item.Icon);
                     int margin = (width - icon.Width * 2) / 2;
                     spriteBatch.Draw(icon, new Rectangle(x + margin, y + 20, 42, 42), Color.White * alpha);
                 }

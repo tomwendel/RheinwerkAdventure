@@ -86,6 +86,10 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
+            
             Vector2 movement = Vector2.Zero;
             bool up = false;
             bool down = false;

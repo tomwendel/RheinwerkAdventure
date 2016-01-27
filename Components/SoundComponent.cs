@@ -48,6 +48,15 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
+
+            // Nur arbeiten, wenn es eine Welt, einen Player und eine aktive Area gibt.
+            Area nextArea = game.Local.GetCurrentArea();
+            if (game.Simulation.World == null || game.Local.Player == null || nextArea == null)
+                return;
+            
             // Reset aller Variablen falls sich der Player ändert
             if (player != game.Local.Player)
             {
@@ -57,7 +66,6 @@ namespace RheinwerkAdventure.Components
             }
 
             // Reset der Item variablen falls sich die Area ändert
-            Area nextArea = game.Local.GetCurrentArea();
             if (area != nextArea)
             {
                 area = nextArea;

@@ -7,6 +7,9 @@ using RheinwerkAdventure.Rendering;
 
 namespace RheinwerkAdventure.Controls
 {
+    /// <summary>
+    /// Listencontrol zur Auflistung des Inventars
+    /// </summary>
     internal class InventoryList : VerticalListControl<InventoryItem>
     {
         public InventoryList(ScreenComponent manager) 
@@ -26,7 +29,7 @@ namespace RheinwerkAdventure.Controls
                 // Icon rendern
                 if (!string.IsNullOrEmpty(item.Icon))
                 {
-                    Texture2D icon = Manager.Icons[item.Icon];
+                    Texture2D icon = Manager.GetIcon(item.Icon);
                     int margin = (50 - 24) / 2;
                     spriteBatch.Draw(icon, new Rectangle(x + margin, y + margin, 24, 24), Color.White);
                 }
@@ -43,14 +46,24 @@ namespace RheinwerkAdventure.Controls
         }
     }
 
+    /// <summary>
+    /// Inventar-Item
+    /// </summary>
     internal class InventoryItem : ListItem
     {
+        /// <summary>
+        /// Icon-Schlüssel
+        /// </summary>
         public string Icon { get; set; }
 
+        /// <summary>
+        /// Anzahl enthaltener Items des selben Typs
+        /// </summary>
         public int Count { get; set; }
 
         public InventoryItem()
         {
+            // Standardmäßig deaktiviert, damit keine Auswahl passiert.
             Enabled = false;
         }
     }

@@ -55,12 +55,17 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
-            // Aktuelle Area ermitteln
+            // Nur wenn Komponente aktiviert wurde.
+            if (!Enabled)
+                return;
+            
+            // Nur arbeiten, wenn es eine Welt, einen Player und eine aktive Area gibt.
             Area area = game.Local.GetCurrentArea();
             if (currentArea != area)
             {
                 currentArea = area;
-                Play(currentArea.Song);
+                if (currentArea != null)
+                    Play(currentArea.Song);
             }
 
             // Override verhindern

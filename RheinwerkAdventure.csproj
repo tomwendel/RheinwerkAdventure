@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{62CEDD94-B575-47D6-A725-7BB3ACF73A97}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>RheinwerkAdventure</RootNamespace>
     <AssemblyName>RheinwerkAdventure</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -70,9 +70,7 @@
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Components\MusicComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
-    <Compile Include="Components\ScreenComponent.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Components\ScreenComponent.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\Label.cs" />
@@ -108,6 +106,13 @@
     <Compile Include="Model\Gloves.cs" />
     <Compile Include="Model\WoodSword.cs" />
     <Compile Include="Model\IronSword.cs" />
+    <Compile Include="Screens\NetworkScreen.cs" />
+    <Compile Include="Screens\ServerScreen.cs" />
+    <Compile Include="Components\ServerComponent.cs" />
+    <Compile Include="Components\ClientComponent.cs" />
+    <Compile Include="Screens\ClientScreen.cs" />
+    <Compile Include="Controls\DialogButtons.cs" />
+    <Compile Include="Controls\LoadingIcon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -155,9 +160,7 @@
     <None Include="Content\coin_silver.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\hearts.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Content\hearts.png" />
     <None Include="Content\houseloop.wav" />
     <None Include="Content\menuloop.wav" />
     <None Include="Content\townloop.wav" />
@@ -226,6 +229,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\ironswordicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\coinicon.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\hearts.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\background.png" />
+    <None Include="Content\background.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\coin_gold.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

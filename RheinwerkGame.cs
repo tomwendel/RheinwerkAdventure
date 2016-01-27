@@ -34,6 +34,10 @@ namespace RheinwerkAdventure
 
         public LocalComponent Local { get; private set; }
 
+        public ServerComponent Server { get; private set; }
+
+        public ClientComponent Client { get; private set; }
+
         public RheinwerkGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,36 +48,44 @@ namespace RheinwerkAdventure
             Input.UpdateOrder = 0;
             Components.Add(Input);
 
+            Client = new ClientComponent(this);
+            Client.UpdateOrder = 1;
+            Components.Add(Client);
+
+            Server = new ServerComponent(this);
+            Server.UpdateOrder = 2;
+            Components.Add(Server);
+
             Screen = new ScreenComponent(this);
-            Screen.UpdateOrder = 1;
+            Screen.UpdateOrder = 3;
             Screen.DrawOrder = 2;
             Components.Add(Screen);
 
+            Local = new LocalComponent(this);
+            Local.UpdateOrder = 4;
+            Components.Add(Local);
+
             Simulation = new SimulationComponent(this);
-            Simulation.UpdateOrder = 3;
+            Simulation.UpdateOrder = 5;
             Components.Add(Simulation);
 
             Scene = new SceneComponent(this);
-            Scene.UpdateOrder = 4;
+            Scene.UpdateOrder = 6;
             Scene.DrawOrder = 0;
             Components.Add(Scene);
 
             Hud = new HudComponent(this);
-            Hud.UpdateOrder = 5;
+            Hud.UpdateOrder = 7;
             Hud.DrawOrder = 1;
             Components.Add(Hud);
 
             Music = new MusicComponent(this);
-            Music.UpdateOrder = 6;
+            Music.UpdateOrder = 8;
             Components.Add(Music);
 
             Sound = new SoundComponent(this);
-            Sound.UpdateOrder = 7;
+            Sound.UpdateOrder = 9;
             Components.Add(Sound);
-
-            Local = new LocalComponent(this);
-            Local.UpdateOrder = 2;
-            Components.Add(Local);
         }
     }
 }
