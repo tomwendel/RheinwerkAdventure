@@ -38,7 +38,7 @@ namespace RheinwerkAdventure.Components
             // Quests erstellen
             Quest quest = new Quest()
             {
-                    Name = "Heidis Quest",
+                Name = "Heidis Quest",
             };
             World.Quests.Add(quest);
 
@@ -46,6 +46,11 @@ namespace RheinwerkAdventure.Components
             quest.QuestProgresses.Add(new QuestProgress() { Id = "return", Description = "Bring die Muenze zurueck" });
             quest.QuestProgresses.Add(new QuestProgress() { Id = "success", Description = "Das Dorf wird dir ewig dankbar sein" });
             quest.QuestProgresses.Add(new QuestProgress() { Id = "fail", Description = "Die Muenze ist fuer immer verloren" });
+        }
+
+        public void CloseGame()
+        {
+            World = null;
         }
 
         /// <summary>
@@ -59,6 +64,21 @@ namespace RheinwerkAdventure.Components
             Area target = World.Areas.Where(a => a.Startpoints.Count > 0).First();
             player.Position = target.Startpoints[0];
             target.Items.Add(player);
+        }
+
+        public void RemovePlayer(Player player)
+        {
+            if (World == null)
+                return;
+            
+            foreach (var area in World.Areas)
+            {
+                if (area.Items.Contains(player))
+                {
+                    area.Items.Remove(player);
+                    break;
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)

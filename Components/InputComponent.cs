@@ -101,16 +101,22 @@ namespace RheinwerkAdventure.Components
             bool interact = false;
 
             // Gamepad Steuerung
-            GamePadState gamePad = GamePad.GetState(PlayerIndex.One);
-            movement += gamePad.ThumbSticks.Left * new Vector2(1f, -1f);
-            left |= gamePad.ThumbSticks.Left.X < -0.5f;
-            right |= gamePad.ThumbSticks.Left.X > 0.5f;
-            up |= gamePad.ThumbSticks.Left.Y > 0.5f;
-            down |= gamePad.ThumbSticks.Left.Y < -0.5f;
-            close |= gamePad.Buttons.B == ButtonState.Pressed;
-            inventory |= gamePad.Buttons.Y == ButtonState.Pressed;
-            attack |= gamePad.Buttons.X == ButtonState.Pressed;
-            interact |= gamePad.Buttons.A == ButtonState.Pressed;
+            try
+            {
+                GamePadState gamePad = GamePad.GetState(PlayerIndex.One);
+                movement += gamePad.ThumbSticks.Left * new Vector2(1f, -1f);
+                left |= gamePad.ThumbSticks.Left.X < -0.5f;
+                right |= gamePad.ThumbSticks.Left.X > 0.5f;
+                up |= gamePad.ThumbSticks.Left.Y > 0.5f;
+                down |= gamePad.ThumbSticks.Left.Y < -0.5f;
+                close |= gamePad.Buttons.B == ButtonState.Pressed;
+                inventory |= gamePad.Buttons.Y == ButtonState.Pressed;
+                attack |= gamePad.Buttons.X == ButtonState.Pressed;
+                interact |= gamePad.Buttons.A == ButtonState.Pressed;
+            }
+            catch
+            {
+            }
 
             // Keyboard Steuerung
             KeyboardState keyboard = Keyboard.GetState();
