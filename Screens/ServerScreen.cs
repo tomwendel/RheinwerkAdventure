@@ -42,6 +42,7 @@ namespace RheinwerkAdventure.Screens
                 Manager.Game.Server.StartGame();
                 Manager.CloseScreen();
                 Manager.CloseScreen();
+                Manager.CloseScreen();
             }
 
             // Bei Abbruch

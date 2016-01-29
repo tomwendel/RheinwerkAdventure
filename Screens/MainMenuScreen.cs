@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using RheinwerkAdventure.Components;
 using Microsoft.Xna.Framework;
 using RheinwerkAdventure.Controls;
@@ -14,6 +15,8 @@ namespace RheinwerkAdventure.Screens
         private MenuList menu;
 
         private ListItem newGameItem = new ListItem() { Text = "Neues Spiel" };
+        private ListItem stopServerItem = new ListItem() { Text = "Server beenden" };
+        private ListItem stopClientItem = new ListItem() { Text = "Verbindung beenden" };
         private ListItem networkItem = new ListItem() { Text = "Mehrspieler"};
         private ListItem optionsItem = new ListItem() { Text = "Optionen", Enabled = false };
         private ListItem exitItem = new ListItem() { Text = "Beenden" };
@@ -24,12 +27,20 @@ namespace RheinwerkAdventure.Screens
             Controls.Add(new Label(manager) { Text = "Hauptmenue", Position = new Rectangle(40, 30, 0, 0) });
             Controls.Add(menu = new MenuList(manager) { Position = new Rectangle(20, 70, 360, 200) });
 
+            // Sichtbarkeiten anhand der Server/Client Stati ermitteln
+            newGameItem.Visible = manager.Game.Server.State == ServerState.Closed && manager.Game.Client.State == ClientState.Closed;
+            networkItem.Visible = manager.Game.Server.State == ServerState.Closed && manager.Game.Client.State == ClientState.Closed;
+            stopServerItem.Visible = manager.Game.Server.State != ServerState.Closed;
+            stopClientItem.Visible = manager.Game.Client.State != ClientState.Closed;
+
             menu.Items.Add(newGameItem);
             menu.Items.Add(networkItem);
+            menu.Items.Add(stopServerItem);
+            menu.Items.Add(stopClientItem);
             menu.Items.Add(optionsItem);
             menu.Items.Add(exitItem);
 
-            menu.SelectedItem = newGameItem;
+            menu.SelectedItem = menu.Items.First(i => i.Visible && i.Enabled);
 
             menu.OnInteract += OnInteract;
         }
@@ -49,6 +60,26 @@ namespace RheinwerkAdventure.Screens
             {
                 // Netzwerk-Spiel
                 Manager.ShowScreen(new NetworkScreen(Manager));
+            }
+                
+            if (item == stopServerItem)
+            {
+                // Laufenden Server anhalten
+                Manager.Game.Server.CloseServer();
+                stopServerItem.Visible = false;
+                newGameItem.Visible = true;
+                networkItem.Visible = true;
+                menu.SelectedItem = newGameItem;
+            }
+
+            if (item == stopClientItem)
+            {
+                // Laufende Client Verbindung beenden
+                Manager.Game.Client.Close();
+                stopClientItem.Visible = false;
+                newGameItem.Visible = true;
+                networkItem.Visible = true;
+                menu.SelectedItem = newGameItem;
             }
 
             if (item == exitItem)

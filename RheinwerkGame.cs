@@ -87,6 +87,15 @@ namespace RheinwerkAdventure
             Sound.UpdateOrder = 9;
             Components.Add(Sound);
         }
+
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            // Beim Beenden der Applikation ggf. offene Client/Server-Verbindungen schließen.
+            Client.Close();
+            Server.CloseServer();
+
+            base.OnExiting(sender, args);
+        }
     }
 }
 

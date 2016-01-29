@@ -40,6 +40,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Controls\DialogButtons.cs" />
     <Compile Include="Controls\LoadingIcon.cs" />
     <Compile Include="Networking\Client.cs" />
+    <Compile Include="Networking\MessageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -245,6 +247,7 @@
     <None Include="Content\coin_gold.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

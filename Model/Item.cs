@@ -12,6 +12,11 @@ namespace RheinwerkAdventure.Model
         internal Vector2 move = Vector2.Zero;
 
         /// <summary>
+        /// Id dieses Items.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Anzeigename dieses Items.
         /// </summary>
         public string Name { get; set; }

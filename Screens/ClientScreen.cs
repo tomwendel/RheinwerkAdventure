@@ -40,7 +40,18 @@ namespace RheinwerkAdventure.Screens
 
         public override void Update(GameTime gameTime)
         {
-            status.Text = string.Format("Status: {0}", Manager.Game.Client.State);
+            status.Text = string.Format("Status: {0}, Id: {1}, Player: {2}", 
+                Manager.Game.Client.State, 
+                Manager.Game.Client.ClientId, 
+                Manager.Game.Client.PlayerCount);
+
+            // Wenns los geht den Screen schließen
+            if (Manager.Game.Client.State == ClientState.Running)
+            {
+                Manager.CloseScreen();
+                Manager.CloseScreen();
+                Manager.CloseScreen();
+            }
 
             if (!Manager.Game.Input.Handled)
             {

@@ -19,6 +19,8 @@ namespace RheinwerkAdventure.Components
 
         private readonly RheinwerkGame game;
 
+        private readonly Random rand = new Random();
+
         /// <summary>
         /// Referenz auf das zentrale Spielmodell.
         /// </summary>
@@ -60,12 +62,18 @@ namespace RheinwerkAdventure.Components
         /// <param name="player">Player-Instanz</param>
         public void InsertPlayer(Player player)
         {
+            Vector2 x = new Vector2((float)rand.NextDouble() - 0.5f, (float)rand.NextDouble() - 0.5f);
+
             // Den ersten verfügbaren Startplatz finden und nutzen
             Area target = World.Areas.Where(a => a.Startpoints.Count > 0).First();
-            player.Position = target.Startpoints[0];
+            player.Position = target.Startpoints[0] + x;
             target.Items.Add(player);
         }
 
+        /// <summary>
+        /// Entfernt den angegebenen Spieler wieder aus dem vorhandenen Spiel.
+        /// </summary>
+        /// <param name="player">Zu entfernenden Spieler</param>
         public void RemovePlayer(Player player)
         {
             if (World == null)
