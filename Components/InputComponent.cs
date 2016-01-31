@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace RheinwerkAdventure.Components
 {
@@ -82,6 +83,7 @@ namespace RheinwerkAdventure.Components
             inventoryTrigger = new Trigger();
             attackTrigger = new Trigger();
             interactTrigger = new Trigger();
+            TouchPanel.EnableMouseTouchPoint = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -136,6 +138,15 @@ namespace RheinwerkAdventure.Components
             inventory |= keyboard.IsKeyDown(Keys.I);
             attack |= keyboard.IsKeyDown(Keys.LeftControl);
             interact |= keyboard.IsKeyDown(Keys.Space) | keyboard.IsKeyDown(Keys.Enter);
+
+            // Touchscreen Steuerung
+            var points = TouchPanel.GetState();
+            if (points.Count > 0)
+            {
+                var point = points[0].Position * 2f;
+                var size = Game.GraphicsDevice.Viewport.Bounds.Size;
+                movement += new Vector2((point.X / size.X) - 1f, (point.Y / size.Y) - 1f);
+            }
 
             // Normalisierung der Bewegungsrichtung
             if (movement.Length() > 1f)

@@ -41,8 +41,9 @@ namespace RheinwerkAdventure
         public RheinwerkGame()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";	            
-            graphics.IsFullScreen = false;		
+            Content.RootDirectory = "Content";
+            graphics.IsFullScreen = false;
+            IsMouseVisible = true;	
 
             Input = new InputComponent(this);
             Input.UpdateOrder = 0;
