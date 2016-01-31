@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 #if MONOMAC
 using MonoMac.AppKit;
@@ -27,8 +28,15 @@ namespace RheinwerkAdventure
 
 		internal static void RunGame ()
 		{
-			game = new RheinwerkGame ();
-			game.Run ();
+            try {
+    			game = new RheinwerkGame ();
+    			game.Run ();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.Message, ex);
+                throw;
+            }
 		}
 
 		/// <summary>
