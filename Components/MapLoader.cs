@@ -19,7 +19,7 @@ namespace RheinwerkAdventure.Components
         public static Area[] LoadAll(ref int nextId)
         {
             // Alle json-Files im Map-Folder suchen
-            string mapPath = Path.Combine(Environment.CurrentDirectory, "Maps");
+            string mapPath = ".\\Maps";
             var files = Directory.GetFiles(mapPath, "*.json");
 
             // Alle gefundenen json-Files laden

@@ -34,7 +34,8 @@ namespace RheinwerkAdventure.Screens
             stopClientItem.Visible = manager.Game.Client.State != ClientState.Closed;
 
             menu.Items.Add(newGameItem);
-            menu.Items.Add(networkItem);
+            if (manager.Game.Server.ServerFeatureAvailable || manager.Game.Client.ClientFeatureAvailable)
+                menu.Items.Add(networkItem);
             menu.Items.Add(stopServerItem);
             menu.Items.Add(stopClientItem);
             menu.Items.Add(optionsItem);

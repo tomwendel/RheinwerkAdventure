@@ -34,9 +34,9 @@ namespace RheinwerkAdventure
 
         public LocalComponent Local { get; private set; }
 
-        public IServerComponent Server { get; private set; }
+        public ServerComponent Server { get; private set; }
 
-        public IClientComponent Client { get; private set; }
+        public ClientComponent Client { get; private set; }
 
         public RheinwerkGame()
         {
@@ -57,15 +57,13 @@ namespace RheinwerkAdventure
             Local.UpdateOrder = 2;
             Components.Add(Local);
 
-            var client = new ClientComponent(this);
-            Client = client;
-            client.UpdateOrder = 3;
-            Components.Add(client);
+            Client = new ClientComponent(this);
+            Client.UpdateOrder = 3;
+            Components.Add(Client);
 
-            var server = new ServerComponent(this);
-            Server = server;
-            server.UpdateOrder = 4;
-            Components.Add(server);
+            Server = new ServerComponent(this);
+            Server.UpdateOrder = 4;
+            Components.Add(Server);
 
             Simulation = new SimulationComponent(this);
             Simulation.UpdateOrder = 5;

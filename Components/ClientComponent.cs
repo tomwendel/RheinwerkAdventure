@@ -4,18 +4,18 @@ using Microsoft.Xna.Framework;
 using System.Net.Sockets;
 using RheinwerkAdventure.Networking;
 using System.IO;
-using System.Configuration;
 using RheinwerkAdventure.Model;
 using RheinwerkAdventure.Screens;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Configuration;
 
 namespace RheinwerkAdventure.Components
 {
     /// <summary>
     /// Client für eine Netzwerk-Verbindung.
     /// </summary>
-    internal class ClientComponent : GameComponent
+    internal class ClientComponent : GameComponent, IClientComponent
     {
         /// <summary>
         /// Puffergröße
@@ -83,6 +83,11 @@ namespace RheinwerkAdventure.Components
         /// Dictionary für Items zum schnelleren Auffinden von Items.
         /// </summary>
         private Dictionary<int, ItemCacheEntry> items;
+
+        /// <summary>
+        /// Gibt an ob der Client überhaupt gestartet werden kann.
+        /// </summary>
+        public bool ClientFeatureAvailable { get { return true; } }
 
         /// <summary>
         /// Verbindungsstatus des Clients.

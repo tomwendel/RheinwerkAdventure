@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,6 +43,8 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\IClientComponent.cs" />
+    <Compile Include="Components\IServerComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RheinwerkGame.cs" />
@@ -124,6 +126,7 @@
     <None Include="Content\Content.mgcb">
       <DeployService-Deploy>True</DeployService-Deploy>
     </None>
+    <None Include="Content\Content.Universal.mgcb" />
     <None Include="packages.config" />
     <None Include="Icon.ico" />
     <None Include="Content\HudFont.spritefont" />
@@ -253,15 +256,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Components\" />
-    <Folder Include="Model\" />
-    <Folder Include="Maps\" />
-    <Folder Include="Rendering\" />
-    <Folder Include="Screens\" />
-    <Folder Include="Controls\" />
-    <Folder Include="Networking\" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

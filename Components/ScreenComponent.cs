@@ -14,7 +14,7 @@ namespace RheinwerkAdventure.Components
     /// </summary>
     internal class ScreenComponent : DrawableGameComponent
     {
-        private readonly string contentPath = Path.Combine(Environment.CurrentDirectory, "Content");
+        private readonly string contentPath = ".\\Content";
 
         private readonly Stack<Screen> screens;
 
@@ -137,8 +137,6 @@ namespace RheinwerkAdventure.Components
 
             // Waiting Coin
             WaitingCoin = Game.Content.Load<Texture2D>("coin_gold");
-
-            ShowScreen(new MainMenuScreen(this));
         }
 
         public Texture2D GetIcon(string name)
@@ -195,6 +193,12 @@ namespace RheinwerkAdventure.Components
                     ShowScreen(new InventoryScreen(this));
                     Game.Input.Handled = true;
                 }
+            }
+
+            // Hauptmenü öffnen, wenn sonst nichts offen ist
+            if (activeScreen == null && Game.Simulation.World == null)
+            {
+                ShowScreen(new MainMenuScreen(this));
             }
         }
 

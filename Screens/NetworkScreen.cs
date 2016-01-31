@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using RheinwerkAdventure.Components;
 using Microsoft.Xna.Framework;
 using RheinwerkAdventure.Controls;
@@ -24,11 +25,13 @@ namespace RheinwerkAdventure.Screens
             Controls.Add(new Label(manager) { Text = "Netzwerk", Position = new Rectangle(40, 30, 0, 0) });
             Controls.Add(menu = new MenuList(manager) { Position = new Rectangle(20, 70, 360, 200) });
 
-            menu.Items.Add(serverItem);
-            menu.Items.Add(clientItem);
+            if (manager.Game.Server.ServerFeatureAvailable)
+                menu.Items.Add(serverItem);
+            if (manager.Game.Client.ClientFeatureAvailable)
+                menu.Items.Add(clientItem);
             menu.Items.Add(cancelItem);
 
-            menu.SelectedItem = serverItem;
+            menu.SelectedItem = menu.Items.First();
 
             menu.OnInteract += OnInteract;
         }

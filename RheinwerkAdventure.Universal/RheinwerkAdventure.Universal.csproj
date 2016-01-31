@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{53662DDB-3CD3-4143-A3CF-70E030D60A6E}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RheinwerkAdventure</RootNamespace>
+    <AssemblyName>RheinwerkAdventure</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>RheinwerkAdventure.Universal_TemporaryKey.pfx</PackageCertificateKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="..\Content\ironswordicon.png">
+      <Link>Content\ironswordicon.png</Link>
+    </Content>
+    <Content Include="..\Maps\shop.json">
+      <Link>Maps\shop.json</Link>
+    </Content>
+    <Content Include="..\Maps\town.json">
+      <Link>Maps\town.json</Link>
+    </Content>
+    <Content Include="..\Maps\wood.json">
+      <Link>Maps\wood.json</Link>
+    </Content>
+    <Content Include="Content\background.xnb" />
+    <Content Include="Content\click.xnb" />
+    <Content Include="Content\clock.xnb" />
+    <Content Include="Content\coin.xnb" />
+    <Content Include="Content\coinicon.png" />
+    <Content Include="Content\coinicon.xnb" />
+    <Content Include="Content\coin_gold.png" />
+    <Content Include="Content\coin_gold.xnb" />
+    <Content Include="Content\hearts.xnb" />
+    <Content Include="Content\hit.xnb" />
+    <Content Include="Content\houseloop.xnb" />
+    <Content Include="Content\HudFont.xnb" />
+    <Content Include="Content\menuloop.xnb" />
+    <Content Include="Content\sword.xnb" />
+    <Content Include="Content\townloop.xnb" />
+    <Content Include="Content\ui.xnb" />
+    <Content Include="Content\woodloop.xnb" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Components\HudComponent.cs">
+      <Link>Components\HudComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\IClientComponent.cs">
+      <Link>Components\IClientComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\InputComponent.cs">
+      <Link>Components\InputComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\IServerComponent.cs">
+      <Link>Components\IServerComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\LocalComponent.cs">
+      <Link>Components\LocalComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\MapLoader.cs">
+      <Link>Components\MapLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\MusicComponent.cs">
+      <Link>Components\MusicComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\SceneComponent.cs">
+      <Link>Components\SceneComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\ScreenComponent.cs">
+      <Link>Components\ScreenComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\SimulationComponent.cs">
+      <Link>Components\SimulationComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Components\SoundComponent.cs">
+      <Link>Components\SoundComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Control.cs">
+      <Link>Controls\Control.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\DialogButtons.cs">
+      <Link>Controls\DialogButtons.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\DialogList.cs">
+      <Link>Controls\DialogList.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\HorizontalListControl.cs">
+      <Link>Controls\HorizontalListControl.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Icon.cs">
+      <Link>Controls\Icon.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\InventoryList.cs">
+      <Link>Controls\InventoryList.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Label.cs">
+      <Link>Controls\Label.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\ListControl.cs">
+      <Link>Controls\ListControl.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\LoadingIcon.cs">
+      <Link>Controls\LoadingIcon.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\MenuList.cs">
+      <Link>Controls\MenuList.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Panel.cs">
+      <Link>Controls\Panel.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\TraderList.cs">
+      <Link>Controls\TraderList.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\VerticalListControl.cs">
+      <Link>Controls\VerticalListControl.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\AggressiveAi.cs">
+      <Link>Model\AggressiveAi.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Ai.cs">
+      <Link>Model\Ai.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Area.cs">
+      <Link>Model\Area.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Character.cs">
+      <Link>Model\Character.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Coin.cs">
+      <Link>Model\Coin.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Decard.cs">
+      <Link>Model\Decard.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Dialog.cs">
+      <Link>Model\Dialog.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Gloves.cs">
+      <Link>Model\Gloves.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\GoldenCoin.cs">
+      <Link>Model\GoldenCoin.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Heidi.cs">
+      <Link>Model\Heidi.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\IAttackable.cs">
+      <Link>Model\IAttackable.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\IAttacker.cs">
+      <Link>Model\IAttacker.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\ICollectable.cs">
+      <Link>Model\ICollectable.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\ICollidable.cs">
+      <Link>Model\ICollidable.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\IInteractable.cs">
+      <Link>Model\IInteractable.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\IInteractor.cs">
+      <Link>Model\IInteractor.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\IInventory.cs">
+      <Link>Model\IInventory.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\IronSword.cs">
+      <Link>Model\IronSword.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Item.cs">
+      <Link>Model\Item.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Layer.cs">
+      <Link>Model\Layer.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Orc.cs">
+      <Link>Model\Orc.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Player.cs">
+      <Link>Model\Player.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Portal.cs">
+      <Link>Model\Portal.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Quest.cs">
+      <Link>Model\Quest.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\QuestProgress.cs">
+      <Link>Model\QuestProgress.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Tile.cs">
+      <Link>Model\Tile.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\Trader.cs">
+      <Link>Model\Trader.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\WalkingAi.cs">
+      <Link>Model\WalkingAi.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\WoodSword.cs">
+      <Link>Model\WoodSword.cs</Link>
+    </Compile>
+    <Compile Include="..\Model\World.cs">
+      <Link>Model\World.cs</Link>
+    </Compile>
+    <Compile Include="..\Networking\ItemCacheEntry.cs">
+      <Link>Networking\ItemCacheEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Networking\Message.cs">
+      <Link>Networking\Message.cs</Link>
+    </Compile>
+    <Compile Include="..\Networking\MessageType.cs">
+      <Link>Networking\MessageType.cs</Link>
+    </Compile>
+    <Compile Include="..\Networking\QuestCacheEntry.cs">
+      <Link>Networking\QuestCacheEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Rendering\Camera.cs">
+      <Link>Rendering\Camera.cs</Link>
+    </Compile>
+    <Compile Include="..\Rendering\CharacterRenderer.cs">
+      <Link>Rendering\CharacterRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\Rendering\ItemRenderer.cs">
+      <Link>Rendering\ItemRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\Rendering\NineTileRenderer.cs">
+      <Link>Rendering\NineTileRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\Rendering\SimpleItemRenderer.cs">
+      <Link>Rendering\SimpleItemRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\ClientScreen.cs">
+      <Link>Screens\ClientScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\DialogScreen.cs">
+      <Link>Screens\DialogScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\InventoryScreen.cs">
+      <Link>Screens\InventoryScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\MainMenuScreen.cs">
+      <Link>Screens\MainMenuScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\NetworkScreen.cs">
+      <Link>Screens\NetworkScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\Screen.cs">
+      <Link>Screens\Screen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\ServerScreen.cs">
+      <Link>Screens\ServerScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\ShoutScreen.cs">
+      <Link>Screens\ShoutScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\TradeScreen.cs">
+      <Link>Screens\TradeScreen.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\ClientComponent.cs" />
+    <Compile Include="Components\ServerComponent.cs" />
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Networking\Client.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RheinwerkGame.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="RheinwerkAdventure.Universal_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Content\char.png">
+      <Link>Content\char.png</Link>
+    </Content>
+    <Content Include="..\Content\charicon.png">
+      <Link>Content\charicon.png</Link>
+    </Content>
+    <Content Include="..\Content\coin_silver.png">
+      <Link>Content\coin_silver.png</Link>
+    </Content>
+    <Content Include="..\Content\decard.png">
+      <Link>Content\decard.png</Link>
+    </Content>
+    <Content Include="..\Content\decardicon.png">
+      <Link>Content\decardicon.png</Link>
+    </Content>
+    <Content Include="..\Content\glovesicon.png">
+      <Link>Content\glovesicon.png</Link>
+    </Content>
+    <Content Include="..\Content\heidi.png">
+      <Link>Content\heidi.png</Link>
+    </Content>
+    <Content Include="..\Content\heidiicon.png">
+      <Link>Content\heidiicon.png</Link>
+    </Content>
+    <Content Include="..\Content\orc.png">
+      <Link>Content\orc.png</Link>
+    </Content>
+    <Content Include="..\Content\orcicon.png">
+      <Link>Content\orcicon.png</Link>
+    </Content>
+    <Content Include="..\Content\trader.png">
+      <Link>Content\trader.png</Link>
+    </Content>
+    <Content Include="..\Content\tradericon.png">
+      <Link>Content\tradericon.png</Link>
+    </Content>
+    <Content Include="..\Content\woodswordicon.png">
+      <Link>Content\woodswordicon.png</Link>
+    </Content>
+    <Content Include="..\Maps\landscape.png">
+      <Link>Maps\landscape.png</Link>
+    </Content>
+    <Content Include="..\Maps\town.png">
+      <Link>Maps\town.png</Link>
+    </Content>
+    <Content Include="..\Maps\trees_plants_rocks.png">
+      <Link>Maps\trees_plants_rocks.png</Link>
+    </Content>
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\Users\tomwe\.nuget\packages\MonoGame.Framework.WindowsUAP\3.4.0.459\lib\netcore\MonoGame.Framework\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>..\..\..\Users\tomwe\.nuget\packages\MonoGame.Framework.WindowsUAP\3.4.0.459\lib\netcore\MonoGame.Framework\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\..\..\Users\tomwe\.nuget\packages\MonoGame.Framework.WindowsUAP\3.4.0.459\lib\netcore\MonoGame.Framework\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\..\..\Users\tomwe\.nuget\packages\MonoGame.Framework.WindowsUAP\3.4.0.459\lib\netcore\MonoGame.Framework\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation">
+      <HintPath>..\..\..\Users\tomwe\.nuget\packages\MonoGame.Framework.WindowsUAP\3.4.0.459\lib\netcore\MonoGame.Framework\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2">
+      <HintPath>..\..\..\Users\tomwe\.nuget\packages\MonoGame.Framework.WindowsUAP\3.4.0.459\lib\netcore\MonoGame.Framework\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\..\..\Users\tomwe\.nuget\packages\MonoGame.Framework.WindowsUAP\3.4.0.459\lib\netcore\MonoGame.Framework\SharpDX.XInput.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

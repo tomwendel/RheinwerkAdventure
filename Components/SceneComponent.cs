@@ -14,9 +14,9 @@ namespace RheinwerkAdventure.Components
     /// </summary>
     internal class SceneComponent : DrawableGameComponent
     {
-        private readonly string mapPath = Path.Combine(Environment.CurrentDirectory, "Maps");
+        private readonly string mapPath = ".\\Maps";
 
-        private readonly string contentPath = Path.Combine(Environment.CurrentDirectory, "Content");
+        private readonly string contentPath = ".\\Content";
 
         private readonly RheinwerkGame game;
 
@@ -54,6 +54,8 @@ namespace RheinwerkAdventure.Components
             Camera = new Camera(GraphicsDevice.Viewport.Bounds.Size);
             font = Game.Content.Load<SpriteFont>("HudFont");
             background = Game.Content.Load<Texture2D>("background");
+
+            game.Window.ClientSizeChanged += (s,e) => Camera.Resize(GraphicsDevice.Viewport.Bounds.Size);
         }
 
         public Texture2D GetTileset(string name)

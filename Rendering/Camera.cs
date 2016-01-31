@@ -48,6 +48,12 @@ namespace RheinwerkAdventure.Rendering
             Border = 150;
         }
 
+        public void Resize(Point viewSize)
+        {
+            viewSizeHalf = new Vector2(viewSize.X / 2f, viewSize.Y / 2f);
+            SetFocus(Position);
+        }
+
         /// <summary>
         /// Setzt den Fokus auf den gegebenen Punkt in World-Koordinaten.
         /// </summary>

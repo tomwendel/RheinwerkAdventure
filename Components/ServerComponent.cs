@@ -11,7 +11,7 @@ namespace RheinwerkAdventure.Components
     /// <summary>
     /// Server Komponente für das Netzwerspiel
     /// </summary>
-    internal class ServerComponent : GameComponent
+    internal class ServerComponent : GameComponent, IServerComponent
     {
         /// <summary>
         /// Anzahl Frames bis zum nächsten Keyframe
@@ -64,6 +64,11 @@ namespace RheinwerkAdventure.Components
         /// Auflistung aktiver Clients
         /// </summary>
         public IEnumerable<Client> Clients { get { return clients; } }
+
+        /// <summary>
+        /// Gibt an ob der Server überhaupt gestartet werden kann.
+        /// </summary>
+        public bool ServerFeatureAvailable { get { return false; } }
 
         public ServerComponent(RheinwerkGame game)
             : base(game)
