@@ -26,16 +26,29 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public World World { get; private set; }
 
+        /// <summary>
+        /// Modus in dem die Simulation läuft
+        /// </summary>
+        /// <value>The mode.</value>
+        public SimulationMode Mode { get; private set; }
+
         public SimulationComponent(RheinwerkGame game)
             : base(game)
         {
             this.game = game;
         }
 
-        public void NewGame()
+        /// <summary>
+        /// Startet ein neues Spiel
+        /// </summary>
+        /// <param name="mode">Simulationsmodus</param>
+        public void NewGame(SimulationMode mode)
         {
             World = new World();
-            World.Areas.AddRange(MapLoader.LoadAll());
+            Mode = mode;
+            int nextId = World.NextId;
+            World.Areas.AddRange(MapLoader.LoadAll(ref nextId));
+            World.NextId = nextId;
 
             // Quests erstellen
             Quest quest = new Quest()
@@ -50,9 +63,13 @@ namespace RheinwerkAdventure.Components
             quest.QuestProgresses.Add(new QuestProgress() { Id = "fail", Description = "Die Muenze ist fuer immer verloren" });
         }
 
+        /// <summary>
+        /// Beendet das aktuelle Spiel.
+        /// </summary>
         public void CloseGame()
         {
             World = null;
+            Mode = SimulationMode.None;
         }
 
         /// <summary>
@@ -103,14 +120,14 @@ namespace RheinwerkAdventure.Components
             foreach (var area in World.Areas)
             {
                 // Schleife über alle sich aktiv bewegenden Spiel-Elemente
-                foreach (var character in area.Items.OfType<Character>())
+                foreach (var character in area.Items.OfType<Character>().ToArray())
                 {
                     // Tote Charactere ignorieren
                     if (character is IAttackable && (character as IAttackable).Hitpoints <= 0)
                         continue;
 
                     // KI Update
-                    if (character.Ai != null)
+                    if (character.Ai != null && Mode != SimulationMode.Client)
                         character.Ai.Update(area, gameTime);
                     
                     // Neuberechnung der Character-Position.
@@ -192,23 +209,32 @@ namespace RheinwerkAdventure.Components
                                 ICollectable collectable = item as ICollectable;
 
                                 //  -> Character sammelt Item ein
-                                transfers.Add(() =>
-                                    {
-                                        area.Items.Remove(item);
-                                        (character as IInventory).Inventory.Add(item);
-                                        item.Position = Vector2.Zero;
-                                    });
+                                if (Mode != SimulationMode.Client)
+                                {
+                                    transfers.Add(() =>
+                                        {
+                                            if (area.Items.Contains(item))
+                                                area.Items.Remove(item);
+                                        
+                                            IInventory inventory = character as IInventory;
+                                            if (!inventory.Inventory.Contains(item))
+                                            {
+                                                inventory.Inventory.Add(item);
+                                                item.Position = Vector2.Zero;
+                                            }
+                                        });
+                                }
 
                                 // Event aufrufen
                                 if (collectable.OnCollect != null)
-                                    collectable.OnCollect(game, item);
+                                    collectable.OnCollect(this, item);
                             }
                         }
                     }
                 }
 
                 // Kollision mit blockierten Zellen
-                foreach (var item in area.Items)
+                foreach (var item in area.Items.ToArray())
                 {
                     bool collision = false;
                     int loops = 0;
@@ -334,12 +360,20 @@ namespace RheinwerkAdventure.Components
                                                        destinationPortal.Box.Y + (destinationPortal.Box.Height / 2f));
 
                                 // Transfer in andere Area vorbereiten
-                                transfers.Add(() =>
-                                    {
-                                        area.Items.Remove(item);
-                                        destinationArea.Items.Add(item);
-                                        item.Position = position;
-                                    });
+                                if (Mode != SimulationMode.Client)
+                                {
+                                    transfers.Add(() =>
+                                        {
+                                            if (area.Items.Contains(item))
+                                                area.Items.Remove(item);
+
+                                            if (!destinationArea.Items.Contains(item))
+                                            {
+                                                destinationArea.Items.Add(item);
+                                                item.Position = position;
+                                            }
+                                        });
+                                }
                             }
                         }
 
@@ -356,7 +390,7 @@ namespace RheinwerkAdventure.Components
                             foreach (var interactable in interactor.InteractableItems)
                             {
                                 if (interactable.OnInteract != null)
-                                    interactable.OnInteract(game, interactor, interactable);
+                                    interactable.OnInteract(this, interactor, interactable);
                             }
                         }
                         interactor.InteractSignal = false;
@@ -373,7 +407,7 @@ namespace RheinwerkAdventure.Components
                             {
                                 attackable.Hitpoints -= attacker.AttackValue;
                                 if (attackable.OnHit != null)
-                                    attackable.OnHit(game, attacker, attackable);
+                                    attackable.OnHit(this, attacker, attackable);
                             }
 
                             // Schlagerholung anstoßen
@@ -385,9 +419,112 @@ namespace RheinwerkAdventure.Components
             }
 
             // Transfers durchführen
-            foreach (var transfer in transfers)
-                transfer();
+            if (Mode != SimulationMode.Client)
+                foreach (var transfer in transfers)
+                    transfer();
         }
+
+        /// <summary>
+        /// Setzt den Fortschritt des Quests.
+        /// </summary>
+        public void SetQuestProgress(string quest, string progress)
+        {
+            SetQuestProgress(quest, progress, QuestState.Active);
+        }
+
+        /// <summary>
+        /// Markiert das Quest als gescheitert.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        public void SetQuestFail(string quest, string progress)
+        {
+            SetQuestProgress(quest, progress, QuestState.Failed);
+        }
+
+        /// <summary>
+        /// Markiert das Quest als erfolgreich beendet.
+        /// </summary>
+        public void SetQuestSuccess(string quest, string progress)
+        {
+            SetQuestProgress(quest, progress, QuestState.Succeeded);
+        }
+            
+        private void SetQuestProgress(string quest, string progress, QuestState state)
+        {
+            if (Mode != SimulationMode.Client)
+            {
+                var qu = World.Quests.SingleOrDefault(q => q.Name == quest);
+                qu.CurrentProgress = qu.QuestProgresses.FirstOrDefault(q => q.Id.Equals(progress));
+                qu.State = state;
+            }
+            else
+            {
+                // Zum Server schicken
+                game.Client.SendQuestUpdate(quest, progress, state);
+            }
+        }
+
+        /// <summary>
+        /// Zeigt einen Interaktionsdialog an.
+        /// </summary>
+        public void ShowInteractionScreen(Player player, Screen screen)
+        {
+            if (player == game.Local.Player)
+            {
+                game.Screen.ShowScreen(screen);
+            }
+        }
+
+        /// <summary>
+        /// Transferiert ein Item von einem Inventar zum anderen.
+        /// </summary>
+        /// <param name="item">Betroffenes item</param>
+        /// <param name="sender">Sender</param>
+        /// <param name="receiver">Empfänger</param>
+        public void Transfer(Item item, IInventory sender, IInventory receiver)
+        {
+            if (Mode != SimulationMode.Client)
+            {
+                // entfernen, falls vorhanden
+                if (sender != null && sender.Inventory.Contains(item))
+                    sender.Inventory.Remove(item);
+
+                // Einfügen, falls noch nicht vorhanden
+                if (receiver != null && !receiver.Inventory.Contains(item))
+                    receiver.Inventory.Add(item);
+            }
+            else
+            {
+                // Zum Server schicken
+                game.Client.SendItemTransfer(item, sender, receiver);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Liste von Modi in denen die Simulation laufen kann.
+    /// </summary>
+    internal enum SimulationMode
+    {
+        /// <summary>
+        /// Simulation ist nicht aktiv.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Singleplayer Mode
+        /// </summary>
+        Single,
+
+        /// <summary>
+        /// Server Modus
+        /// </summary>
+        Server,
+
+        /// <summary>
+        /// Multiplayer Client
+        /// </summary>
+        Client
     }
 }
 

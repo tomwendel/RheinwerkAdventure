@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -51,9 +52,9 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Aufruf bei ankommenden Treffern.
         /// </summary>
-        public Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; set; }
+        public Action<SimulationComponent, IAttacker, IAttackable> OnHit { get; set; }
 
-        public Orc()
+        public Orc(int id) : base(id)
         {
             AttackableItems = new List<IAttackable>();
             MaxHitpoints = 2;

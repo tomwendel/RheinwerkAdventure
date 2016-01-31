@@ -18,10 +18,16 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public List<Quest> Quests { get; private set; }
 
+        /// <summary>
+        /// GIbt die ID an die an das neue Element vergeben werden kann
+        /// </summary>
+        public int NextId { get; set; }
+
         public World()
         {
             Areas = new List<Area>();
             Quests = new List<Quest>();
+            NextId = 1;
         }
     }
 }

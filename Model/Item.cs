@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace RheinwerkAdventure.Model
 {
@@ -14,7 +15,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Id dieses Items.
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         /// <summary>
         /// Anzeigename dieses Items.
@@ -61,13 +62,63 @@ namespace RheinwerkAdventure.Model
         /// </summary>
         public Action<RheinwerkGame, Area, Item, GameTime> Update { get; set; }
 
-        public Item()
+        public Item(int id)
         {
+            Id = id;
+
             // Standard-Werte für Kollisionselemente
             Fixed = true;
             Mass = 1f;
             Radius = 0.25f;
             Name = "Item";
+        }
+
+        /// <summary>
+        /// Serialisiert das Item für einen Insert.
+        /// </summary>
+        public virtual void SerializeInsert(BinaryWriter writer)
+        {
+            writer.Write(Position.X);
+            writer.Write(Position.Y);
+        }
+
+        /// <summary>
+        /// Serialisiert alle KeyUpdate Infos.
+        /// </summary>
+        public virtual void SerializeKeyUpdate(BinaryWriter writer)
+        {
+            writer.Write(Position.X);
+            writer.Write(Position.Y);
+        }
+
+        /// <summary>
+        /// Serialisiert alle Update Infos.
+        /// </summary>
+        public virtual void SerializeUpdate(BinaryWriter writer)
+        {
+        }
+
+        /// <summary>
+        /// Deserialisiert die Insert-Daten.
+        /// </summary>
+        public virtual void DeserializeInsert(BinaryReader reader)
+        {
+            Position = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        /// <summary>
+        /// Deserialisiert Key Update Daten.
+        /// </summary>
+        public virtual void DeserializeKeyUpdate(BinaryReader reader)
+        {
+            Position = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        /// <summary>
+        /// Deserialisiert Update Daten.
+        /// </summary>
+        public virtual void DeserializeUpdate(BinaryReader reader)
+        {
         }
     }
 }

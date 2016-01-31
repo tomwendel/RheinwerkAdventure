@@ -116,6 +116,9 @@
     <Compile Include="Controls\LoadingIcon.cs" />
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Networking\MessageType.cs" />
+    <Compile Include="Networking\ItemCacheEntry.cs" />
+    <Compile Include="Networking\Message.cs" />
+    <Compile Include="Networking\QuestCacheEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">

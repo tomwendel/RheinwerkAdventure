@@ -5,17 +5,16 @@ namespace RheinwerkAdventure.Model
 {
     internal class GoldenCoin : Coin
     {
-        public GoldenCoin()
+        public GoldenCoin(int id) : base(id)
         {
             Mass = 0.5f;
             Texture = "coin_gold.png";
             Name = "Golden Coin";
             Icon = "coinicon.png";
 
-            OnCollect = (game, item) => 
+            OnCollect = (simulation, item) => 
                 {
-                    var quest = game.Simulation.World.Quests.SingleOrDefault(q => q.Name == "Heidis Quest");
-                    quest.Progress("return");
+                    simulation.SetQuestProgress("Heidis Quest", "return");
                 };
         }
     }

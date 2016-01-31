@@ -1,4 +1,5 @@
 ﻿using System;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -10,7 +11,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Action die aufgerufen wird, wenn das Item eingesammelt wird.
         /// </summary>
-        Action<RheinwerkGame, Item> OnCollect { get; }
+        Action<SimulationComponent, Item> OnCollect { get; }
     }
 }
 

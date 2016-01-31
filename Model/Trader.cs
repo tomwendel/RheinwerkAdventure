@@ -1,6 +1,7 @@
 ﻿using System;
 using RheinwerkAdventure.Screens;
 using System.Collections.Generic;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -11,27 +12,25 @@ namespace RheinwerkAdventure.Model
     {
         private List<Item> inventory;
 
-        public Action<RheinwerkGame, IInteractor, IInteractable> OnInteract { get; set; }
+        public Action<SimulationComponent, IInteractor, IInteractable> OnInteract { get; set; }
 
         /// <summary>
         /// Das Händler-Inventar.
         /// </summary>
         public ICollection<Item> Inventory { get { return inventory; } }
 
-        public Trader()
+        public Trader(int id) : base(id)
         {
             Texture = "trader.png";
             Name = "Hardwig";
             Icon = "tradericon.png";
 
             inventory = new List<Item>();
-            inventory.Add(new IronSword() { });
-            inventory.Add(new WoodSword() { });
-            inventory.Add(new Gloves() { });
 
-            OnInteract = (game, player, trader) =>
+            OnInteract = (simulation, player, trader) =>
             {
-                game.Screen.ShowScreen(new TradeScreen(game.Screen, trader as IInventory, player as IInventory));
+                    RheinwerkGame game = simulation.Game as RheinwerkGame;
+                    simulation.ShowInteractionScreen(player as Player, new TradeScreen(game.Screen, trader as IInventory, player as IInventory));
             };
         }
     }

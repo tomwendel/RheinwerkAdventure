@@ -34,39 +34,6 @@ namespace RheinwerkAdventure.Model
             QuestProgresses = new List<QuestProgress>();
             State = QuestState.Inactive;
         }
-
-        /// <summary>
-        /// Setzt den Fortschritt des Quests.
-        /// </summary>
-        public void Progress(string id)
-        {
-            State = QuestState.Active;
-            SetProgress(id);
-        }
-
-        /// <summary>
-        /// Markiert das Quest als gescheitert.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        public void Fail(string id)
-        {
-            State = QuestState.Failed;
-            SetProgress(id);
-        }
-
-        /// <summary>
-        /// Markiert das Quest als erfolgreich beendet.
-        /// </summary>
-        public void Success(string id)
-        {
-            State = QuestState.Succeeded;
-            SetProgress(id);
-        }
-
-        private void SetProgress(string id)
-        {
-            CurrentProgress = QuestProgresses.FirstOrDefault(q => q.Id.Equals(id));
-        }
     }
 
     /// <summary>
@@ -77,22 +44,22 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Nicht gestartet.
         /// </summary>
-        Inactive,
+        Inactive = 1,
 
         /// <summary>
         /// Gestartet.
         /// </summary>
-        Active,
+        Active = 2,
 
         /// <summary>
         /// Verbockt.
         /// </summary>
-        Failed,
+        Failed = 3,
 
         /// <summary>
         /// Erfolgreich erledigt.
         /// </summary>
-        Succeeded,
+        Succeeded = 4,
     }
 }
 

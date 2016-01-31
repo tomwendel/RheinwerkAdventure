@@ -1,5 +1,6 @@
 ﻿using System;
 using RheinwerkAdventure.Screens;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -11,9 +12,9 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Delegat für aktiven Interaktionsversuch des Spielers.
         /// </summary>
-        public Action<RheinwerkGame, IInteractor, IInteractable> OnInteract { get; set; }
+        public Action<SimulationComponent, IInteractor, IInteractable> OnInteract { get; set; }
 
-        public Decard()
+        public Decard(int id) : base(id)
         {
             Texture = "decard.png";
             Name = "Decard";
@@ -24,9 +25,10 @@ namespace RheinwerkAdventure.Model
             Ai = new WalkingAi(this, 0.4f);
         }
 
-        private void DoInteract(RheinwerkGame game, IInteractor interactor, IInteractable interactable)
+        private void DoInteract(SimulationComponent simulation, IInteractor interactor, IInteractable interactable)
         {
-            game.Screen.ShowScreen(new ShoutScreen(game.Screen, this, "Bleib ein Weilchen und hoer zu!"));
+            RheinwerkGame game = simulation.Game as RheinwerkGame;
+            simulation.ShowInteractionScreen(interactor as Player, new ShoutScreen(game.Screen, this, "Bleib ein Weilchen und hoer zu!"));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -20,7 +21,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Aufruf bei ankommenden Treffern.
         /// </summary>
-        Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; }
+        Action<SimulationComponent, IAttacker, IAttackable> OnHit { get; }
     }
 }
 

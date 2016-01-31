@@ -48,22 +48,22 @@ namespace RheinwerkAdventure
             Input.UpdateOrder = 0;
             Components.Add(Input);
 
-            Client = new ClientComponent(this);
-            Client.UpdateOrder = 1;
-            Components.Add(Client);
-
-            Server = new ServerComponent(this);
-            Server.UpdateOrder = 2;
-            Components.Add(Server);
-
             Screen = new ScreenComponent(this);
-            Screen.UpdateOrder = 3;
+            Screen.UpdateOrder = 1;
             Screen.DrawOrder = 2;
             Components.Add(Screen);
 
             Local = new LocalComponent(this);
-            Local.UpdateOrder = 4;
+            Local.UpdateOrder = 2;
             Components.Add(Local);
+
+            Client = new ClientComponent(this);
+            Client.UpdateOrder = 3;
+            Components.Add(Client);
+
+            Server = new ServerComponent(this);
+            Server.UpdateOrder = 4;
+            Components.Add(Server);
 
             Simulation = new SimulationComponent(this);
             Simulation.UpdateOrder = 5;

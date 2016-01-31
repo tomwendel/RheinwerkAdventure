@@ -16,7 +16,7 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Lädt alle Areas die sich aktuell im Maps-Verzeichnis befinden.
         /// </summary>
-        public static Area[] LoadAll()
+        public static Area[] LoadAll(ref int nextId)
         {
             // Alle json-Files im Map-Folder suchen
             string mapPath = Path.Combine(Environment.CurrentDirectory, "Maps");
@@ -25,7 +25,7 @@ namespace RheinwerkAdventure.Components
             // Alle gefundenen json-Files laden
             Area[] result = new Area[files.Length];
             for (int i = 0; i < files.Length; i++)
-                result[i] = LoadFromJson(files[i]);
+                result[i] = LoadFromJson(files[i], ref nextId);
 
             return result;
         }
@@ -33,7 +33,7 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Lädt die angegebene Datei in der Hoffnung um eine Area.
         /// </summary>
-        public static Area LoadFromJson(string file)
+        public static Area LoadFromJson(string file, ref int nextId)
         {
             FileInfo info = new FileInfo(file);
             using (Stream stream = File.OpenRead(file))
@@ -141,12 +141,18 @@ namespace RheinwerkAdventure.Components
 
                             switch (item.name)
                             {
-                                case "coin": area.Items.Add(new Coin() { Position = pos }); break;
-                                case "goldencoin": area.Items.Add(new GoldenCoin() { Position = pos }); break;
-                                case "decard": area.Items.Add(new Decard() { Position = pos }); break;
-                                case "heidi": area.Items.Add(new Heidi() { Position = pos }); break;
-                                case "orc": area.Items.Add(new Orc() { Position = pos }); break;
-                                case "trader": area.Items.Add(new Trader() { Position = pos }); break;
+                                case "coin": area.Items.Add(new Coin(nextId++) { Position = pos }); break;
+                                case "goldencoin": area.Items.Add(new GoldenCoin(nextId++) { Position = pos }); break;
+                                case "decard": area.Items.Add(new Decard(nextId++) { Position = pos }); break;
+                                case "heidi": area.Items.Add(new Heidi(nextId++) { Position = pos }); break;
+                                case "orc": area.Items.Add(new Orc(nextId++) { Position = pos }); break;
+                                case "trader": 
+                                    Trader trader = new Trader(nextId++) { Position = pos };
+                                    trader.Inventory.Add(new IronSword(nextId++) { });
+                                    trader.Inventory.Add(new WoodSword(nextId++) { });
+                                    trader.Inventory.Add(new Gloves(nextId++) { });
+                                    area.Items.Add(trader);
+                                    break;
                             }
                         }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using RheinwerkAdventure.Components;
+using System.IO;
 
 namespace RheinwerkAdventure.Model
 {
@@ -78,9 +80,9 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Aufruf bei ankommenden Treffern.
         /// </summary>
-        public Action<RheinwerkGame, IAttacker, IAttackable> OnHit { get; set; }
+        public Action<SimulationComponent, IAttacker, IAttackable> OnHit { get; set; }
 
-        public Player()
+        public Player(int id) : base(id)
         {
             inventory = new List<Item>();
             AttackableItems = new List<IAttackable>();
@@ -95,6 +97,50 @@ namespace RheinwerkAdventure.Model
             Texture = "char.png";
             Name = "Player";
             Icon = "charicon.png";
+        }
+
+        /// <summary>
+        /// Serialisiert alle Update Infos.
+        /// </summary>
+        public override void SerializeUpdate(BinaryWriter writer)
+        {
+            base.SerializeUpdate(writer);
+
+            // Überträgt zusätzlich das Attack-Signal
+            writer.Write(AttackSignal);
+        }
+
+        /// <summary>
+        /// Deserialisiert Update Daten.
+        /// </summary>
+        public override void DeserializeUpdate(BinaryReader reader)
+        {
+            base.DeserializeUpdate(reader);
+
+            // Liest das Attack-Signal aus.
+            AttackSignal = reader.ReadBoolean();
+        }
+
+        /// <summary>
+        /// Serialisiert alle Key Update Infos.
+        /// </summary>
+        public override void SerializeKeyUpdate(BinaryWriter writer)
+        {
+            base.SerializeKeyUpdate(writer);
+
+            // Serialisiert im Key Update die Hitpoints.
+            writer.Write(Hitpoints);
+        }
+
+        /// <summary>
+        /// Deserialisiert Key Update Daten.
+        /// </summary>
+        public override void DeserializeKeyUpdate(BinaryReader reader)
+        {
+            base.DeserializeKeyUpdate(reader);
+
+            // Deserialisiert die Hitpoints im Key Update.
+            Hitpoints = reader.ReadInt32();
         }
     }
 }

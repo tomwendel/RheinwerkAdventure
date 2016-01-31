@@ -1,4 +1,5 @@
 ﻿using System;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -7,9 +8,9 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Coin : Item, ICollectable
     {
-        public Action<RheinwerkGame, Item> OnCollect { get; set; }
+        public Action<SimulationComponent, Item> OnCollect { get; set; }
 
-        public Coin()
+        public Coin(int id) : base(id)
         {
             // Standard-Masse für Diamanten
             Mass = 0.5f;

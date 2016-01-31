@@ -50,8 +50,8 @@ namespace RheinwerkAdventure.Screens
             if (item == newGameItem)
             {
                 // Neues Spiel erstellen
-                Manager.Game.Simulation.NewGame();
-                Manager.Game.Local.Player = new Player();
+                Manager.Game.Simulation.NewGame(SimulationMode.Single);
+                Manager.Game.Local.Player = new Player(Manager.Game.Simulation.World.NextId++);
                 Manager.Game.Simulation.InsertPlayer(Manager.Game.Local.Player);
                 Manager.CloseScreen();
             }

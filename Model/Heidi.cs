@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using RheinwerkAdventure.Screens;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -15,14 +16,13 @@ namespace RheinwerkAdventure.Model
 
         private Dialog after;
 
-        private Quest quest;
-
         /// <summary>
         /// Delegat für aktiven Interaktionsversuch des Spielers.
         /// </summary>
-        public Action<RheinwerkGame, IInteractor, IInteractable> OnInteract { get; set; }
+        public Action<SimulationComponent, IInteractor, IInteractable> OnInteract { get; set; }
 
-        public Heidi()
+        public Heidi(int id)
+            : base(id)
         {
             Texture = "heidi.png";
             Name = "Heidi";
@@ -54,7 +54,7 @@ namespace RheinwerkAdventure.Model
                     OnShow = (game, item) =>
                     {
                         // Questfortschritt setzen
-                        quest.Progress("search");
+                        game.Simulation.SetQuestProgress("Heidis Quest", "search");
                         before.Visible = false;
                     }
                 });
@@ -70,21 +70,23 @@ namespace RheinwerkAdventure.Model
                         Player player = item as Player;
                         var coin = player.Inventory.SingleOrDefault(i => i is GoldenCoin);
                         if (coin != null)
-                            player.Inventory.Remove(coin);
+                            game.Simulation.Transfer(coin, player, null);
 
                         // Quest Fortschritt auf Success 
-                        quest.Success("success");
+                        game.Simulation.SetQuestSuccess("Heidis Quest", "success");
                         after.Visible = false;
                     }
                 });
         }
 
-        private void DoInteract(RheinwerkGame game, IInteractor interactor, IInteractable interactable)
+        private void DoInteract(SimulationComponent simulation, IInteractor interactor, IInteractable interactable)
         {
-            quest = game.Simulation.World.Quests.SingleOrDefault(q => q.Name == "Heidis Quest");
+            var quest = simulation.World.Quests.SingleOrDefault(q => q.Name == "Heidis Quest");
             before.Visible = quest.State == QuestState.Inactive;
             after.Visible = quest.State == QuestState.Active && quest.CurrentProgress.Id == "return";
-            game.Screen.ShowScreen(new DialogScreen(game.Screen, this, interactor as Player, dialog));
+
+            RheinwerkGame game = simulation.Game as RheinwerkGame;
+            simulation.ShowInteractionScreen(interactor as Player, new DialogScreen(game.Screen, this, interactor as Player, dialog));
         }
     }
 }

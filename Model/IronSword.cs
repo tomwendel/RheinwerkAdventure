@@ -7,7 +7,7 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class IronSword : Item
     {
-        public IronSword()
+        public IronSword(int id) : base(id)
         {
             Name = "Irony";
             Icon = "ironswordicon.png";

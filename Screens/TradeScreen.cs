@@ -56,12 +56,10 @@ namespace RheinwerkAdventure.Screens
 
             // Item Transfer
             Item i = item.Tag  as Item;
-            trader.Inventory.Remove(i);
-            player.Inventory.Add(i);
-            for (int j = 0; j < item.Value; j++) {
-                Coin c = player.Inventory.OfType<Coin>().First();
-                player.Inventory.Remove(c);
-            }
+            Manager.Game.Simulation.Transfer(i, trader, player);
+            var coins = player.Inventory.OfType<Coin>().ToArray();
+            for (int j = 0; j < item.Value; j++) 
+                Manager.Game.Simulation.Transfer(coins[j], player, null);
 
             // Finaler Cleanup
             CheckAvailability();

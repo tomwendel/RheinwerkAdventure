@@ -7,7 +7,7 @@ namespace RheinwerkAdventure.Model
     /// </summary>
     internal class Gloves : Item
     {
-        public Gloves()
+        public Gloves(int id) : base(id)
         {
             Name = "Gloves";
             Icon = "glovesicon.png";

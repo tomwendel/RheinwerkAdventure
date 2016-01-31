@@ -1,4 +1,5 @@
 ﻿using System;
+using RheinwerkAdventure.Components;
 
 namespace RheinwerkAdventure.Model
 {
@@ -10,7 +11,7 @@ namespace RheinwerkAdventure.Model
         /// <summary>
         /// Delegat für aktiven Interaktionsversuch des Spielers.
         /// </summary>
-        Action<RheinwerkGame, IInteractor, IInteractable> OnInteract { get; }
+        Action<SimulationComponent, IInteractor, IInteractable> OnInteract { get; }
     }
 }
 
