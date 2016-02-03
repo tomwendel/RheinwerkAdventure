@@ -1,0 +1,33 @@
+﻿Tilesets
+========
+Hyptosis (http://hyptosis.newgrounds.com/)
+Lost Garden (http://www.lostgarden.com/2006/07/more-free-game-graphics.html)
+Zabin (http://opengameart.org/users/zabin)
+
+Sprites
+=======
+http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
+Client Bellanger (http://opengameart.org/content/animated-coins)
+
+UI
+==
+http://kenney.nl/assets/ui-pack-rpg-expansion
+
+Sounds
+======
+Sword: Mike Koenig (http://soundbible.com/1176-Sword-Swing.html)
+Click: Mike Koenig (http://soundbible.com/1258-Tick-Tock.html)
+Hit: Mark DiAngelo (http://soundbible.com/2069-Realistic-Punch.html)
+Coin: Luke.RUSTLTD (http://opengameart.org/content/10-8bit-coin-sounds)
+
+Font
+====
+KenPixel (http://kenney.nl)
+
+Musik
+=====
+woodloop: http://www.playonloop.com/2013-music-loops/deep-emerald/
+houseloop: http://www.playonloop.com/2014-music-loops/go-doge-go/
+townloop: http://www.playonloop.com/2015-music-loops/cookie-island/
+menuloop: http://www.playonloop.com/2010-music-loops/elevators/
+

@@ -18,10 +18,11 @@ namespace RheinwerkAdventure.Screens
         private ListItem stopServerItem = new ListItem() { Text = "Server beenden" };
         private ListItem stopClientItem = new ListItem() { Text = "Verbindung beenden" };
         private ListItem networkItem = new ListItem() { Text = "Mehrspieler"};
-        private ListItem optionsItem = new ListItem() { Text = "Optionen", Enabled = false };
+        private ListItem optionsItem = new ListItem() { Text = "Optionen" };
+        private ListItem creditsItem = new ListItem() { Text = "Credits", };
         private ListItem exitItem = new ListItem() { Text = "Beenden" };
 
-        public MainMenuScreen(ScreenComponent manager) : base(manager, new Point(400, 300))
+        public MainMenuScreen(ScreenComponent manager) : base(manager, new Point(400, 360))
         {
             Controls.Add(new Panel(manager) { Position = new Rectangle(20, 20, 360, 40) });
             Controls.Add(new Label(manager) { Text = "Hauptmenue", Position = new Rectangle(40, 30, 0, 0) });
@@ -39,6 +40,7 @@ namespace RheinwerkAdventure.Screens
             menu.Items.Add(stopServerItem);
             menu.Items.Add(stopClientItem);
             menu.Items.Add(optionsItem);
+            menu.Items.Add(creditsItem);
             menu.Items.Add(exitItem);
 
             menu.SelectedItem = menu.Items.First(i => i.Visible && i.Enabled);
@@ -81,6 +83,18 @@ namespace RheinwerkAdventure.Screens
                 newGameItem.Visible = true;
                 networkItem.Visible = true;
                 menu.SelectedItem = newGameItem;
+            }
+
+            // Credits Screen
+            if (item == creditsItem)
+            {
+                Manager.ShowScreen(new CreditsScreen(Manager));
+            }
+
+            // Options Screen
+            if (item == optionsItem)
+            {
+                Manager.ShowScreen(new OptionsScreen(Manager));
             }
 
             if (item == exitItem)

@@ -307,10 +307,8 @@ namespace RheinwerkAdventure.Components
         /// </summary>
         public void Connect()
         {
-            string server = ConfigurationManager.AppSettings["Server"];
-
             client = new TcpClient();
-            client.BeginConnect(server ?? "localhost", 1201, ConnectCallback, null);
+            client.BeginConnect(game.Settings.Server, 1201, ConnectCallback, null);
             State = ClientState.Connecting;
         }
 

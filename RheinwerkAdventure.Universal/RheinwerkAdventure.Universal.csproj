@@ -310,8 +310,14 @@
     <Compile Include="..\Rendering\SimpleItemRenderer.cs">
       <Link>Rendering\SimpleItemRenderer.cs</Link>
     </Compile>
+    <Compile Include="..\RheinwerkGame.cs">
+      <Link>RheinwerkGame.cs</Link>
+    </Compile>
     <Compile Include="..\Screens\ClientScreen.cs">
       <Link>Screens\ClientScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\CreditsScreen.cs">
+      <Link>Screens\CreditsScreen.cs</Link>
     </Compile>
     <Compile Include="..\Screens\DialogScreen.cs">
       <Link>Screens\DialogScreen.cs</Link>
@@ -324,6 +330,9 @@
     </Compile>
     <Compile Include="..\Screens\NetworkScreen.cs">
       <Link>Screens\NetworkScreen.cs</Link>
+    </Compile>
+    <Compile Include="..\Screens\OptionsScreen.cs">
+      <Link>Screens\OptionsScreen.cs</Link>
     </Compile>
     <Compile Include="..\Screens\Screen.cs">
       <Link>Screens\Screen.cs</Link>
@@ -347,7 +356,7 @@
     </Compile>
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RheinwerkGame.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

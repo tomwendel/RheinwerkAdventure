@@ -22,15 +22,13 @@ namespace RheinwerkAdventure
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        readonly RheinwerkGame _game;
-
         public MainPage()
         {
             this.InitializeComponent();
 
             // Create the game.
             var launchArguments = string.Empty;
-            _game = MonoGame.Framework.XamlGame<RheinwerkGame>.Create(launchArguments, Window.Current.CoreWindow, swapChainPanel);
+            App.Game = MonoGame.Framework.XamlGame<RheinwerkGame>.Create(launchArguments, Window.Current.CoreWindow, swapChainPanel);
         }
     }
 }

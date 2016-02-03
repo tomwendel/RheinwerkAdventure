@@ -22,6 +22,8 @@ namespace RheinwerkAdventure
     /// </summary>
     sealed partial class App : Application
     {
+        internal static RheinwerkGame Game;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -97,6 +99,9 @@ namespace RheinwerkAdventure
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            if (Game != null)
+                Settings.SaveSettings(Game.Settings);
+
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();

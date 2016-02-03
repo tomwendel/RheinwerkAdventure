@@ -43,7 +43,7 @@ namespace RheinwerkAdventure.Components
         public MusicComponent(RheinwerkGame game) : base(game)
         {
             this.game = game;
-            maxVolume = 0.3f;
+            maxVolume = 0.5f;
 
             // Songs laden
             songs = new Dictionary<string, SoundEffect>();
@@ -55,6 +55,8 @@ namespace RheinwerkAdventure.Components
 
         public override void Update(GameTime gameTime)
         {
+            maxVolume = game.Settings.MusicVolume * 0.05f;
+
             // Nur wenn Komponente aktiviert wurde.
             if (!Enabled)
                 return;

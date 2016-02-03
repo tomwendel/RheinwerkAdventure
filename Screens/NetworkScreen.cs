@@ -19,7 +19,7 @@ namespace RheinwerkAdventure.Screens
 
         private MenuList menu;
 
-        public NetworkScreen(ScreenComponent manager) : base(manager, new Point(400, 300))
+        public NetworkScreen(ScreenComponent manager) : base(manager, new Point(400, 360))
         {
             Controls.Add(new Panel(manager) { Position = new Rectangle(20, 20, 360, 40) });
             Controls.Add(new Label(manager) { Text = "Netzwerk", Position = new Rectangle(40, 30, 0, 0) });

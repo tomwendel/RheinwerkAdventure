@@ -68,7 +68,7 @@ namespace RheinwerkAdventure.Components
         /// <summary>
         /// Gibt an ob der Server überhaupt gestartet werden kann.
         /// </summary>
-        public bool ServerFeatureAvailable { get { return false; } }
+        public bool ServerFeatureAvailable { get { return true; } }
 
         public ServerComponent(RheinwerkGame game)
             : base(game)

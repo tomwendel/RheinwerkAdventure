@@ -33,7 +33,7 @@ namespace RheinwerkAdventure.Components
         public SoundComponent(RheinwerkGame game) : base(game)
         {
             this.game = game;
-            volume = 0.5f;
+            volume = 0.05f;
 
             sounds = new Dictionary<string, SoundEffect>();
             sounds.Add("click", game.Content.Load<SoundEffect>("click"));
@@ -122,7 +122,7 @@ namespace RheinwerkAdventure.Components
         {
             SoundEffect soundEffect;
             if (sounds.TryGetValue(sound, out soundEffect))
-                soundEffect.Play(volume, 0f, 0f);
+                soundEffect.Play(volume * game.Settings.SoundVolume, 0f, 0f);
         }
 
         /// <summary>

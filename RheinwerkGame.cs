@@ -18,6 +18,8 @@ namespace RheinwerkAdventure
     {
         GraphicsDeviceManager graphics;
 
+        public Settings Settings { get; private set; }
+
         public HudComponent Hud { get; private set; }
 
         public InputComponent Input { get; private set; }
@@ -89,6 +91,9 @@ namespace RheinwerkAdventure
             Sound = new SoundComponent(this);
             Sound.UpdateOrder = 9;
             Components.Add(Sound);
+
+            // Einstellungen laden
+            Settings = Settings.LoadSettings();
         }
 
         protected override void OnExiting(object sender, EventArgs args)
@@ -96,6 +101,9 @@ namespace RheinwerkAdventure
             // Beim Beenden der Applikation ggf. offene Client/Server-Verbindungen schließen.
             Client.Close();
             Server.CloseServer();
+
+            // Settings speichern
+            Settings.SaveSettings(Settings);
 
             base.OnExiting(sender, args);
         }

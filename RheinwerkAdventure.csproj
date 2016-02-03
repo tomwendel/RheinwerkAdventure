@@ -74,6 +74,8 @@
     <Compile Include="Components\MusicComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="Components\ScreenComponent.cs" />
+    <Compile Include="Screens\CreditsScreen.cs" />
+    <Compile Include="Screens\OptionsScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\Label.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Networking\ItemCacheEntry.cs" />
     <Compile Include="Networking\Message.cs" />
     <Compile Include="Networking\QuestCacheEntry.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb">
@@ -256,7 +259,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Credits.txt" />
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
